@@ -33,9 +33,9 @@
     
                 scene = new THREE.Scene();
     
-                var urls = [ "images/space1.jpg", "images/space2.jpg",
-                            "images/space3.jpg", "images/space4.jpg",
-                            "images/space5.jpg", "images/space6.jpg" ];
+                var urls = [ "images/hs-2009-28-b-full_jpg.jpg", "images/hs-2009-28-b-full_jpg.jpg",
+                            "images/hs-2009-28-b-full_jpg.jpg", "images/hs-2009-28-b-full_jpg.jpg",
+                            "images/hs-2009-28-b-full_jpg.jpg", "images/hs-2009-28-b-full_jpg.jpg" ];
                 var textureCube    = THREE.ImageUtils.loadTextureCube( urls );
     
                 var shader    = THREE.ShaderUtils.lib["cube"];
@@ -46,7 +46,7 @@
                                 uniforms    : shader.uniforms
                 });
     
-                skyboxMesh    = new THREE.Mesh( new THREE.CubeGeometry( 100000, 100000, 100000, 1, 1, 1, null, true ), material );
+                skyboxMesh    = new THREE.Mesh( new THREE.CubeGeometry( 50000, 50000, 50000, 1, 1, 1, null, true ), material );
     
                 scene.addObject( skyboxMesh );
     
