@@ -49,6 +49,14 @@
 			lon = 90, onMouseDownLon = 0,
 			lat = 0, onMouseDownLat = 0,
 			phi = 0, theta = 0;
+            
+            var moveForward = false, moveBackwards = false,
+			moveUp = false, moveDown = false,
+			moveLeft = false, moveRight = false,
+
+			yawLeft = false, yawRight = false,
+			pitchUp = false, pitchDown = false,
+			rollLeft = false, rollRight = false;
 
 			init();
 
@@ -99,6 +107,9 @@
 
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
 				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+                
+                document.addEventListener( 'keyDown', onDocumentKeyDown, false);
+                document.addEventListener( 'keyUp', onDocumentKeyUp, false;
 
 			}
 
@@ -191,9 +202,67 @@
 
 				}
 			}
+            
+            function onDocumentKeyDown( event ) {
+
+				switch( event.keyCode ) {
+
+					case 38: moveForward = true; break; // up
+					case 40: moveBackwards = true; break; // down
+					case 37: moveLeft = true; break; // left
+					case 39: moveRight = true; break; // right
+					case 65: yawLeft = true; break; // a
+					case 68: yawRight = true; break; // d
+					case 87: moveUp/*pitchUp*/ = true; break; // w
+					case 83: moveDown/*pitchDown*/ = true; break; // s
+					case 90: rollLeft = true; break; // z
+					case 67: rollRight = true; break; // c
+
+				}
+
+			}
+
+			function onDocumentKeyUp( event ) {
+
+				switch( event.keyCode ) {
+
+					case 38: moveForward = false; break; // up
+					case 40: moveBackwards = false; break; // down
+					case 37: moveLeft = false; break; // left
+					case 39: moveRight = false; break; // right
+					case 65: yawLeft = false; break; // a
+					case 68: yawRight = false; break; // d
+					case 87: moveUp/*pitchUp*/ = false; break; // w
+					case 83: moveDown/*pitchDown*/ = false; break; // s
+					case 90: rollLeft = false; break; // z
+					case 67: rollRight = false; break; // c
+
+				}
+
+			}
 
 			function render() {
+                
+                // Camera Movement with keys
+                if ( moveForward ) camera.position.z -= 5;
+				if ( moveBackwards ) camera.position.z += 5;
 
+				if ( moveUp ) camera.position.y += 5;
+				if ( moveDown ) camera.position.y -= 5;
+
+				if ( moveLeft ) camera.position.x -= 5;
+				if ( moveRight ) camera.position.x += 5;
+
+				if ( pitchUp ) camera.rotation.x += 0.01;
+				if ( pitchDown ) camera.rotation.x -= 0.01;
+
+				if ( yawLeft ) camera.target.position.x -= 5;
+				if ( yawRight ) camera.target.position.x += 5;
+
+				if ( rollLeft ) camera.rotation.z += 0.01;
+				if ( rollRight ) camera.rotation.z -= 0.01;
+                
+                // Original Camera movement code
 				lat = Math.max( - 85, Math.min( 85, lat ) );
 				phi = ( 90 - lat ) * Math.PI / 180;
 				theta = lon * Math.PI / 180;
