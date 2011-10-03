@@ -27,8 +27,13 @@
 		</style>
 	</head>
 	<body>
-
-		<script type="text/javascript" src="../build/Three.js"></script>
+    
+        <div id="container"></div> 
+        
+		<script type="text/javascript" src="../../../build/Three.js">
+        // Make sure this path points to the correct /build/Three.js directory
+        // or none of the code will actually work (found that out the hard way)
+        </script>
 
 		<script type="text/javascript">
 
@@ -78,7 +83,7 @@
 
 				];
 
-				mesh = new THREE.Mesh( new THREE.CubeGeometry( 500, 500, 500, 7, 7, 7, materials, true ), new THREE.MeshFaceMaterial() );
+				mesh = new THREE.Mesh( new THREE.CubeGeometry( 300, 300, 300, 7, 7, 7, materials, true ), new THREE.MeshFaceMaterial() );
 				mesh.overdraw = true;
 				scene.addObject( mesh );
 
