@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 	<head>
-		<title>three.js canvas - panorama demo</title>
+		<title>3D Tower Defense Space Box Demo</title>
 		<meta charset="utf-8">
 		<style type="text/css">
 			body {
@@ -30,10 +30,13 @@
     
         <div id="container"></div> 
         
-		<script type="text/javascript" src="../../../build/Three.js">
-        // Make sure this path points to the correct /build/Three.js directory
-        // or none of the code will actually work (found that out the hard way)
-        </script>
+		<script type="text/javascript" src="../../../build/Three.js"></script>
+        <!--Make sure path in previous script points to the correct build directory-->
+        <!--You can copy the build directory into your project path or point it to-->
+        <!--the three.js directory-->
+        <script type="text/javascript" src="js/Detector.js"></script>
+        <script type="text/javascript" src="js/RequestAnimationFrame.js"></script>
+        <script type="text/javascript" src="js/Stats.js"></script>
 
 		<script type="text/javascript">
 
@@ -67,6 +70,10 @@
 				container = document.getElementById( 'container' );
 
 				camera = new THREE.Camera( fov, window.innerWidth / window.innerHeight, 1, 1100 );
+                camera.position.y = 0;
+                camera.position.x = 0;
+                camera.position.z = 0;
+                camera.target.position.y = 0;
 
 				scene = new THREE.Scene();
 
@@ -108,8 +115,8 @@
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
 				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
                 
-                document.addEventListener( 'keyDown', onDocumentKeyDown, false);
-                document.addEventListener( 'keyUp', onDocumentKeyUp, false;
+                document.addEventListener( 'keydown', onDocumentKeyDown, false );
+                document.addEventListener( 'keyup', onDocumentKeyUp, false );
 
 			}
 
@@ -240,6 +247,14 @@
 				}
 
 			}
+            
+            function animate()
+            {
+                requestAnimationFrame( animate );
+                
+                render();
+                stats.update();
+            }
 
 			function render() {
                 
