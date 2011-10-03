@@ -1,0 +1,11 @@
+3D Tower Defense
+
+The aim of this project is to create a tower defense game that takes place in a full 3D enviroment. Enemies will enter the field from multiple directions, and defensive towers must be place in 3D to guard not just one track on one plane, but multiple tracks on multiple planes.
+
+All 3D rendering will be done using the three.js Javascript 3D Engine.
+
+Change Log
+
+2011-10-02 - Alpha 1.0
+
+  *  First test of SkyBox successful
