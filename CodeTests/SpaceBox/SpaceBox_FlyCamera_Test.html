@@ -103,8 +103,8 @@
 			scene = new THREE.Scene();
 
 			texture_placeholder = document.createElement( 'canvas' );
-			texture_placeholder.width = 128;
-			texture_placeholder.height = 128;
+			texture_placeholder.width = 1024;
+			texture_placeholder.height = 1024;
 
 			var context = texture_placeholder.getContext( '2d' );
 			context.fillStyle = 'rgb( 200, 200, 200 )';
@@ -123,7 +123,7 @@
 
 			];
 
-			mesh = new THREE.Mesh( new THREE.CubeGeometry( 300, 300, 300, 7, 7, 7, materials, true ), new THREE.MeshFaceMaterial() );
+			mesh = new THREE.Mesh( new THREE.CubeGeometry( 1024, 1024, 1024, 7, 7, 7, materials, true ), new THREE.MeshFaceMaterial() );
 			mesh.overdraw = true;
 			scene.addObject( mesh );
 
