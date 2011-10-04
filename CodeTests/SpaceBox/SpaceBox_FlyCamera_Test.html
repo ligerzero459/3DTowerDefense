@@ -88,17 +88,18 @@
                 
             camera = new THREE.FlyCamera({
             
-                fov: 25,
-                aspect: SCREEN_WIDTH / SCREEN_HEIGHT,
+                fov: 10,
+                aspect: (SCREEN_WIDTH/2) / (SCREEN_HEIGHT/2),
                 movementSpeed: 1000,
                 domElement: container,
                 rollSpeed: Math.PI / 24,
                 autoForward: false,
-                dragToLook: false,
-                near: 50,
-                far: 1e7
+                dragToLook: true,
+                near: 10
 
             });
+            
+            camera.position.set( 0, 0, 0 );
 
 			scene = new THREE.Scene();
 
@@ -123,7 +124,7 @@
 
 			];
 
-			mesh = new THREE.Mesh( new THREE.CubeGeometry( 1024, 1024, 1024, 7, 7, 7, materials, true ), new THREE.MeshFaceMaterial() );
+			mesh = new THREE.Mesh( new THREE.CubeGeometry( 1524, 1524, 1524, 7, 7, 7, materials, true ), new THREE.MeshFaceMaterial() );
 			mesh.overdraw = true;
 			scene.addObject( mesh );
 
@@ -171,13 +172,6 @@
             composer.reset();
 
         }
-            
-        function cap_bottom( val, bottom ) {
-
-            return val < bottom ? bottom : val;
-
-        };
-
 
         function animate() {
 
@@ -185,13 +179,6 @@
 
             render();
             stats.update();
-
-        };
-
-
-        function cap( val, bottom ) {
-
-            return val > bottom ? val : bottom;
 
         };
 
