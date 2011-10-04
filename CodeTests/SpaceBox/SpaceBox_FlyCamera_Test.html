@@ -47,10 +47,14 @@
 	<script type="text/javascript">
         // This is a Space Box test. The code is adapted from the Three.js panorama demo.
         // All changed to the original code will be commented well so it can be identified.
-            
+        
 		var camera, scene, renderer;
         var container, mesh;
-                  
+        
+        var MARGIN = 0;
+        var SCREEN_HEIGHT = window.innerHeight - MARGIN * 2;
+        var SCREEN_WIDTH  = window.innerWidth;
+        
 		var fov = 75,
 		texture_placeholder,
 		isUserInteracting = false,
@@ -58,7 +62,7 @@
 		lon = 90, onMouseDownLon = 0,
 		lat = 0, onMouseDownLat = 0,
 		phi = 0, theta = 0;
-            
+        
         var moveForward = false, moveBackwards = false,
         moveUp = false, moveDown = false,
 		moveLeft = false, moveRight = false,
