@@ -41,7 +41,7 @@
 	<script type="text/javascript">
             
 			var camera, scene, renderer;
-            var container, mesh;
+            var container, mesh, stats;
             
 			var	texture_placeholder;
 			
@@ -56,13 +56,10 @@
 				container = document.createElement( 'div' );
                 document.body.appendChild( container );
 				
-				scene = new THREE.Scene();
-				
 				//addCamera();
 				//addControls();
 				
-				camera = new THREE.PerspectiveCamera( 25, SCREEN_WIDTH / SCREEN_HEIGHT, 50, 1e7 );
-				camera.position.z = 100;
+				camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 1000 );
 				
 				controls = new THREE.FlyControls( camera );
 
@@ -71,6 +68,8 @@
 				controls.rollSpeed = Math.PI / 24;
 				controls.autoForward = false;
 				controls.dragToLook = true;
+				
+				scene = new THREE.Scene();
 
 				texture_placeholder = document.createElement( 'canvas' );
 				texture_placeholder.width = 256;
@@ -93,7 +92,8 @@
 
 				];
 
-				mesh = new THREE.Mesh( new THREE.CubeGeometry( 1024, 1024, 1024, 7, 7, 7, materials, true ), new THREE.MeshFaceMaterial() );
+				mesh = new THREE.Mesh( new THREE.CubeGeometry( 1024, 1024, 1024, 7, 7, 7, materials ), new THREE.MeshFaceMaterial() );
+				mesh.scale.x = - 1;
 				mesh.overdraw = true;
 				scene.add( mesh );
 
@@ -102,16 +102,22 @@
 
 				container.appendChild( renderer.domElement );
 				
+				stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '5px';
+				stats.domElement.style.zIndex = 100;
+				container.appendChild( stats.domElement );
+				
 				window.addEventListener( 'resize', onWindowResize, false );
 
 			}
 
 			function loadTexture( path ) {
 
-				var texture = new THREE.Texture( texture_placeholder ),
-					material = new THREE.MeshBasicMaterial( { map: texture } ),
-					image = new Image();
-
+				var texture = new THREE.Texture( texture_placeholder );
+				var material = new THREE.MeshBasicMaterial( { map: texture } );
+				
+				var image = new Image();
 				image.onload = function () {
 
 					texture.needsUpdate = true;
@@ -120,7 +126,6 @@
 					render();
 
 				};
-
 				image.src = path;
 
 				return material;
@@ -163,13 +168,21 @@
 				controls.dragToLook = true;
 				
 			}
+			
+			function animate() {
+				
+				requestAnimationFrame( animate );
+				
+				render();
+				
+			{
 
 			function render() {
 			
 				controls.update();
 				
 				renderer.clear();
-				renderer.render( scene );
+				renderer.render( scene, camera );
 
 			}
 
