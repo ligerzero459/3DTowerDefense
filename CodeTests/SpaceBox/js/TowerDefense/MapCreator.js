@@ -6,9 +6,9 @@
 
 MapCreator = function ( TH, TW, MH, MW ) {
 
-	const this.TILE_H = TH;
-	const this.TILE_W = TW;
-	const this.MAP_H = MH;
-	const this.MAP_W = MW;
+	this.TILE_H = TH;
+	this.TILE_W = TW;
+	this.MAP_H = MH;
+	this.MAP_W = MW;
 	
 }
