@@ -8,6 +8,18 @@ Change Log
 
 2011-10-02 - Alpha 1.0
 
-  *  First test of SkyBox successful, rendering done with canvas
-  Merging test.
-fghjhgfdgxdjjkhfdzddhkjhh
+	*  First test of SkyBox successful, rendering done with canvas
+
+2011-10-04 - Alpha 1.1
+
+	* SkyBox expanded, first tests of FlyCamera
+	
+2011-10-05 - Alpha 1.2
+
+	* FlyCamera successfully implemented
+	
+2011-10-06 - Alpha 1.3
+
+	* Three.js updated and broke camera, camera code updated to new version
+	* Center planet rendered
+	* Added first models (no textures)
