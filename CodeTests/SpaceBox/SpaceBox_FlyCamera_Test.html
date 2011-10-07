@@ -90,8 +90,8 @@
 				// Adding models
 				var m = 'models/WarpGate.js';
 				
-				addModels(m, 1500, 0, -200, 0, 1.5, -1, 120);
-				addModels(m, -200, 0, -1500, 0, 1, 0, 120);
+				addModels(m, 1500, -200, 0, 0, 0, 120);
+				addModels(m, -200, -1500, 0, 0, 0, 120);
 				
 				//m = 'models/trumptowerV2.js';
 				//addModels(m, 200, 300, 1000, 0, 1, 0, 100);
@@ -220,7 +220,7 @@
 				
 			}
 			
-			function addModels(m, x, y, z, rx, ry, rz, s) {
+			function addModels(m, x, z, rx, ry, rz, s) {
 			
 				var material = new THREE.MeshBasicMaterial( { color: 0x555555 } );
 				
@@ -230,8 +230,7 @@
 					
 					mesh = new THREE.Mesh ( geometry, material );
 					mesh.position.x = x;
-					mesh.position.z = y;
-					mesh.position.y = z;
+					mesh.position.z = z;
 					mesh.scale.x = mesh.scale.y = mesh.scale.z = s;
 					mesh.rotation.x = rx;
 					mesh.rotation.y = ry;
@@ -246,7 +245,21 @@
 			}
 			
 			function drawPath() {
+				geometry = new THREE.geometry;
 				
+				var vector = new THREE.Vector3( 0, 0, 0 );
+				vector.normalize();
+				
+				geometry.vertices.push( new THREE.Vertex( vector ) );
+				
+				var vector2 = new THREE.Vector3( 1000, 0, 0 );
+				vector2.normalize();
+				
+				geometry.vertices.push( new THREE.Vertex( vector ) );
+				
+				var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xffffff } ));
+				
+				scene.add( line );
 			}
 			
 			function animate() {
