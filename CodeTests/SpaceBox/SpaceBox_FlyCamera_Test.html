@@ -49,27 +49,14 @@
 			var camera, scene, renderer;
             var container, mesh;
             
-			var fov = 75,
-			texture_placeholder,
-			isUserInteracting = false,
-			onMouseDownMouseX = 0, onMouseDownMouseY = 0,
-			lon = 90, onMouseDownLon = 0,
-			lat = 0, onMouseDownLat = 0,
-			phi = 0, theta = 0;
-            
-            var moveForward = false, moveBackwards = false,
-			moveUp = false, moveDown = false,
-			moveLeft = false, moveRight = false,
-
-			yawLeft = false, yawRight = false,
-			pitchUp = false, pitchDown = false,
-			rollLeft = false, rollRight = false;
+			var	texture_placeholder;
 			
 			var SCREEN_HEIGHT = window.innerHeight - MARGIN * 2;
 			var SCREEN_WIDTH  = window.innerWidth;
 			var MARGIN = 0;
 
 			init();
+			animate();
 
 			function init() {
 
@@ -88,8 +75,6 @@
 				controls.rollSpeed = Math.PI / 24;
 				controls.autoForward = false;
 				controls.dragToLook = true
-
-				
 
 				texture_placeholder = document.createElement( 'canvas' );
 				texture_placeholder.width = 128;
@@ -121,17 +106,6 @@
 
 				container.appendChild( renderer.domElement );
 
-				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				document.addEventListener( 'mouseup', onDocumentMouseUp, false );
-				document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
-
-				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-                
-                document.addEventListener( 'keydown', onDocumentKeyDown, false );
-                document.addEventListener( 'keyup', onDocumentKeyUp, false );
-
 			}
 
 			function loadTexture( path ) {
@@ -144,121 +118,14 @@
 
 					texture.needsUpdate = true;
 					material.map.image = this;
-
-					render();
+					
+					animate();
 
 				};
 
 				image.src = path;
 
 				return material;
-
-			}
-
-			function onDocumentMouseDown( event ) {
-
-				event.preventDefault();
-
-				isUserInteracting = true;
-
-				onPointerDownPointerX = event.clientX;
-				onPointerDownPointerY = event.clientY;
-
-				onPointerDownLon = lon;
-				onPointerDownLat = lat;
-
-			}
-
-			function onDocumentMouseMove( event ) {
-
-				if ( isUserInteracting ) {
-
-					lon = ( onPointerDownPointerX - event.clientX ) * 0.1 + onPointerDownLon;
-					lat = ( event.clientY - onPointerDownPointerY ) * 0.1 + onPointerDownLat;
-					render();
-
-				}
-			}
-
-			function onDocumentMouseUp( event ) {
-
-				isUserInteracting = false;
-				render();
-
-			}
-
-			function onDocumentMouseWheel( event ) {
-
-				fov -= event.wheelDeltaY * 0.05;
-				camera.projectionMatrix = THREE.Matrix4.makePerspective( fov, window.innerWidth / window.innerHeight, 1, 1100 );
-				render();
-
-			}
-
-
-			function onDocumentTouchStart( event ) {
-
-				if( event.touches.length == 1 ) {
-
-					event.preventDefault();
-
-					onPointerDownPointerX = event.touches[ 0 ].pageX;
-					onPointerDownPointerY = event.touches[ 0 ].pageY;
-
-					onPointerDownLon = lon;
-					onPointerDownLat = lat;
-				}
-			}
-
-			function onDocumentTouchMove( event ) {
-
-				if( event.touches.length == 1 ) {
-
-					event.preventDefault();
-
-					lon = ( onPointerDownPointerX - event.touches[0].pageX ) * 0.1 + onPointerDownLon;
-					lat = ( event.touches[0].pageY - onPointerDownPointerY ) * 0.1 + onPointerDownLat;
-
-					render();
-
-				}
-			}
-            
-            function onDocumentKeyDown( event ) {
-
-				switch( event.keyCode ) {
-
-					case 38: moveForward = true; break; // up
-					case 40: moveBackwards = true; break; // down
-					case 37: moveLeft = true; break; // left
-					case 39: moveRight = true; break; // right
-					case 65: yawLeft = true; break; // a
-					case 68: yawRight = true; break; // d
-					case 87: moveUp/*pitchUp*/ = true; break; // w
-					case 83: moveDown/*pitchDown*/ = true; break; // s
-					case 90: rollLeft = true; break; // z
-					case 67: rollRight = true; break; // c
-
-				}
-
-			}
-
-			function onDocumentKeyUp( event ) {
-
-				switch( event.keyCode ) {
-
-					case 38: moveForward = false; break; // up
-					case 40: moveBackwards = false; break; // down
-					case 37: moveLeft = false; break; // left
-					case 39: moveRight = false; break; // right
-					case 65: yawLeft = false; break; // a
-					case 68: yawRight = false; break; // d
-					case 87: moveUp/*pitchUp*/ = false; break; // w
-					case 83: moveDown/*pitchDown*/ = false; break; // s
-					case 90: rollLeft = false; break; // z
-					case 67: rollRight = false; break; // c
-
-				}
 
 			}
             
@@ -270,34 +137,6 @@
             }
 
 			function render() {
-                
-                // Camera Movement with keys
-                if ( moveForward ) camera.position.z -= 5;
-				if ( moveBackwards ) camera.position.z += 5;
-
-				if ( moveUp ) camera.position.y += 5;
-				if ( moveDown ) camera.position.y -= 5;
-
-				if ( moveLeft ) camera.position.x -= 5;
-				if ( moveRight ) camera.position.x += 5;
-
-				if ( pitchUp ) camera.rotation.x += 0.01;
-				if ( pitchDown ) camera.rotation.x -= 0.01;
-
-				if ( yawLeft ) camera.target.position.x -= 5;
-				if ( yawRight ) camera.target.position.x += 5;
-
-				if ( rollLeft ) camera.rotation.z += 0.01;
-				if ( rollRight ) camera.rotation.z -= 0.01;
-                
-                // Original Camera movement code
-				lat = Math.max( - 85, Math.min( 85, lat ) );
-				phi = ( 90 - lat ) * Math.PI / 180;
-				theta = lon * Math.PI / 180;
-
-				camera.target.position.x = 500 * Math.sin( phi ) * Math.cos( theta );
-				camera.target.position.y = 500 * Math.cos( phi );
-				camera.target.position.z = 500 * Math.sin( phi ) * Math.sin( theta );
 
 				renderer.render( scene, camera );
 
