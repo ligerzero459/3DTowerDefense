@@ -42,6 +42,7 @@
             
 			var camera, scene, renderer;
             var container, mesh, stats;
+			var meshPlanet, geometry;
             
 			var	texture_placeholder;
 			
@@ -63,30 +64,18 @@
 				scene = new THREE.Scene();
 
 				texture_placeholder = document.createElement( 'canvas' );
-				texture_placeholder.width = 256;
-				texture_placeholder.height = 256;
+				texture_placeholder.width = 8000;
+				texture_placeholder.height = 8000;
 
 				var context = texture_placeholder.getContext( '2d' );
 				context.fillStyle = 'rgb( 200, 200, 200 )';
 				context.fillRect( 0, 0, texture_placeholder.width, texture_placeholder.height );
-                
-                // Textures modified to provide space-type backgrounds
-                // Can be modified later
-				var materials = [
-
-					loadTexture( 'textures/test1/right.jpg' ), // right
-					loadTexture( 'textures/test1/left.jpg' ), // left
-					loadTexture( 'textures/test1/top.jpg' ), // top
-					loadTexture( 'textures/test1/bottom.jpg' ), // bottom
-					loadTexture( 'textures/test1/back.jpg' ), // back
-					loadTexture( 'textures/test1/front.jpg' )  // front
-
-				];
-
-				mesh = new THREE.Mesh( new THREE.CubeGeometry( 8000, 8000, 8000, 7, 7, 7, materials ), new THREE.MeshFaceMaterial() );
-				mesh.scale.x = - 1;
-				mesh.overdraw = true;
-				scene.add( mesh );
+				
+				// Drawing Space Box
+				drawBox();
+				
+				// Drawing the planet in the center
+				drawPlanet();
 
 				renderer = new THREE.WebGLRenderer({ clearColor: 0x000000, clearAlpha: 1 } );
 				renderer.setSize( window.innerWidth, window.innerHeight );
@@ -142,6 +131,9 @@
 			function addCamera() {
 			
 				camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 10000 );
+				camera.position.z = 200;
+				camera.position.x = 200;
+				camera.lookAt ( 0, 0, 0 );
 				
 			}
 			
@@ -154,6 +146,45 @@
 				controls.rollSpeed = Math.PI / 10;
 				controls.autoForward = false;
 				controls.dragToLook = true;
+				
+			}
+			
+			function drawBox() {
+				
+				// Textures modified to provide space-type backgrounds
+                // Can be modified later
+				var materials = [
+
+					loadTexture( 'textures/test1/right.jpg' ), // right
+					loadTexture( 'textures/test1/left.jpg' ), // left
+					loadTexture( 'textures/test1/top.jpg' ), // top
+					loadTexture( 'textures/test1/bottom.jpg' ), // bottom
+					loadTexture( 'textures/test1/back.jpg' ), // back
+					loadTexture( 'textures/test1/front.jpg' )  // front
+
+				];
+			
+				mesh = new THREE.Mesh( new THREE.CubeGeometry( 8000, 8000, 8000, 7, 7, 7, materials ), new THREE.MeshFaceMaterial() );
+				mesh.scale.x = - 1;
+				mesh.overdraw = true;
+				scene.add( mesh );
+				
+			}
+			
+			function drawPlanet() {
+			
+				var parameters = {
+					color: 0x1024ff,
+					map: THREE.ImageUtils.loadTexture( 'textures/test1/earth_normal_2048.jpg' )
+				};
+				
+				geometry = new THREE.SphereGeometry( 200, 20, 20 );
+				geometry.computeTangents();
+				
+				var material = new THREE.MeshLambertMaterial ( parameters );
+				
+				meshPlanet = new THREE.Mesh( geometry, material ) ;
+				scene.add( meshPlanet );
 				
 			}
 			
