@@ -58,6 +58,9 @@
                 document.body.appendChild( container );
 				
 				scene = new THREE.Scene();
+				
+				addCamera();
+				addControls();
 
 				texture_placeholder = document.createElement( 'canvas' );
 				texture_placeholder.width = 256;
