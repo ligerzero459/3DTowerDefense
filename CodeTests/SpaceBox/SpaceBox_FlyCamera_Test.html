@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<style type="text/css">
 			body {
-				background-color: rgb(200,200,200);
+				background-color: rgb(0,0,0);
 				margin: 0px;
 				overflow: hidden;
 			}
@@ -40,15 +40,18 @@
 
 	<script type="text/javascript">
             
-			var camera, scene, renderer;
+			var camera, scene, renderer, group;
             var container, mesh, stats;
 			var meshPlanet, geometry;
+			var model;
             
 			var	texture_placeholder;
 			
-			var SCREEN_HEIGHT = window.innerHeight - MARGIN * 2;
+			var SCREEN_HEIGHT = window.innerHeight;
 			var SCREEN_WIDTH  = window.innerWidth;
 			var MARGIN = 0;
+			
+			var target = new THREE.Vector3();
 
 			init();
 			animate();
@@ -61,7 +64,14 @@
 				addCamera();
 				addControls();
 				
+				// Setup Scene
 				scene = new THREE.Scene();
+				
+				// Setup Group
+				group = new THREE.Object3D();
+				
+				var ambientLight = new THREE.AmbientLight( 0xffffff );
+				scene.add( ambientLight );
 
 				texture_placeholder = document.createElement( 'canvas' );
 				texture_placeholder.width = 8000;
@@ -76,22 +86,37 @@
 				
 				// Drawing the planet in the center
 				drawPlanet();
+				
+				// Adding models
+				var m = 'models/WarpGate.js';
+				
+				addModels(m, 1500, 0, -200, 0, 1.5, -1, 120);
+				addModels(m, -200, 0, -1500, 0, 1, 0, 120);
+				
+				//m = 'models/trumptowerV2.js';
+				//addModels(m, 200, 300, 1000, 0, 1, 0, 100);
+				
+				scene.add(group);
 
-				renderer = new THREE.WebGLRenderer({ clearColor: 0x000000, clearAlpha: 1 } );
-				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+				renderer.sortObjects = false;
+				renderer.autoClear = false;
 
 				container.appendChild( renderer.domElement );
 				
 				stats = new Stats();
 				stats.domElement.style.position = 'absolute';
-				stats.domElement.style.top = '5px';
+				stats.domElement.style.top = '0px';
 				stats.domElement.style.zIndex = 100;
 				container.appendChild( stats.domElement );
 				
 				window.addEventListener( 'resize', onWindowResize, false );
-
+				
+				animate();
+				
 			}
-
+			
 			function loadTexture( path ) {
 
 				var texture = new THREE.Texture( texture_placeholder );
@@ -130,10 +155,17 @@
 			
 			function addCamera() {
 			
-				camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 10000 );
-				camera.position.z = 200;
-				camera.position.x = 200;
-				camera.lookAt ( 0, 0, 0 );
+				camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
+				camera.position.z = 2000;
+				
+				target.x = 0;
+				target.y = 0;
+				target.z = 0;
+				
+				camera.lookAt ( target );
+				
+				camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+				camera.updateProjectionMatrix();
 				
 			}
 			
@@ -141,7 +173,7 @@
 			
 				controls = new THREE.FlyControls( camera );
 
-				controls.movementSpeed = 100;
+				controls.movementSpeed = 350;
 				controls.domElement = container;
 				controls.rollSpeed = Math.PI / 10;
 				controls.autoForward = false;
@@ -155,16 +187,16 @@
                 // Can be modified later
 				var materials = [
 
-					loadTexture( 'textures/test1/right.jpg' ), // right
-					loadTexture( 'textures/test1/left.jpg' ), // left
-					loadTexture( 'textures/test1/top.jpg' ), // top
-					loadTexture( 'textures/test1/bottom.jpg' ), // bottom
-					loadTexture( 'textures/test1/back.jpg' ), // back
-					loadTexture( 'textures/test1/front.jpg' )  // front
+					loadTexture( 'textures/test1/new.jpg' ), // right
+					loadTexture( 'textures/test1/new.jpg' ), // left
+					loadTexture( 'textures/test1/new.jpg' ), // top
+					loadTexture( 'textures/test1/new.jpg' ), // bottom
+					loadTexture( 'textures/test1/new.jpg' ), // back
+					loadTexture( 'textures/test1/new.jpg' )  // front
 
 				];
 			
-				mesh = new THREE.Mesh( new THREE.CubeGeometry( 8000, 8000, 8000, 7, 7, 7, materials ), new THREE.MeshFaceMaterial() );
+				mesh = new THREE.Mesh( new THREE.CubeGeometry( 50000, 50000, 50000, 7, 7, 7, materials ), new THREE.MeshFaceMaterial() );
 				mesh.scale.x = - 1;
 				mesh.overdraw = true;
 				scene.add( mesh );
@@ -174,8 +206,7 @@
 			function drawPlanet() {
 			
 				var parameters = {
-					color: 0x1024ff,
-					map: THREE.ImageUtils.loadTexture( 'textures/test1/earth_normal_2048.jpg' )
+					map: THREE.ImageUtils.loadTexture( 'textures/test1/EarthMap_2500x1250.jpg' )
 				};
 				
 				geometry = new THREE.SphereGeometry( 200, 20, 20 );
@@ -184,7 +215,37 @@
 				var material = new THREE.MeshLambertMaterial ( parameters );
 				
 				meshPlanet = new THREE.Mesh( geometry, material ) ;
+				meshPlanet.position.set ( 0, 0, 0 );
 				scene.add( meshPlanet );
+				
+			}
+			
+			function addModels(m, x, y, z, rx, ry, rz, s) {
+			
+				var material = new THREE.MeshBasicMaterial( { color: 0x555555 } );
+				
+				var loader = new THREE.JSONLoader();
+				var callbackAfterLoading = function ( geometry ) { 
+					geometry.computeTangents();
+					
+					mesh = new THREE.Mesh ( geometry, material );
+					mesh.position.x = x;
+					mesh.position.z = y;
+					mesh.position.y = z;
+					mesh.scale.x = mesh.scale.y = mesh.scale.z = s;
+					mesh.rotation.x = rx;
+					mesh.rotation.y = ry;
+					mesh.rotation.z = rz;
+					mesh.overdraw = true;
+					mesh.matrixAutoUpdate = false;
+					mesh.updateMatrix();
+					group.add(mesh);
+				}
+				loader.load( { model: m, callback: callbackAfterLoading } ); 
+
+			}
+			
+			function drawPath() {
 				
 			}
 			
