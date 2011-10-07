@@ -45,163 +45,6 @@
     <script type="text/javascript" src="js/Stats.js"></script>
 
 	<script type="text/javascript">
-        // This is a Space Box test. The code is adapted from the Three.js panorama demo.
-        // All changed to the original code will be commented well so it can be identified.
-        
-		var camera, scene, renderer;
-        var container, mesh, stats;
-        
-        var MARGIN = 0;
-        var SCREEN_HEIGHT = window.innerHeight - MARGIN * 2;
-        var SCREEN_WIDTH  = window.innerWidth;
-        
-		var fov = 75,
-		texture_placeholder,
-		isUserInteracting = false,
-		onMouseDownMouseX = 0, onMouseDownMouseY = 0,
-		lon = 90, onMouseDownLon = 0,
-		lat = 0, onMouseDownLat = 0,
-		phi = 0, theta = 0;
-        
-        var moveForward = false, moveBackwards = false,
-        moveUp = false, moveDown = false,
-		moveLeft = false, moveRight = false,
-
-		yawLeft = false, yawRight = false,
-		pitchUp = false, pitchDown = false,
-		rollLeft = false, rollRight = false;
-
-		init();
-        animate();
-
-		function init() {
-
-            container = document.createElement( 'div' );
-            document.body.appendChild( container );
-            /*
-            camera = new THREE.Camera( fov, window.innerWidth / window.innerHeight, 1, 1100 );
-            camera.position.y = 0;
-            camera.position.x = 0;
-            camera.position.z = 0;
-            camera.target.position.y = 0;
-            */
-                
-            camera = new THREE.FlyCamera({
-            
-                fov: 100,
-                aspect: (SCREEN_WIDTH/5) / (SCREEN_HEIGHT/5),
-                movementSpeed: 1000,
-                domElement: container,
-                rollSpeed: Math.PI / 24,
-                autoForward: false,
-                dragToLook: true,
-                near: 10
-
-            });
-            
-            camera.position.set( 0, 0, 0 );
-
-			scene = new THREE.Scene();
-
-			texture_placeholder = document.createElement( 'canvas' );
-			texture_placeholder.width = 1024;
-			texture_placeholder.height = 1024;
-
-			var context = texture_placeholder.getContext( '2d' );
-			context.fillStyle = 'rgb( 200, 200, 200 )';
-			context.fillRect( 0, 0, texture_placeholder.width, texture_placeholder.height );
-                
-            // Textures modified to provide space-type backgrounds
-            // Can be modified later
-			var materials = [
-
-				loadTexture( 'textures/test1/right.jpg' ), // right
-				loadTexture( 'textures/test1/left.jpg' ), // left
-				loadTexture( 'textures/test1/top.jpg' ), // top
-				loadTexture( 'textures/test1/bottom.jpg' ), // bottom
-				loadTexture( 'textures/test1/back.jpg' ), // back
-				loadTexture( 'textures/test1/front.jpg' )  // front
-
-			];
-
-			mesh = new THREE.Mesh( new THREE.CubeGeometry( 10000, 10000, 10000, 7, 7, 7, materials, true ), new THREE.MeshFaceMaterial() );
-			mesh.overdraw = true;
-			scene.addObject( mesh );
-
-			renderer = new THREE.CanvasRenderer();
-			renderer.setSize( window.innerWidth, window.innerHeight );
-
-			container.appendChild( renderer.domElement );
-            
-            window.addEventListener( 'resize', onWindowResize, false );
-
-		}
-
-		function loadTexture( path ) {
-
-			var texture = new THREE.Texture( texture_placeholder ),
-				material = new THREE.MeshBasicMaterial( { map: texture } ),
-				image = new Image();
-
-			image.onload = function () {
-
-                texture.needsUpdate = true;
-				material.map.image = this;
-
-				render();
-
-			};
-
-			image.src = path;
-
-			return material;
-
-		}
-
-            
-        function onWindowResize( event ) {
-
-            SCREEN_HEIGHT = window.innerHeight;
-            SCREEN_WIDTH  = window.innerWidth;
-
-            renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
-
-            camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-            camera.updateProjectionMatrix();
-
-            composer.reset();
-
-        }
-
-        function animate() {
-
-            requestAnimationFrame( animate );
-
-            render();
-            stats.update();
-
-        };
-
-		function render() {
-
-			renderer.render( scene, camera );
-
-		}
-
-	</script>
-=======
-		<script type="text/javascript" src="../../../build/Three.js"></script>
-        <!--Make sure path in previous script points to the correct build directory-->
-        <!--You can copy the build directory into your project path or point it to-->
-        <!--the three.js directory-->
-        <script type="text/javascript" src="js/Detector.js"></script>
-        <script type="text/javascript" src="js/RequestAnimationFrame.js"></script>
-        <script type="text/javascript" src="js/Stats.js"></script>
-
-		<script type="text/javascript">
-
-            // This is a Space Box test. The code is adapted from the Three.js panorama demo.
-            // All changed to the original code will be commented well so it can be identified.
             
 			var camera, scene, renderer;
             var container, mesh;
@@ -413,7 +256,6 @@
                 requestAnimationFrame( animate );
                 
                 render();
-                stats.update();
             }
 
 			function render() {
@@ -451,10 +293,6 @@
 			}
 
 		</script>
->>>>>>> .merge_file_bOseC6
 	</body>
-<<<<<<< .merge_file_v6H0ce
 </html>
-=======
-</html>
->>>>>>> .merge_file_Oh0Lzf
+
