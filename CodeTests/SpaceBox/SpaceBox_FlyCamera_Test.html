@@ -75,7 +75,9 @@
 
 				container = document.createElement( 'div' );
                 document.body.appendChild( container );
-
+				
+				scene = new THREE.Scene();
+				
 				camera = new THREE.PerspectiveCamera( 25, SCREEN_WIDTH / SCREEN_HEIGHT, 50, 1e7 );
 				camera.position.z = radius * 5;
 
@@ -87,7 +89,7 @@
 				controls.autoForward = false;
 				controls.dragToLook = true
 
-				scene = new THREE.Scene();
+				
 
 				texture_placeholder = document.createElement( 'canvas' );
 				texture_placeholder.width = 128;
