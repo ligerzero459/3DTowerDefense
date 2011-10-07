@@ -37,6 +37,7 @@
     <script type="text/javascript" src="../../../examples/js/Detector.js"></script>
     <script type="text/javascript" src="../../../examples/js/RequestAnimationFrame.js"></script>
     <script type="text/javascript" src="../../../examples/js/Stats.js"></script>
+	<script type="text/javascript" src="js/TowerDefense/MapCreator.js"></script>
 
 	<script type="text/javascript">
             
@@ -52,6 +53,7 @@
 			var MARGIN = 0;
 			
 			var target = new THREE.Vector3();
+			var map = new MapCreator( 15, 15, 30, 80 );
 
 			init();
 			animate();
