@@ -73,7 +73,6 @@
                 camera.position.y = 0;
                 camera.position.x = 0;
                 camera.position.z = 0;
-                camera.target.position.y = 0;
 
 				scene = new THREE.Scene();
 
@@ -98,7 +97,7 @@
 
 				];
 
-				mesh = new THREE.Mesh( new THREE.CubeGeometry( 300, 300, 300, 7, 7, 7, materials, true ), new THREE.MeshFaceMaterial() );
+				mesh = new THREE.Mesh( new THREE.CubeGeometry( 1024, 1024, 1024, 7, 7, 7, materials, true ), new THREE.MeshFaceMaterial() );
 				mesh.overdraw = true;
 				scene.addObject( mesh );
 
@@ -247,14 +246,6 @@
 				}
 
 			}
-            
-            function animate()
-            {
-                requestAnimationFrame( animate );
-                
-                render();
-                stats.update();
-            }
 
 			function render() {
                 

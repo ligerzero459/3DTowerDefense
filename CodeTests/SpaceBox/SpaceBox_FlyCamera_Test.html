@@ -50,7 +50,6 @@
 			var MARGIN = 0;
 
 			init();
-			animate();
 
 			function init() {
 
@@ -137,7 +136,11 @@
 
 				camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
 				camera.updateProjectionMatrix();
-
+				
+				controls.screen.width = SCREEN_WIDTH;
+				controls.screen.height = SCREEN_HEIGHT;
+				
+				camera.radius = ( SCREEN_WIDTH + SCREEN_HEIGHT ) / 4;  
 			}
 			
 			function addCamera()
@@ -160,17 +163,13 @@
 				controls.dragToLook = true;
 				
 			}
-            
-            function animate()
-            {
-                requestAnimationFrame( animate );
-                
-                render();
-            }
 
 			function render() {
-
-				renderer.render( scene, camera );
+			
+				controls.update();
+				
+				renderer.clear();
+				renderer.render( scene );
 
 			}
 
