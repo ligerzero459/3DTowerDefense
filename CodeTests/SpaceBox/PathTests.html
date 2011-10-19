@@ -69,15 +69,19 @@
 				// Setup Scene
 				scene = new THREE.Scene();
 				
-				var planeMaterial = new THREE.MeshPhongMaterial ( { color: 0xffffff, shininess: 4, wireframe: true } );
-				var planeGeometry = new THREE.PlaneGeometry ( 80, 80, 10, 10 );
+				var planeMaterial = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
+				var planeGeometry = new THREE.PlaneGeometry ( 100, 100, 10, 10 );
 				var planeMesh = new THREE.Mesh ( planeGeometry, planeMaterial );
 				planeMesh.position.set( 0, 0, 0 );
-				planeMesh.scale.set( 2, 2, 2 );
+				planeMesh.scale.set( 1, 1, 1 );
 				scene.add( planeMesh );
 				
 				var ambientLight = new THREE.AmbientLight( 0xffffff );
 				scene.add( ambientLight );
+				
+				var pointLight = new THREE.PointLight( 0xffffff, 10, 30 );
+				pointLight.position.set( 20, 20, 5 );
+				scene.add( pointLight );
 
 				/*texture_placeholder = document.createElement( 'canvas' );
 				texture_placeholder.width = 8000;
