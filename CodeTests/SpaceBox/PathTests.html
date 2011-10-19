@@ -72,6 +72,7 @@
 				var material = new THREE.MeshBasicMaterial ( { color: 0x37FDFC } );
 				var geometry = new THREE.PlaneGeometry ( 100, 100, 10, 10 );
 				var planeMesh = new THREE.Mesh ( geometry, material );
+				planeMesh.rotation.z = 90;
 				planeMesh.position.set( 0, 0, 0 );
 				planeMesh.scale.set( 1, 1, 1 );
 				scene.add( planeMesh );
@@ -141,7 +142,7 @@
 			
 				controls = new THREE.FlyControls( camera );
 
-				controls.movementSpeed = 10;
+				controls.movementSpeed = 50;
 				controls.domElement = container;
 				controls.rollSpeed = Math.PI / 10;
 				controls.autoForward = false;
