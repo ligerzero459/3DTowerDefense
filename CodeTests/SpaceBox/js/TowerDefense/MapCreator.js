@@ -1,8 +1,8 @@
-/*
-/	MapCreator.js
-/	Creates level map for tower defense game
-/	Author: ligerzero459
-*/
+/**
+*	MapCreator.js
+*	Creates level map for tower defense game
+*	@author ligerzero459
+**/
 
 MapCreator = function ( TH, TW, MH, MW ) {
 

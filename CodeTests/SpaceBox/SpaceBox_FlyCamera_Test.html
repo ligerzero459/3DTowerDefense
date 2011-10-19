@@ -214,7 +214,7 @@
 				geometry = new THREE.SphereGeometry( 200, 20, 20 );
 				geometry.computeTangents();
 				
-				var material = new THREE.MeshLambertMaterial ( parameters );
+				var material = new THREE.MeshShaderMaterial ( parameters );
 				
 				meshPlanet = new THREE.Mesh( geometry, material ) ;
 				meshPlanet.position.set ( 0, 0, 0 );
@@ -224,7 +224,7 @@
 			
 			function addModels(m, x, y, z, rx, ry, rz, s) {
 			
-				var material = new THREE.MeshBasicMaterial( { color: 0x555555 } );
+				var material = new THREE.MeshShaderMaterial( { color: 0x555555 } );
 				
 				var loader = new THREE.JSONLoader();
 				var callbackAfterLoading = function ( geometry ) { 
