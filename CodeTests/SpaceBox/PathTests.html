@@ -72,7 +72,7 @@
 				var planeMaterial = new THREE.MeshPhongMaterial ( { color: 0xffffff, shininess: 4, wireframe: true } );
 				var planeGeometry = new THREE.PlaneGeometry ( 80, 80, 10, 10 );
 				var planeMesh = new THREE.Mesh ( planeGeometry, planeMaterial );
-				planeMesh.position.set( 1, 1, 1 );
+				planeMesh.position.set( 0, 0, 0 );
 				planeMesh.scale.set( 2, 2, 2 );
 				scene.add( planeMesh );
 				
@@ -119,8 +119,8 @@
 			function addCamera() {
 			
 				camera = new THREE.PerspectiveCamera( 30, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 100 );
-				camera.position.z = 300;
-				camera.position.y = 30;
+				camera.position.z = 0;
+				camera.position.y = 0;
 				
 				target.x = 0;
 				target.y = 0;
@@ -137,7 +137,7 @@
 			
 				controls = new THREE.FlyControls( camera );
 
-				controls.movementSpeed = 350;
+				controls.movementSpeed = 10;
 				controls.domElement = container;
 				controls.rollSpeed = Math.PI / 10;
 				controls.autoForward = false;
