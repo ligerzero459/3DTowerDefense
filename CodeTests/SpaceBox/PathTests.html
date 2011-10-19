@@ -69,9 +69,9 @@
 				// Setup Scene
 				scene = new THREE.Scene();
 				
-				var planeMaterial = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
-				var planeGeometry = new THREE.PlaneGeometry ( 100, 100, 10, 10 );
-				var planeMesh = new THREE.Mesh ( planeGeometry, planeMaterial );
+				var material = new THREE.MeshBasicMaterial ( { color: 0x37FDFC, wireframe: true } );
+				var geometry = new THREE.PlaneGeometry ( 100, 100, 10, 10 );
+				var planeMesh = new THREE.Mesh ( geometry, material );
 				planeMesh.position.set( 0, 0, 0 );
 				planeMesh.scale.set( 1, 1, 1 );
 				scene.add( planeMesh );
@@ -124,7 +124,7 @@
 			
 				camera = new THREE.PerspectiveCamera( 30, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 100 );
 				camera.position.z = 0;
-				camera.position.y = 0;
+				camera.position.y = 40;
 				
 				target.x = 0;
 				target.y = 0;
