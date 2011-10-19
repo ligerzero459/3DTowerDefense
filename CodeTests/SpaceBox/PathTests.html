@@ -72,8 +72,8 @@
 				var planeMaterial = new THREE.MeshPhongMaterial ( { color: 0xffffff, shininess: 4 } );
 				var planeGeometry = new THREE.PlaneGeometry ( 80, 80, 10, 10 );
 				var planeMesh = new THREE.Mesh ( planeGeometry, planeMaterial );
-				planeMesh.position( 0, 0, 0 );
-				planeMesh.scale( 2, 2, 2 );
+				planeMesh.position.set( 0, 0, 0 );
+				planeMesh.scale.set( 2, 2, 2 );
 				scene.add( planeMesh );
 				
 				var ambientLight = new THREE.AmbientLight( 0xffffff );
