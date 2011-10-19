@@ -69,10 +69,10 @@
 				// Setup Scene
 				scene = new THREE.Scene();
 				
-				var planeMaterial = new THREE.MeshPhongMaterial ( { color: 0xffffff, shininess: 4 } );
+				var planeMaterial = new THREE.MeshPhongMaterial ( { color: 0xffffff, shininess: 4, wireframe: true } );
 				var planeGeometry = new THREE.PlaneGeometry ( 80, 80, 10, 10 );
 				var planeMesh = new THREE.Mesh ( planeGeometry, planeMaterial );
-				planeMesh.position.set( 0, 0, 0 );
+				planeMesh.position.set( 1, 1, 1 );
 				planeMesh.scale.set( 2, 2, 2 );
 				scene.add( planeMesh );
 				
@@ -90,15 +90,13 @@
 
 				container.appendChild( renderer.domElement );
 				
-				/*stats = new Stats();
+				stats = new Stats();
 				stats.domElement.style.position = 'absolute';
 				stats.domElement.style.top = '0px';
 				stats.domElement.style.zIndex = 100;
-				container.appendChild( stats.domElement );*/
+				container.appendChild( stats.domElement );
 				
 				window.addEventListener( 'resize', onWindowResize, false );
-				
-				animate();
 				
 			}
 			
@@ -120,8 +118,9 @@
 			
 			function addCamera() {
 			
-				camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
-				camera.position.z = 2000;
+				camera = new THREE.PerspectiveCamera( 30, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 100 );
+				camera.position.z = 300;
+				camera.position.y = 30;
 				
 				target.x = 0;
 				target.y = 0;
