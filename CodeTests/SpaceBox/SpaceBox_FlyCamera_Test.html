@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<style type="text/css">
 			body {
-				background-color: rgb(200,200,200);
+				background-color: rgb(0,0,0);
 				margin: 0px;
 				overflow: hidden;
 			}
@@ -27,263 +27,257 @@
 		</style>
 	</head>
 	<body>
-        
-		<script type="text/javascript" src="../../../build/Three.js"></script>
-        <!--Make sure path in previous script points to the correct build directory-->
-        <!--You can copy the build directory into your project path or point it to-->
-        <!--the three.js directory-->
-        <script type="text/javascript" src="js/Detector.js"></script>
-        <script type="text/javascript" src="js/RequestAnimationFrame.js"></script>
-        <script type="text/javascript" src="js/Stats.js"></script>
+	
+	<script type="text/javascript" src="../../../build/Three.js"></script>
+    <!--Make sure path in previous script points to the correct build directory-->
+    <!--You can copy the build directory into your project path or point it to-->
+    <!--the three.js directory-->
+    <script type="text/javascript" src="../../../examples/js/ShaderExtras.js"></script>
 
-		<script type="text/javascript">
+    <script type="text/javascript" src="../../../examples/js/Detector.js"></script>
+    <script type="text/javascript" src="../../../examples/js/RequestAnimationFrame.js"></script>
+    <script type="text/javascript" src="../../../examples/js/Stats.js"></script>
+	<script type="text/javascript" src="js/TowerDefense/MapCreator.js"></script>
 
-            // This is a Space Box test. The code is adapted from the Three.js panorama demo.
-            // All changed to the original code will be commented well so it can be identified.
+	<script type="text/javascript">
             
-			var camera, scene, renderer;
-            var container, mesh;
+			var camera, scene, renderer, group;
+            var container, mesh, stats;
+			var meshPlanet, geometry;
+			var model;
             
-			var fov = 75,
-			texture_placeholder,
-			isUserInteracting = false,
-			onMouseDownMouseX = 0, onMouseDownMouseY = 0,
-			lon = 90, onMouseDownLon = 0,
-			lat = 0, onMouseDownLat = 0,
-			phi = 0, theta = 0;
-            
-            var moveForward = false, moveBackwards = false,
-			moveUp = false, moveDown = false,
-			moveLeft = false, moveRight = false,
-
-			yawLeft = false, yawRight = false,
-			pitchUp = false, pitchDown = false,
-			rollLeft = false, rollRight = false;
+			var	texture_placeholder;
+			
+			var SCREEN_HEIGHT = window.innerHeight;
+			var SCREEN_WIDTH  = window.innerWidth;
+			var MARGIN = 0;
+			
+			var target = new THREE.Vector3();
+			var map = new MapCreator( 15, 15, 30, 80 );
 
 			init();
+			animate();
 
 			function init() {
 
 				container = document.createElement( 'div' );
                 document.body.appendChild( container );
-
-				camera = new THREE.Camera( fov, window.innerWidth / window.innerHeight, 1, 1100 );
-                camera.position.y = 0;
-                camera.position.x = 0;
-                camera.position.z = 0;
-                camera.target.position.y = 0;
-
+				
+				addCamera();
+				addControls();
+				
+				// Setup Scene
 				scene = new THREE.Scene();
+				
+				// Setup Group
+				group = new THREE.Object3D();
+				
+				var ambientLight = new THREE.AmbientLight( 0xffffff );
+				scene.add( ambientLight );
 
 				texture_placeholder = document.createElement( 'canvas' );
-				texture_placeholder.width = 128;
-				texture_placeholder.height = 128;
+				texture_placeholder.width = 8000;
+				texture_placeholder.height = 8000;
 
 				var context = texture_placeholder.getContext( '2d' );
 				context.fillStyle = 'rgb( 200, 200, 200 )';
 				context.fillRect( 0, 0, texture_placeholder.width, texture_placeholder.height );
-                
-                // Textures modified to provide space-type backgrounds
-                // Can be modified later
-				var materials = [
+				
+				// Drawing Space Box
+				drawBox();
+				
+				// Drawing the planet in the center
+				drawPlanet();
+				
+				// Adding models
+				var m = 'models/WarpGate.js';
+				
+				addModels(m, 1500, -200, 0, 0, 0, 120);
+				addModels(m, -200, -1500, 0, 0, 0, 120);
+				
+				//m = 'models/trumptowerV2.js';
+				//addModels(m, 200, 300, 1000, 0, 1, 0, 100);
+				
+				scene.add(group);
 
-					loadTexture( 'textures/test1/right.jpg' ), // right
-					loadTexture( 'textures/test1/left.jpg' ), // left
-					loadTexture( 'textures/test1/top.jpg' ), // top
-					loadTexture( 'textures/test1/bottom.jpg' ), // bottom
-					loadTexture( 'textures/test1/back.jpg' ), // back
-					loadTexture( 'textures/test1/front.jpg' )  // front
-
-				];
-
-				mesh = new THREE.Mesh( new THREE.CubeGeometry( 300, 300, 300, 7, 7, 7, materials, true ), new THREE.MeshFaceMaterial() );
-				mesh.overdraw = true;
-				scene.addObject( mesh );
-
-				renderer = new THREE.CanvasRenderer();
-				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+				renderer.sortObjects = false;
+				renderer.autoClear = false;
 
 				container.appendChild( renderer.domElement );
-
-				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				document.addEventListener( 'mouseup', onDocumentMouseUp, false );
-				document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
-
-				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-                
-                document.addEventListener( 'keydown', onDocumentKeyDown, false );
-                document.addEventListener( 'keyup', onDocumentKeyUp, false );
-
+				
+				stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				stats.domElement.style.zIndex = 100;
+				container.appendChild( stats.domElement );
+				
+				window.addEventListener( 'resize', onWindowResize, false );
+				
+				animate();
+				
 			}
-
+			
 			function loadTexture( path ) {
 
-				var texture = new THREE.Texture( texture_placeholder ),
-					material = new THREE.MeshBasicMaterial( { map: texture } ),
-					image = new Image();
-
+				var texture = new THREE.Texture( texture_placeholder );
+				var material = new THREE.MeshBasicMaterial( { map: texture } );
+				
+				var image = new Image();
 				image.onload = function () {
 
 					texture.needsUpdate = true;
 					material.map.image = this;
-
+					
 					render();
 
 				};
-
 				image.src = path;
 
 				return material;
 
 			}
+			
+			function onWindowResize( event ) {
 
-			function onDocumentMouseDown( event ) {
+				SCREEN_HEIGHT = window.innerHeight;
+				SCREEN_WIDTH  = window.innerWidth;
 
-				event.preventDefault();
+				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
 
-				isUserInteracting = true;
-
-				onPointerDownPointerX = event.clientX;
-				onPointerDownPointerY = event.clientY;
-
-				onPointerDownLon = lon;
-				onPointerDownLat = lat;
-
+				camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+				camera.updateProjectionMatrix();
+				
+				//controls.screen.width = SCREEN_WIDTH;
+				//controls.screen.height = SCREEN_HEIGHT;
+				
+				camera.radius = ( SCREEN_WIDTH + SCREEN_HEIGHT ) / 4;  
 			}
+			
+			function addCamera() {
+			
+				camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
+				camera.position.z = 2000;
+				
+				target.x = 0;
+				target.y = 0;
+				target.z = 0;
+				
+				camera.lookAt ( target );
+				
+				camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+				camera.updateProjectionMatrix();
+				
+			}
+			
+			function addControls() {
+			
+				controls = new THREE.FlyControls( camera );
 
-			function onDocumentMouseMove( event ) {
+				controls.movementSpeed = 350;
+				controls.domElement = container;
+				controls.rollSpeed = Math.PI / 10;
+				controls.autoForward = false;
+				controls.dragToLook = true;
+				
+			}
+			
+			function drawBox() {
+				
+				// Textures modified to provide space-type backgrounds
+                // Can be modified later
+				var materials = [
 
-				if ( isUserInteracting ) {
+					loadTexture( 'textures/test1/new.jpg' ), // right
+					loadTexture( 'textures/test1/new.jpg' ), // left
+					loadTexture( 'textures/test1/new.jpg' ), // top
+					loadTexture( 'textures/test1/new.jpg' ), // bottom
+					loadTexture( 'textures/test1/new.jpg' ), // back
+					loadTexture( 'textures/test1/new.jpg' )  // front
 
-					lon = ( onPointerDownPointerX - event.clientX ) * 0.1 + onPointerDownLon;
-					lat = ( event.clientY - onPointerDownPointerY ) * 0.1 + onPointerDownLat;
-					render();
-
+				];
+			
+				mesh = new THREE.Mesh( new THREE.CubeGeometry( 50000, 50000, 50000, 7, 7, 7, materials ), new THREE.MeshFaceMaterial() );
+				mesh.scale.x = - 1;
+				mesh.overdraw = true;
+				scene.add( mesh );
+				
+			}
+			
+			function drawPlanet() {
+			
+				var parameters = {
+					map: THREE.ImageUtils.loadTexture( 'textures/test1/EarthMap_2500x1250.jpg' )
+				};
+				
+				geometry = new THREE.SphereGeometry( 200, 20, 20 );
+				geometry.computeTangents();
+				
+				var material = new THREE.MeshLambertMaterial ( parameters );
+				
+				meshPlanet = new THREE.Mesh( geometry, material ) ;
+				meshPlanet.position.set ( 0, 0, 0 );
+				scene.add( meshPlanet );
+				
+			}
+			
+			function addModels(m, x, z, rx, ry, rz, s) {
+			
+				var material = new THREE.MeshBasicMaterial( { color: 0x555555 } );
+				
+				var loader = new THREE.JSONLoader();
+				var callbackAfterLoading = function ( geometry ) { 
+					geometry.computeTangents();
+					
+					mesh = new THREE.Mesh ( geometry, material );
+					mesh.position.x = x;
+					mesh.position.z = z;
+					mesh.scale.x = mesh.scale.y = mesh.scale.z = s;
+					mesh.rotation.x = rx;
+					mesh.rotation.y = ry;
+					mesh.rotation.z = rz;
+					mesh.overdraw = true;
+					mesh.matrixAutoUpdate = false;
+					mesh.updateMatrix();
+					group.add(mesh);
 				}
+				loader.load( { model: m, callback: callbackAfterLoading } ); 
+
 			}
-
-			function onDocumentMouseUp( event ) {
-
-				isUserInteracting = false;
+			
+			function drawPath() {
+				geometry = new THREE.geometry;
+				
+				var vector = new THREE.Vector3( 0, 0, 0 );
+				vector.normalize();
+				
+				geometry.vertices.push( new THREE.Vertex( vector ) );
+				
+				var vector2 = new THREE.Vector3( 1000, 0, 0 );
+				vector2.normalize();
+				
+				geometry.vertices.push( new THREE.Vertex( vector ) );
+				
+				var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xffffff } ));
+				
+				scene.add( line );
+			}
+			
+			function animate() {
+				
+				requestAnimationFrame( animate );
+				
 				render();
-
+				stats.update();
+				
 			}
-
-			function onDocumentMouseWheel( event ) {
-
-				fov -= event.wheelDeltaY * 0.05;
-				camera.projectionMatrix = THREE.Matrix4.makePerspective( fov, window.innerWidth / window.innerHeight, 1, 1100 );
-				render();
-
-			}
-
-
-			function onDocumentTouchStart( event ) {
-
-				if( event.touches.length == 1 ) {
-
-					event.preventDefault();
-
-					onPointerDownPointerX = event.touches[ 0 ].pageX;
-					onPointerDownPointerY = event.touches[ 0 ].pageY;
-
-					onPointerDownLon = lon;
-					onPointerDownLat = lat;
-				}
-			}
-
-			function onDocumentTouchMove( event ) {
-
-				if( event.touches.length == 1 ) {
-
-					event.preventDefault();
-
-					lon = ( onPointerDownPointerX - event.touches[0].pageX ) * 0.1 + onPointerDownLon;
-					lat = ( event.touches[0].pageY - onPointerDownPointerY ) * 0.1 + onPointerDownLat;
-
-					render();
-
-				}
-			}
-            
-            function onDocumentKeyDown( event ) {
-
-				switch( event.keyCode ) {
-
-					case 38: moveForward = true; break; // up
-					case 40: moveBackwards = true; break; // down
-					case 37: moveLeft = true; break; // left
-					case 39: moveRight = true; break; // right
-					case 65: yawLeft = true; break; // a
-					case 68: yawRight = true; break; // d
-					case 87: moveUp/*pitchUp*/ = true; break; // w
-					case 83: moveDown/*pitchDown*/ = true; break; // s
-					case 90: rollLeft = true; break; // z
-					case 67: rollRight = true; break; // c
-
-				}
-
-			}
-
-			function onDocumentKeyUp( event ) {
-
-				switch( event.keyCode ) {
-
-					case 38: moveForward = false; break; // up
-					case 40: moveBackwards = false; break; // down
-					case 37: moveLeft = false; break; // left
-					case 39: moveRight = false; break; // right
-					case 65: yawLeft = false; break; // a
-					case 68: yawRight = false; break; // d
-					case 87: moveUp/*pitchUp*/ = false; break; // w
-					case 83: moveDown/*pitchDown*/ = false; break; // s
-					case 90: rollLeft = false; break; // z
-					case 67: rollRight = false; break; // c
-
-				}
-
-			}
-            
-            function animate()
-            {
-                requestAnimationFrame( animate );
-                
-                render();
-                stats.update();
-            }
 
 			function render() {
-                
-                // Camera Movement with keys
-                if ( moveForward ) camera.position.z -= 5;
-				if ( moveBackwards ) camera.position.z += 5;
-
-				if ( moveUp ) camera.position.y += 5;
-				if ( moveDown ) camera.position.y -= 5;
-
-				if ( moveLeft ) camera.position.x -= 5;
-				if ( moveRight ) camera.position.x += 5;
-
-				if ( pitchUp ) camera.rotation.x += 0.01;
-				if ( pitchDown ) camera.rotation.x -= 0.01;
-
-				if ( yawLeft ) camera.target.position.x -= 5;
-				if ( yawRight ) camera.target.position.x += 5;
-
-				if ( rollLeft ) camera.rotation.z += 0.01;
-				if ( rollRight ) camera.rotation.z -= 0.01;
-                
-                // Original Camera movement code
-				lat = Math.max( - 85, Math.min( 85, lat ) );
-				phi = ( 90 - lat ) * Math.PI / 180;
-				theta = lon * Math.PI / 180;
-
-				camera.target.position.x = 500 * Math.sin( phi ) * Math.cos( theta );
-				camera.target.position.y = 500 * Math.cos( phi );
-				camera.target.position.z = 500 * Math.sin( phi ) * Math.sin( theta );
-
+			
+				controls.update();
+				
+				renderer.clear();
 				renderer.render( scene, camera );
 
 			}
