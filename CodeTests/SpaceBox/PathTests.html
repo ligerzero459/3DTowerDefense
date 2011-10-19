@@ -69,10 +69,10 @@
 				// Setup Scene
 				scene = new THREE.Scene();
 				
-				var material = new THREE.MeshPhongMaterial ( { color: 0x37FDFC, wireframe: true } );
+				var material = new THREE.MeshPhongMaterial ( { color: 0x000000, wireframe: true } );
 				var geometry = new THREE.PlaneGeometry ( 100, 100, 50, 50 );
 				var planeMesh = new THREE.Mesh ( geometry, material );
-				planeMesh.rotation.z = -180;
+				//planeMesh.rotation.z = -180;
 				planeMesh.position.set( 0, 0, 0 );
 				planeMesh.scale.set( 1, 1, 1 );
 				scene.add( planeMesh );
