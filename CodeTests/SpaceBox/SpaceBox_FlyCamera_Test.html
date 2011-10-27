@@ -76,6 +76,14 @@
 				container = document.createElement( 'div' );
                 document.body.appendChild( container );
 				
+				info = document.createElement( 'div' );
+				info.style.position = 'absolute';
+				info.style.top = '10px';
+				info.style.width = '100%';
+				info.style.textAlign = 'center';
+				info.innerHTML = 'Tower Defense Test';
+				container.appendChild( info );
+				
 				addCamera();
 				addControls();
 				
@@ -129,7 +137,7 @@
 				
 				generatePath();	
 				
-								xLength = xPathArray.length - 1;
+				xLength = xPathArray.length - 1;
 				yLength = yPathArray.length - 1;
 				
 				// Spawning 'creep's
@@ -551,6 +559,7 @@
 						creeps[i].isDead();
 						creeps.splice(i, 1);
 					}
+					info.innerHTML = 'Health: ' + creeps[i].health;
 				}
 			}
 			
