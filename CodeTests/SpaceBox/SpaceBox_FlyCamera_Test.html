@@ -172,6 +172,8 @@
 				
 				//Creep "Class" Test
 				var creep = Creep.initialize();
+				creeps.push(creep);
+				creepWaypoint.push(xLength - 1);
 				
 				
 				renderer = new THREE.WebGLRenderer();
@@ -561,7 +563,7 @@
 			
 				controls.update();
 				
-				//updateCreeps();
+				updateCreeps();
 				
 				renderer.clear();
 				renderer.render( scene, camera );
