@@ -480,27 +480,27 @@
 				for (var i in creeps)
 				{
 						
-					if (creeps[i].mesh.position.x != xPathArray[creepWaypoint[i]])
+					if (creeps[i].positionx != xPathArray[creepWaypoint[i]])
 					{
-						if (creeps[i].mesh.position.x > xPathArray[creepWaypoint[i]] && MOVE_E[i] == false)
+						if (creeps[i].positionx > xPathArray[creepWaypoint[i]] && MOVE_E[i] == false)
 						{
-							creeps[i].mesh.position.x -= 1.7;
+							creeps[i].positionx -= 1.7;
 							MOVE_W[i] = true;
 						}
-						else if (creeps[i].mesh.position.x < xPathArray[creepWaypoint[i]] && MOVE_W[i] == false)
+						else if (creeps[i].positionx < xPathArray[creepWaypoint[i]] && MOVE_W[i] == false)
 						{
-							creeps[i].mesh.position.x += 1.7;
+							creeps[i].positionx += 1.7;
 							MOVE_E[i] = true;
 						}
 						else
 						{
-							creeps[i].mesh.position.x = xPathArray[creepWaypoint[i]];
+							creeps[i].positionx = xPathArray[creepWaypoint[i]];
 							
-							if (creeps[i].mesh.position.x == 3 && creeps[i].mesh.position.y == 1)
+							if (creeps[i].positionx == 3 && creeps[i].positiony == 1)
 							{
 								creepWaypoint[i] = xPathArray.length - 2;
-								creeps[i].mesh.position.x = xPathArray[xPathArray.length - 1];
-								creeps[i].mesh.position.y = yPathArray[xPathArray.length - 1];
+								creeps[i].positionx = xPathArray[xPathArray.length - 1];
+								creeps[i].positiony = yPathArray[xPathArray.length - 1];
 								MOVE_E[i] = false;
 								MOVE_W[i] = false;
 							}
@@ -513,28 +513,28 @@
 						}
 					}
 					
-					if (creeps[i].mesh.position.y != yPathArray[creepWaypoint[i]])
+					if (creeps[i].positiony != yPathArray[creepWaypoint[i]])
 					{
-						if (creeps[i].mesh.position.y > yPathArray[creepWaypoint[i]] && MOVE_N[i] == false)
+						if (creeps[i].positiony > yPathArray[creepWaypoint[i]] && MOVE_N[i] == false)
 						{
-							creeps[i].mesh.position.y -= 1.7;
+							creeps[i].positiony -= 1.7;
 							MOVE_S[i] = true;
 						}					
-						else if (creeps[i].mesh.position.y < yPathArray[creepWaypoint[i]] && MOVE_S[i] == false)
+						else if (creeps[i].positiony < yPathArray[creepWaypoint[i]] && MOVE_S[i] == false)
 						{
-							creeps[i].mesh.position.y += 1.7;
+							creeps[i].positiony += 1.7;
 							MOVE_N[i] = true;
 						}	
 						else
 						{
-							creeps[i].mesh.position.y = yPathArray[creepWaypoint[i]];
+							creeps[i].positiony = yPathArray[creepWaypoint[i]];
 							
-							if (creeps[i].mesh.position.x == 1 && creeps[i].mesh.position.y == 1)
+							if (creeps[i].positionx == 1 && creeps[i].positiony == 1)
 							{
 								
 								creepWaypoint[i] = xPathArray.length - 2;
-								creeps[i].mesh.position.x = xPathArray[xPathArray.length - 1];
-								creeps[i].mesh.position.y = yPathArray[xPathArray.length - 1];
+								creeps[i].positionx = xPathArray[xPathArray.length - 1];
+								creeps[i].positiony = yPathArray[xPathArray.length - 1];
 								MOVE_N[i] = false;
 								MOVE_S[i] = false;
 							}
