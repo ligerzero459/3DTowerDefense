@@ -171,9 +171,9 @@
 				scene.add( mesh );*/
 				
 				//Creep "Class" Test
-				var creep = new Creep.initialize();
-				scene.add ( creep.mesh );
-				
+				var creep = new Creep.initialize();				
+				creeps.push( creep.mesh );
+				creepWaypoint.push( xLength - 1 );
 				
 				renderer = new THREE.WebGLRenderer();
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );

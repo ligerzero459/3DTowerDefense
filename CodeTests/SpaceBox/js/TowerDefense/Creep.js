@@ -14,4 +14,5 @@ Creep.initialize = function () {
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
 	this.mesh.position.set( this.x, this.y, 0 );
 	
+	scene.add(this.mesh);
 }
