@@ -1,8 +1,6 @@
 var Creep = Creep || {};
 
-Creep.initialize = function () {
-
-	var health;
+Creep.initialize = function (health) {
 	
 	this.health = health;
 	this.x = xPathArray[xLength];
@@ -15,4 +13,8 @@ Creep.initialize = function () {
 	this.mesh.position.set( this.x, this.y, 0 );
 	
 	scene.add(this.mesh);
+}
+
+Creep.isDead = function () {
+	scene.removeObject(this.mesh);
 }
