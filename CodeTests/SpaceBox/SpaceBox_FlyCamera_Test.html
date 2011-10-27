@@ -37,7 +37,7 @@
     <script type="text/javascript" src="../../../examples/js/Detector.js"></script>
     <script type="text/javascript" src="../../../examples/js/RequestAnimationFrame.js"></script>
     <script type="text/javascript" src="../../../examples/js/Stats.js"></script>
-	<script type="text/javascript" src="js/TowerDefense/MapCreator.js"></script>
+	<script type="text/javascript" src="js/TowerDefense/Creep.js"></script>
 
 	<script type="text/javascript">
             
@@ -133,6 +133,7 @@
 				yLength = yPathArray.length - 1;
 				
 				// Spawning 'creep's
+				/*
 				material = new THREE.MeshLambertMaterial ( { color: 0x00FFFF } );
 				geometry = new THREE.SphereGeometry( 100, 20, 20 );
 				geometry.computeTangents();
@@ -167,9 +168,12 @@
 				mesh.position.set( xPathArray[xLength-10], yPathArray[yLength-10], 0 );
 				creeps.push( mesh );
 				creepWaypoint.push( xLength-11 );
-				scene.add( mesh );
-
-
+				scene.add( mesh );*/
+				
+				//Creep "Class" Test
+				Creep.initialize();
+				
+				
 				renderer = new THREE.WebGLRenderer();
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
 				renderer.sortObjects = false;
@@ -557,7 +561,7 @@
 			
 				controls.update();
 				
-				updateCreeps();
+				//updateCreeps();
 				
 				renderer.clear();
 				renderer.render( scene, camera );
