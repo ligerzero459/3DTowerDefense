@@ -1,8 +1,8 @@
 var Creep = Creep || {};
 
-Creep.initialize = function (health) {
+Creep.initialize = function () {
 	
-	this.health = health;
+	this.health = 100;
 	this.x = xPathArray[xLength];
 	this.y = yPathArray[yLength];
 	
