@@ -96,8 +96,15 @@ Creep.update = function() {
 			}
 		}
 	}
+	this.creeps[i].mesh.health -= .5
+	if (this.creeps[i].mesh.health <= 0)
+	{
+		Creep.isdead();
+		this.creeps.splice(i, 1);
+	}
+	info.innerHTML = 'Health: ' + creeps[i].health;
 }
 
-Creep.isdead = function () {
-	scene.remove(this.mesh);
+Creep.isdead = function (i) {
+	scene.remove(this.creeps[i]);
 }
