@@ -96,8 +96,8 @@ Creep.update = function() {
 			}
 		}
 	}
-	this.creeps[i].mesh.health -= .5
-	if (this.creeps[i].mesh.health <= 0)
+	this.creeps[i].health -= .5
+	if (this.creeps[i].health <= 0)
 	{
 		Creep.isdead();
 		this.creeps.splice(i, 1);
