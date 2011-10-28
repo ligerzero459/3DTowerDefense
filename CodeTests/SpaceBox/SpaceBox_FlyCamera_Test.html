@@ -180,12 +180,11 @@
 				scene.add( mesh );*/
 				
 				//Creep "Class" Test
-				var creep = new Creep.initialize();
+				var creep = new Creep;
+				creep.initialize();
 				creeps.push( creep );
 				creepWaypoint.push( xLength - 1 );
-				creeps[0].isdead();
-				creeps.splice(0, 1);
-				creepWaypoint.slicpe(0, 1);
+				//creeps[0].isdead();
 				
 				renderer = new THREE.WebGLRenderer();
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
