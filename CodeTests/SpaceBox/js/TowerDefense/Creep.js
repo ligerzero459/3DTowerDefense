@@ -100,7 +100,7 @@ Creep.update = function() {
 				}
 			}
 		}
-		this.creeps[i].health -= .5
+		this.creeps[i].health -= .2
 		if (this.creeps[i].health <= 0)
 		{
 			Creep.isdead();
