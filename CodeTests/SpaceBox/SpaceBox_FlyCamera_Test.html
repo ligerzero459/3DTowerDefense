@@ -66,6 +66,7 @@
 			var xPathArray = new Array();
 			var yPathArray = new Array();
 			var creeps = new Array();
+			var creepsMesh = new Array();
 			var creepWaypoint = new Array();
 
 			init();
@@ -181,6 +182,7 @@
 				
 				//Creep "Class" Test
 				var creep = new Creep.initialize();				
+				creepsMesh.push( creep.mesh );
 				creeps.push( creep );
 				creepWaypoint.push( xLength - 1 );
 				
@@ -488,27 +490,27 @@
 				for (var i in creeps)
 				{
 						
-					if (creeps[i].position.x != xPathArray[creepWaypoint[i]])
+					if (creepsMesh[i].position.x != xPathArray[creepWaypoint[i]])
 					{
-						if (creeps[i].position.x > xPathArray[creepWaypoint[i]] && MOVE_E[i] == false)
+						if (creepsMesh[i].position.x > xPathArray[creepWaypoint[i]] && MOVE_E[i] == false)
 						{
-							creeps[i].position.x -= 1.7;
+							creepsMesh[i].position.x -= 1.7;
 							MOVE_W[i] = true;
 						}
-						else if (creeps[i].position.x < xPathArray[creepWaypoint[i]] && MOVE_W[i] == false)
+						else if (creepsMesh[i].position.x < xPathArray[creepWaypoint[i]] && MOVE_W[i] == false)
 						{
-							creeps[i].position.x += 1.7;
+							creepsMesh[i].position.x += 1.7;
 							MOVE_E[i] = true;
 						}
 						else
 						{
-							creeps[i].position.x = xPathArray[creepWaypoint[i]];
+							creepsMesh[i].position.x = xPathArray[creepWaypoint[i]];
 							
-							if (creeps[i].position.x == 3 && creeps[i].position.y == 1)
+							if (creepsMesh[i].position.x == 3 && creepsMesh[i].position.y == 1)
 							{
 								creepWaypoint[i] = xPathArray.length - 2;
-								creeps[i].position.x = xPathArray[xPathArray.length - 1];
-								creeps[i].position.y = yPathArray[xPathArray.length - 1];
+								creepsMesh[i].position.x = xPathArray[xPathArray.length - 1];
+								creepsMesh[i].position.y = yPathArray[xPathArray.length - 1];
 								MOVE_E[i] = false;
 								MOVE_W[i] = false;
 							}
@@ -521,28 +523,28 @@
 						}
 					}
 					
-					if (creeps[i].position.y != yPathArray[creepWaypoint[i]])
+					if (creepsMesh[i].position.y != yPathArray[creepWaypoint[i]])
 					{
-						if (creeps[i].position.y > yPathArray[creepWaypoint[i]] && MOVE_N[i] == false)
+						if (creepsMesh[i].position.y > yPathArray[creepWaypoint[i]] && MOVE_N[i] == false)
 						{
-							creeps[i].position.y -= 1.7;
+							creepsMesh[i].position.y -= 1.7;
 							MOVE_S[i] = true;
 						}					
-						else if (creeps[i].position.y < yPathArray[creepWaypoint[i]] && MOVE_S[i] == false)
+						else if (creepsMesh[i].position.y < yPathArray[creepWaypoint[i]] && MOVE_S[i] == false)
 						{
-							creeps[i].position.y += 1.7;
+							creepsMesh[i].position.y += 1.7;
 							MOVE_N[i] = true;
 						}	
 						else
 						{
-							creeps[i].position.y = yPathArray[creepWaypoint[i]];
+							creepsMesh[i].position.y = yPathArray[creepWaypoint[i]];
 							
-							if (creeps[i].position.x == 1 && creeps[i].position.y == 1)
+							if (creepsMesh[i].position.x == 1 && creepsMesh[i].position.y == 1)
 							{
 								
 								creepWaypoint[i] = xPathArray.length - 2;
-								creeps[i].position.x = xPathArray[xPathArray.length - 1];
-								creeps[i].position.y = yPathArray[xPathArray.length - 1];
+								creepsMesh[i].position.x = xPathArray[xPathArray.length - 1];
+								creepsMesh[i].position.y = yPathArray[xPathArray.length - 1];
 								MOVE_N[i] = false;
 								MOVE_S[i] = false;
 							}
@@ -558,9 +560,10 @@
 					if (creeps[i].health <= 0)
 					{
 						creeps[i].isDead();
+						creepsMesh.splice(i, 1);
 						creeps.splice(i, 1);
 					}
-					info.innerHTML = 'Health: ' + creeps[i].health;
+					info.innerHTML = 'Health: ' + creepsMesh[i].health;
 				}
 			}
 			
