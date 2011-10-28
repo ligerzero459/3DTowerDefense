@@ -58,15 +58,9 @@
 			var target = new THREE.Vector3();
 			
 			var x = 0, y = 0, counter = 1;
-			var MOVE_N = [false, false, false, false], 
-				MOVE_S = [false, false, false, false], 
-				MOVE_E = [false, false, false, false], 
-				MOVE_W = [false, false, false, false];
 			
 			var xPathArray = new Array();
 			var yPathArray = new Array();
-			var creeps = new Array();
-			var creepWaypoint = new Array();
 
 			init();
 			animate();
@@ -180,11 +174,7 @@
 				scene.add( mesh );*/
 				
 				//Creep "Class" Test
-				var creep = new Creep;
-				creep.initialize();
-				creeps.push( creep );
-				creepWaypoint.push( xLength - 1 );
-				//creeps[0].isdead();
+				Creep.initialize();
 				
 				renderer = new THREE.WebGLRenderer();
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
