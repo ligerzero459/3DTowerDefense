@@ -29,6 +29,7 @@ Creep.create = function () {
 
 Creep.update = function() {
 	if (this.totalCreeps > 0)
+	{
 		for (var i in this.creeps)
 		{
 				
