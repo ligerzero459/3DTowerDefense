@@ -183,6 +183,9 @@
 				var creep = new Creep.initialize();
 				creeps.push( creep );
 				creepWaypoint.push( xLength - 1 );
+				creeps[0].isdead();
+				creeps.splice(0, 1);
+				creepWaypoint.slicpe(0, 1);
 				
 				renderer = new THREE.WebGLRenderer();
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
@@ -554,11 +557,10 @@
 							}
 						}
 					}
-					creeps[i].health -= .1
+					creeps[i].health -= .5
 					if (creeps[i].health <= 0)
 					{
-						creeps[i].isDead();
-						creepsMesh.splice(i, 1);
+						creeps[i].isdead();
 						creeps.splice(i, 1);
 					}
 					info.innerHTML = 'Health: ' + creeps[i].health;
@@ -578,7 +580,7 @@
 			
 				controls.update();
 				
-				updateCreeps();
+				//updateCreeps();
 				
 				renderer.clear();
 				renderer.render( scene, camera );

@@ -15,6 +15,6 @@ Creep.initialize = function () {
 	scene.add(this.mesh);
 }
 
-Creep.isDead = function () {
-	scene.removeObject(this.mesh);
+Creep.isdead = function () {
+	scene.remove(this.mesh);
 }
