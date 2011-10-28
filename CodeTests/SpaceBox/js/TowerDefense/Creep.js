@@ -19,8 +19,8 @@ Creep.create = function () {
 	this.MOVE_S = [false, false, false, false];
 	this.MOVE_E = [false, false, false, false];
 	this.MOVE_W = [false, false, false, false];
-	creeps.push ( this.mesh );
-	creepWaypoint.push (xLength - 1);
+	this.creeps.push ( this.mesh );
+	this.creepWaypoint.push (xLength - 1);
 	
 	scene.add(this.mesh);
 }
