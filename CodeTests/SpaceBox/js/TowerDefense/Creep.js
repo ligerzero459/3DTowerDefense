@@ -29,27 +29,27 @@ Creep.update = function() {
 	for (var i in this.creeps)
 	{
 			
-		if (this.creeps[i].mesh.position.x != xPathArray[this.creepWaypoint[i]])
+		if (this.creeps[i].position.x != xPathArray[this.creepWaypoint[i]])
 		{
-			if (this.creeps[i].mesh.position.x > xPathArray[this.creepWaypoint[i]] && this.MOVE_E[i] == false)
+			if (this.creeps[i].position.x > xPathArray[this.creepWaypoint[i]] && this.MOVE_E[i] == false)
 			{
-				this.creeps[i].mesh.position.x -= 1.7;
+				this.creeps[i].position.x -= 1.7;
 				this.MOVE_W[i] = true;
 			}
-			else if (this.creeps[i].mesh.position.x < xPathArray[this.creepWaypoint[i]] && this.MOVE_W[i] == false)
+			else if (this.creeps[i].position.x < xPathArray[this.creepWaypoint[i]] && this.MOVE_W[i] == false)
 			{
-				this.creeps[i].mesh.position.x += 1.7;
+				this.creeps[i].position.x += 1.7;
 				this.MOVE_E[i] = true;
 			}
 			else
 			{
-				this.creeps[i].mesh.position.x = xPathArray[this.creepWaypoint[i]];
+				this.creeps[i].position.x = xPathArray[this.creepWaypoint[i]];
 				
-				if (this.creeps[i].mesh.position.x == 3 && this.creeps[i].mesh.position.y == 1)
+				if (this.creeps[i].position.x == 3 && this.creeps[i].position.y == 1)
 				{
 					this.creepWaypoint[i] = xPathArray.length - 2;
-					this.creeps[i].mesh.position.x = xPathArray[xPathArray.length - 1];
-					this.creeps[i].mesh.position.y = yPathArray[xPathArray.length - 1];
+					this.creeps[i].position.x = xPathArray[xPathArray.length - 1];
+					this.creeps[i].position.y = yPathArray[xPathArray.length - 1];
 					this.MOVE_E[i] = false;
 					this.MOVE_W[i] = false;
 				}
@@ -62,28 +62,28 @@ Creep.update = function() {
 			}
 		}
 		
-		if (this.creeps[i].mesh.position.y != yPathArray[this.creepWaypoint[i]])
+		if (this.creeps[i].position.y != yPathArray[this.creepWaypoint[i]])
 		{
-			if (this.creeps[i].mesh.position.y > yPathArray[this.creepWaypoint[i]] && this.MOVE_N[i] == false)
+			if (this.creeps[i].position.y > yPathArray[this.creepWaypoint[i]] && this.MOVE_N[i] == false)
 			{
-				this.creeps[i].mesh.position.y -= 1.7;
+				this.creeps[i].position.y -= 1.7;
 				this.MOVE_S[i] = true;
 			}					
-			else if (this.creeps[i].mesh.position.y < yPathArray[this.creepWaypoint[i]] && this.MOVE_S[i] == false)
+			else if (this.creeps[i].position.y < yPathArray[this.creepWaypoint[i]] && this.MOVE_S[i] == false)
 			{
-				this.creeps[i].mesh.position.y += 1.7;
+				this.creeps[i].position.y += 1.7;
 				this.MOVE_N[i] = true;
 			}	
 			else
 			{
-				this.creeps[i].mesh.position.y = yPathArray[this.creepWaypoint[i]];
+				this.creeps[i].position.y = yPathArray[this.creepWaypoint[i]];
 				
-				if (this.creeps[i].mesh.position.x == 1 && this.creeps[i].mesh.position.y == 1)
+				if (this.creeps[i].position.x == 1 && this.creeps[i].position.y == 1)
 				{
 					
 					this.creepWaypoint[i] = xPathArray.length - 2;
-					this.creeps[i].mesh.position.x = xPathArray[xPathArray.length - 1];
-					this.creeps[i].mesh.position.y = yPathArray[xPathArray.length - 1];
+					this.creeps[i].position.x = xPathArray[xPathArray.length - 1];
+					this.creeps[i].position.y = yPathArray[xPathArray.length - 1];
 					this.MOVE_N[i] = false;
 					this.MOVE_S[i] = false;
 				}
