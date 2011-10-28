@@ -66,7 +66,6 @@
 			var xPathArray = new Array();
 			var yPathArray = new Array();
 			var creeps = new Array();
-			var creepsMesh = new Array();
 			var creepWaypoint = new Array();
 
 			init();
@@ -181,8 +180,7 @@
 				scene.add( mesh );*/
 				
 				//Creep "Class" Test
-				var creep = new Creep.initialize();				
-				creepsMesh.push( creep.mesh );
+				var creep = new Creep.initialize();
 				creeps.push( creep );
 				creepWaypoint.push( xLength - 1 );
 				
@@ -490,27 +488,27 @@
 				for (var i in creeps)
 				{
 						
-					if (creepsMesh[i].position.x != xPathArray[creepWaypoint[i]])
+					if (creeps[i].mesh.position.x != xPathArray[creepWaypoint[i]])
 					{
-						if (creepsMesh[i].position.x > xPathArray[creepWaypoint[i]] && MOVE_E[i] == false)
+						if (creeps[i].mesh.position.x > xPathArray[creepWaypoint[i]] && MOVE_E[i] == false)
 						{
-							creepsMesh[i].position.x -= 1.7;
+							creeps[i].mesh.position.x -= 1.7;
 							MOVE_W[i] = true;
 						}
-						else if (creepsMesh[i].position.x < xPathArray[creepWaypoint[i]] && MOVE_W[i] == false)
+						else if (creeps[i].mesh.position.x < xPathArray[creepWaypoint[i]] && MOVE_W[i] == false)
 						{
-							creepsMesh[i].position.x += 1.7;
+							creeps[i].mesh.position.x += 1.7;
 							MOVE_E[i] = true;
 						}
 						else
 						{
-							creepsMesh[i].position.x = xPathArray[creepWaypoint[i]];
+							creeps[i].mesh.position.x = xPathArray[creepWaypoint[i]];
 							
-							if (creepsMesh[i].position.x == 3 && creepsMesh[i].position.y == 1)
+							if (creeps[i].mesh.position.x == 3 && creeps[i].mesh.position.y == 1)
 							{
 								creepWaypoint[i] = xPathArray.length - 2;
-								creepsMesh[i].position.x = xPathArray[xPathArray.length - 1];
-								creepsMesh[i].position.y = yPathArray[xPathArray.length - 1];
+								creeps[i].mesh.position.x = xPathArray[xPathArray.length - 1];
+								creeps[i].mesh.position.y = yPathArray[xPathArray.length - 1];
 								MOVE_E[i] = false;
 								MOVE_W[i] = false;
 							}
@@ -523,28 +521,28 @@
 						}
 					}
 					
-					if (creepsMesh[i].position.y != yPathArray[creepWaypoint[i]])
+					if (creeps[i].mesh.position.y != yPathArray[creepWaypoint[i]])
 					{
-						if (creepsMesh[i].position.y > yPathArray[creepWaypoint[i]] && MOVE_N[i] == false)
+						if (creeps[i].mesh.position.y > yPathArray[creepWaypoint[i]] && MOVE_N[i] == false)
 						{
-							creepsMesh[i].position.y -= 1.7;
+							creeps[i].mesh.position.y -= 1.7;
 							MOVE_S[i] = true;
 						}					
-						else if (creepsMesh[i].position.y < yPathArray[creepWaypoint[i]] && MOVE_S[i] == false)
+						else if (creeps[i].mesh.position.y < yPathArray[creepWaypoint[i]] && MOVE_S[i] == false)
 						{
-							creepsMesh[i].position.y += 1.7;
+							creeps[i].mesh.position.y += 1.7;
 							MOVE_N[i] = true;
 						}	
 						else
 						{
-							creepsMesh[i].position.y = yPathArray[creepWaypoint[i]];
+							creeps[i].mesh.position.y = yPathArray[creepWaypoint[i]];
 							
-							if (creepsMesh[i].position.x == 1 && creepsMesh[i].position.y == 1)
+							if (creeps[i].mesh.position.x == 1 && creeps[i].mesh.position.y == 1)
 							{
 								
 								creepWaypoint[i] = xPathArray.length - 2;
-								creepsMesh[i].position.x = xPathArray[xPathArray.length - 1];
-								creepsMesh[i].position.y = yPathArray[xPathArray.length - 1];
+								creeps[i].mesh.position.x = xPathArray[xPathArray.length - 1];
+								creeps[i].mesh.position.y = yPathArray[xPathArray.length - 1];
 								MOVE_N[i] = false;
 								MOVE_S[i] = false;
 							}
@@ -563,7 +561,7 @@
 						creepsMesh.splice(i, 1);
 						creeps.splice(i, 1);
 					}
-					info.innerHTML = 'Health: ' + creepsMesh[i].health;
+					info.innerHTML = 'Health: ' + creeps[i].health;
 				}
 			}
 			
