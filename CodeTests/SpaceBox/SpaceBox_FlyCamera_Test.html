@@ -176,7 +176,6 @@
 				//Creep "Class" Test
 				Creep.initialize();
 				Creep.create();
-				Creep.update();
 				
 				renderer = new THREE.WebGLRenderer();
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
@@ -572,6 +571,7 @@
 				controls.update();
 				
 				//updateCreeps();
+				Creep.update();
 				
 				renderer.clear();
 				renderer.render( scene, camera );
