@@ -110,7 +110,7 @@ Creep.update = function() {
 }
 
 Creep.isdead = function (i) {
-	scene.remove(this.creeps[i]);
+	scene.removeObject(this.creeps[i]);
 	this.creeps.splice(i, 1);
 	this.totalCreeps--;
 }
