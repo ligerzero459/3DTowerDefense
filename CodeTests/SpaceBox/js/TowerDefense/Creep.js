@@ -100,17 +100,17 @@ Creep.update = function() {
 				}
 			}
 		}
-		this.creeps[i].health -= .5
+		this.creeps[i].health -= .5;
+		info.innerHTML = 'Health: ' + this.creeps[i].health;
 		if (this.creeps[i].health <= 0)
 		{
 			Creep.isdead();
 		}
-		info.innerHTML = 'Health: ' + this.creeps[i].health;
 	}
 }
 
 Creep.isdead = function (i) {
 	this.totalCreeps -= 1;
-	scene.remove(Creep.creeps[i]);
-	Creep.creeps.splice(i, 1);
+	scene.remove(this.creeps[i]);
+	this.creeps.splice(i, 1);
 }
