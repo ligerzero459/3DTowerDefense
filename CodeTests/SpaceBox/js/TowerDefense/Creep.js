@@ -25,7 +25,7 @@ Creep.create = function () {
 	this.totalCreeps++;
 	
 	scene.add( this.mesh );
-	scene.remove( this.mesh );
+	scene.remove( this.creeps[0] );
 	this.totalCreeps--;
 }
 
