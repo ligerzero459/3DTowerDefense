@@ -56,6 +56,7 @@
 				PLANE_S_H_W = 50;
 			
 			var target = new THREE.Vector3();
+			var scene = new THREE.Scene();
 			
 			var x = 0, y = 0, counter = 1;
 			
@@ -80,10 +81,7 @@
 				container.appendChild( info );
 				
 				addCamera();
-				addControls();
-				
-				// Setup Scene
-				scene = new THREE.Scene();
+				addControls();				
 				
 				// Setup Group
 				group = new THREE.Object3D();
