@@ -25,8 +25,6 @@ Creep.create = function () {
 	this.totalCreeps++;
 	
 	scene.add( this.mesh );
-	scene.remove( this.creeps[0] );
-	this.totalCreeps--;
 }
 
 Creep.update = function() {
@@ -114,5 +112,5 @@ Creep.update = function() {
 Creep.isdead = function (i) {
 	this.totalCreeps -= 1;
 	scene.remove(this.creeps[i]);
-	//this.creeps.splice(i, 1);
+	//	this.creeps.splice(i, 1);
 }
