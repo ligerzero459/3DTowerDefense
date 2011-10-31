@@ -42,9 +42,10 @@
 	<script type="text/javascript">
             
 			var camera, renderer, group;
-            var container, stats;
-			var meshPlanet, planeMesh, mesh, geometry;
-			var model;
+            var container, stats, dt;
+			var meshPlanet, planeMesh, mesh, geometry, model;
+			var lastUpdate = new Date().getTime();
+			var speed = .05;		//Lower = faster
             
 			var	texture_placeholder;
 			
@@ -187,7 +188,8 @@
 				stats.domElement.style.zIndex = 100;
 				container.appendChild( stats.domElement );
 				
-				Creep.runLevel();
+				// Delay to prevent game start before rendering is complete
+				setTimeout("Creep.runLevel()", 4000);
 				
 				window.addEventListener( 'resize', onWindowResize, false );				
 			}
@@ -472,102 +474,28 @@
 				}
 			}
 			
-			function updateCreeps()
-			{
-				for (var i in creeps)
-				{
-						
-					if (creeps[i].mesh.position.x != xPathArray[creepWaypoint[i]])
-					{
-						if (creeps[i].mesh.position.x > xPathArray[creepWaypoint[i]] && MOVE_E[i] == false)
-						{
-							creeps[i].mesh.position.x -= 1.7;
-							MOVE_W[i] = true;
-						}
-						else if (creeps[i].mesh.position.x < xPathArray[creepWaypoint[i]] && MOVE_W[i] == false)
-						{
-							creeps[i].mesh.position.x += 1.7;
-							MOVE_E[i] = true;
-						}
-						else
-						{
-							creeps[i].mesh.position.x = xPathArray[creepWaypoint[i]];
-							
-							if (creeps[i].mesh.position.x == 3 && creeps[i].mesh.position.y == 1)
-							{
-								creepWaypoint[i] = xPathArray.length - 2;
-								creeps[i].mesh.position.x = xPathArray[xPathArray.length - 1];
-								creeps[i].mesh.position.y = yPathArray[xPathArray.length - 1];
-								MOVE_E[i] = false;
-								MOVE_W[i] = false;
-							}
-							else
-							{
-								creepWaypoint[i]--;
-								MOVE_E[i] = false;
-								MOVE_W[i] = false;
-							}
-						}
-					}
-					
-					if (creeps[i].mesh.position.y != yPathArray[creepWaypoint[i]])
-					{
-						if (creeps[i].mesh.position.y > yPathArray[creepWaypoint[i]] && MOVE_N[i] == false)
-						{
-							creeps[i].mesh.position.y -= 1.7;
-							MOVE_S[i] = true;
-						}					
-						else if (creeps[i].mesh.position.y < yPathArray[creepWaypoint[i]] && MOVE_S[i] == false)
-						{
-							creeps[i].mesh.position.y += 1.7;
-							MOVE_N[i] = true;
-						}	
-						else
-						{
-							creeps[i].mesh.position.y = yPathArray[creepWaypoint[i]];
-							
-							if (creeps[i].mesh.position.x == 1 && creeps[i].mesh.position.y == 1)
-							{
-								
-								creepWaypoint[i] = xPathArray.length - 2;
-								creeps[i].mesh.position.x = xPathArray[xPathArray.length - 1];
-								creeps[i].mesh.position.y = yPathArray[xPathArray.length - 1];
-								MOVE_N[i] = false;
-								MOVE_S[i] = false;
-							}
-							else
-							{
-								creepWaypoint[i]--;
-								MOVE_N[i] = false;
-								MOVE_S[i] = false;
-							}
-						}
-					}
-					creeps[i].health -= .5;
-					if (creeps[i].health <= 0)
-					{
-						creeps[i].isdead();
-						creeps.splice(i, 1);
-					}
-					info.innerHTML = 'Health: ' + creeps[i].health;
-				}
-			}
-			
 			function animate() {
 				
 				requestAnimationFrame( animate );
 				
 				render();
-				stats.update();
 				
 			}
 
 			function render() {
 			
+				stats.update();
 				controls.update();
+				var now = new Date().getTime();
 				
-				//updateCreeps();
-				Creep.update();
+				dt = (now - lastUpdate) / 1000;		//Limits game speed
+				if (dt > speed)
+				{
+				
+					Creep.update();
+					lastUpdate = now;
+					
+				}
 				
 				renderer.clear();
 				renderer.render( scene, camera );
