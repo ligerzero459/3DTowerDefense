@@ -6,12 +6,12 @@ Creep.initialize = function () {
 	this.creeps = [];
 	this.creepWaypoint = [];
 	this.totalCreeps = 0;
-	this.level = {["color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 2000]	};
+	this.level = {"color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 2000};
 	
 }
 
 Creep.create = function (color, health) {
-	this.material = new THREE.MeshLambertMaterial ( { color: 0x00FFFF } );
+	this.material = new THREE.MeshLambertMaterial ( { color: this.level[0].color } );
 	this.geometry = new THREE.SphereGeometry( 100, 20, 20 );
 	this.geometry.computeTangents();
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
