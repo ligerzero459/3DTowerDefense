@@ -7,7 +7,7 @@ Creep.initialize = function () {
 	this.creepWaypoint = [];
 	this.totalCreeps = 0;
 	this.currentWave = 0;
-	this.wave = [{"color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 4000, "nextwave": 10000}, {"color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 2000, "nextwave": 10000}];
+	this.wave = [{"color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 8000, "nextwave": 10000}, {"color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 2000, "nextwave": 10000}];
 	
 }
 
