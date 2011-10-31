@@ -6,7 +6,7 @@ Creep.initialize = function () {
 	this.creeps = [];
 	this.creepWaypoint = [];
 	this.totalCreeps = 0;
-	this.level = {"color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 2000};
+	this.level = {{"color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 2000}};
 	
 }
 
