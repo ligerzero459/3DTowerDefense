@@ -6,10 +6,11 @@ Creep.initialize = function () {
 	this.creeps = [];
 	this.creepWaypoint = [];
 	this.totalCreeps = 0;
+	this.level = {["color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 2000]	};
 	
 }
 
-Creep.create = function () {
+Creep.create = function (color, health) {
 	this.material = new THREE.MeshLambertMaterial ( { color: 0x00FFFF } );
 	this.geometry = new THREE.SphereGeometry( 100, 20, 20 );
 	this.geometry.computeTangents();
@@ -101,7 +102,7 @@ Creep.update = function() {
 			}
 			this.creeps[i].health -= .2;
 		
-			info.innerHTML = 'Health: ' + this.creeps[i].health;
+			info.innerHTML = 'Health: ' + this.creeps[0].health;
 			if (this.creeps[i].health <= 0)
 			{
 				Creep.isDead(i);
