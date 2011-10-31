@@ -12,7 +12,7 @@ Creep.initialize = function () {
 }
 
 Creep.runLevel = function() {
-	if (this.currentWave > ( this.wave.length - 1 )) {
+	if (this.currentWave < ( this.wave.length - 1 )) {
 		if (this.wave[this.currentWave].amount > 0)
 		{
 			Creep.create(this.wave[this.currentWave].color, this.wave[this.currentWave].health);
