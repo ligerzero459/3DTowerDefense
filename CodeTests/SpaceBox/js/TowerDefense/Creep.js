@@ -6,7 +6,7 @@ Creep.initialize = function () {
 	this.creeps = [];
 	this.creepWaypoint = [];
 	this.totalCreeps = 0;
-	this.level = {{"color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 2000}};
+	this.level = [{"color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 2000}];
 	
 }
 
@@ -16,7 +16,7 @@ Creep.create = function (color, health) {
 	this.geometry.computeTangents();
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
 	this.mesh.position.set( this.x, this.y, 0 );
-	this.mesh.health = 100;
+	this.mesh.health = this.level[0].health;
 	this.MOVE_N = [false, false, false, false];
 	this.MOVE_S = [false, false, false, false];
 	this.MOVE_E = [false, false, false, false];
