@@ -22,14 +22,14 @@ Creep.create = function () {
 	this.MOVE_W = [false, false, false, false];
 	this.creeps.push ( this.mesh );
 	this.creepWaypoint.push ( xLength - 1 );
-	//this.totalCreeps++;
+	this.totalCreeps++;
 	
 	scene.add( this.mesh );
 }
 
 Creep.update = function() {
-	//if (this.totalCreeps > 0)
-	//{
+	if (this.totalCreeps > 0)
+	{
 		for (var i in this.creeps)
 		{
 				
@@ -107,11 +107,11 @@ Creep.update = function() {
 		{
 			Creep.isDead(i);
 		}
-	//}
+	}
 }
 
 Creep.isDead = function (i) {
-	//this.totalCreeps -= 1;
+	this.totalCreeps -= 1;
 	scene.remove(this.creeps[i]);
 	this.creeps.splice(i, 1);
 }
