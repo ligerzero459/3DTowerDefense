@@ -101,6 +101,7 @@ Creep.update = function() {
 			}
 		}
 		this.creeps[i].health -= .5;
+		
 		info.innerHTML = 'Health: ' + this.creeps[i].health;
 		if (this.creeps[i].health <= 0)
 		{
