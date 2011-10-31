@@ -105,12 +105,12 @@ Creep.update = function() {
 		info.innerHTML = 'Health: ' + this.creeps[i].health;
 		if (this.creeps[i].health <= 0)
 		{
-			Creep.isdead(i);
+			Creep.isDead(i);
 		}
 	}
 }
 
-Creep.isdead = function (i) {
+Creep.isDead = function (i) {
 	this.totalCreeps -= 1;
 	scene.remove(this.creeps[i]);
 	this.creeps.splice(i, 1);
