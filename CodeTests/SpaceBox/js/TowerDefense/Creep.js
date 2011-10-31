@@ -99,7 +99,7 @@ Creep.update = function() {
 					}
 				}
 			}
-			this.creeps[i].health -= .5;
+			this.creeps[i].health -= .2;
 		
 			info.innerHTML = 'Health: ' + this.creeps[i].health;
 			if (this.creeps[i].health <= 0)
