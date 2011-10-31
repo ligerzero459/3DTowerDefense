@@ -20,7 +20,7 @@ Creep.runLevel = function() {
 			setTimeout("Creep.runLevel()", this.wave[this.currentWave].spawnwait);
 		}
 		else {
-			currentWave += 1;
+			this.currentWave += 1;
 			setTimeout("Creep.runLevel()", this.wave[this.currentWave].nextwave);
 		}
 	}
