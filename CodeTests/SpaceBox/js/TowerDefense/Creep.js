@@ -6,17 +6,33 @@ Creep.initialize = function () {
 	this.creeps = [];
 	this.creepWaypoint = [];
 	this.totalCreeps = 0;
-	this.level = [{"color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 2000}];
+	this.currentWave = 0;
+	this.wave = [{"color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 4000, "nextwave": 10000}, {"color": 0x00FFFF, "health": 100, "amount": 5, "spawnwait": 2000, "nextwave": 10000}];
 	
 }
 
+Creep.runLevel = function() {
+	if (this.currentWave == 0) {
+		if (this.wave[this.currentWave].amount > 0)
+		{
+			Creep.create(this.wave[this.currentWave].color, this.wave[this.currentWave].health);
+			this.wave[this.currentWave].amount -= 1;
+			setTimeout("Creep.runLevel()", this.wave[this.currentWave].spawnwait);
+		}
+		else {
+			currentWave += 1;
+			setTimeout("Creep.runLevel()", this.wave[this.currentWave].nextwave);
+		}
+	}
+}
+
 Creep.create = function (color, health) {
-	this.material = new THREE.MeshLambertMaterial ( { color: this.level[0].color } );
+	this.material = new THREE.MeshLambertMaterial ( { color: color } );
 	this.geometry = new THREE.SphereGeometry( 100, 20, 20 );
 	this.geometry.computeTangents();
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
 	this.mesh.position.set( this.x, this.y, 0 );
-	this.mesh.health = this.level[0].health;
+	this.mesh.health = health;
 	this.MOVE_N = [false, false, false, false];
 	this.MOVE_S = [false, false, false, false];
 	this.MOVE_E = [false, false, false, false];
