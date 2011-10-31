@@ -118,7 +118,7 @@ Creep.update = function() {
 			}
 			this.creeps[i].health -= .2;
 		
-			info.innerHTML = 'Health: ' + this.creeps[0].health;
+			info.innerHTML = 'Health: ' + this.creeps[0].health + ' Total Creeps Remaining: ' + this.wave[this.currentWave].amount;
 			if (this.creeps[i].health <= 0)
 			{
 				Creep.isDead(i);
