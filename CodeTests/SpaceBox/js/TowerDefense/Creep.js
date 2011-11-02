@@ -59,6 +59,16 @@ Creep.update = function() {
 				this.creeps[i].position.x += this.creeps[i].speed;
 				this.creeps[i].MOVE_E = true;
 			}
+			else
+			{
+				this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
+				this.creeps[i].position.y = Map.yPathArray[this.creepWaypoint[i]];
+				this.creepWaypoint[i]--;
+				this.creeps[i].MOVE_N = false;
+				this.creeps[i].MOVE_S = false;
+				this.creeps[i].MOVE_E = false;
+				this.creeps[i].MOVE_W = false;
+			}
 		}
 		else if (this.creeps[i].position.y != Map.yPathArray[this.creepWaypoint[i]])
 		{
@@ -72,6 +82,16 @@ Creep.update = function() {
 				this.creeps[i].position.y += this.creeps[i].speed;
 				this.creeps[i].MOVE_N = true;
 			}
+			else
+			{
+				this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
+				this.creeps[i].position.y = Map.yPathArray[this.creepWaypoint[i]];
+				this.creepWaypoint[i]--;
+				this.creeps[i].MOVE_N = false;
+				this.creeps[i].MOVE_S = false;
+				this.creeps[i].MOVE_E = false;
+				this.creeps[i].MOVE_W = false;
+			}
 		}
 		else
 		{
@@ -82,21 +102,6 @@ Creep.update = function() {
 			this.creeps[i].MOVE_S = false;
 			this.creeps[i].MOVE_E = false;
 			this.creeps[i].MOVE_W = false;
-			/*
-			if (this.creeps[i].position.x == 3 && this.creeps[i].position.y == 1)
-			{
-				this.creepWaypoint[i] = this.pathLength - 1;
-				this.creeps[i].position.x = Map.xPathArray[this.pathLength];
-				this.creeps[i].position.y = Map.yPathArray[this.pathLength];
-				this.creeps[i].MOVE_E = false;
-				this.creeps[i].MOVE_W = false;
-			}
-			else
-			{
-				this.creepWaypoint[i]--;
-				this.creeps[i].MOVE_E = false;
-				this.creeps[i].MOVE_W = false;
-			}*/
 		}
 	
 		info.innerHTML = 'Health: ' + this.creeps[0].health + ' Total Creeps Remaining: ' + this.wave[this.currentWave].amount;
