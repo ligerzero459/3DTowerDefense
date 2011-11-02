@@ -1,9 +1,9 @@
 var Creep = Creep || {};
 
-Creep.initialize = function ( xPathArray, yPathArray, xLength ) {
-	this.pathLength = xLength;
-	this.x = xPathArray[this.pathLength];
-	this.y = yPathArray[this.pathLength];
+Creep.initialize = function () {
+	this.pathLength = Map.xPathArray.length - 1
+	this.x = Map.xPathArray[this.pathLength];
+	this.y = Map.yPathArray[this.pathLength];
 	this.creeps = [];
 	this.creepWaypoint = [];
 	this.totalCreeps = 0;
@@ -46,31 +46,31 @@ Creep.create = function ( color, health, speed ) {
 	scene.add( this.mesh );
 }
 
-Creep.update = function( xPathArray, yPathArray ) {
+Creep.update = function() {
 	for (var i in this.creeps)
 	{
 			
-		if (this.creeps[i].position.x != xPathArray[this.creepWaypoint[i]])
+		if (this.creeps[i].position.x != Map.xPathArray[this.creepWaypoint[i]])
 		{
-			if (this.creeps[i].position.x > xPathArray[this.creepWaypoint[i]] && this.MOVE_E[i] == false)
+			if (this.creeps[i].position.x > Map.xPathArray[this.creepWaypoint[i]] && this.MOVE_E[i] == false)
 			{
 				this.creeps[i].position.x -= this.creeps[i].speed;
 				this.MOVE_W[i] = true;
 			}
-			else if (this.creeps[i].position.x < xPathArray[this.creepWaypoint[i]] && this.MOVE_W[i] == false)
+			else if (this.creeps[i].position.x < Map.xPathArray[this.creepWaypoint[i]] && this.MOVE_W[i] == false)
 			{
 				this.creeps[i].position.x += this.creeps[i].speed;
 				this.MOVE_E[i] = true;
 			}
 			else
 			{
-				this.creeps[i].position.x = xPathArray[this.creepWaypoint[i]];
+				this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
 				
 				if (this.creeps[i].position.x == 3 && this.creeps[i].position.y == 1)
 				{
-					this.creepWaypoint[i] = xPathArray.length - 2;
-					this.creeps[i].position.x = xPathArray[xPathArray.length - 1];
-					this.creeps[i].position.y = yPathArray[xPathArray.length - 1];
+					this.creepWaypoint[i] = this.pathLength - 1;
+					this.creeps[i].position.x = Map.xPathArray[this.pathLength];
+					this.creeps[i].position.y = Map.yPathArray[this.pathLength];
 					this.MOVE_E[i] = false;
 					this.MOVE_W[i] = false;
 				}
@@ -83,28 +83,28 @@ Creep.update = function( xPathArray, yPathArray ) {
 			}
 		}
 		
-		if (this.creeps[i].position.y != yPathArray[this.creepWaypoint[i]])
+		if (this.creeps[i].position.y != Map.yPathArray[this.creepWaypoint[i]])
 		{
-			if (this.creeps[i].position.y > yPathArray[this.creepWaypoint[i]] && this.MOVE_N[i] == false)
+			if (this.creeps[i].position.y > Map.yPathArray[this.creepWaypoint[i]] && this.MOVE_N[i] == false)
 			{
 				this.creeps[i].position.y -= this.creeps[i].speed;
 				this.MOVE_S[i] = true;
 			}					
-			else if (this.creeps[i].position.y < yPathArray[this.creepWaypoint[i]] && this.MOVE_S[i] == false)
+			else if (this.creeps[i].position.y < Map.yPathArray[this.creepWaypoint[i]] && this.MOVE_S[i] == false)
 			{
 				this.creeps[i].position.y += this.creeps[i].speed;
 				this.MOVE_N[i] = true;
 			}	
 			else
 			{
-				this.creeps[i].position.y = yPathArray[this.creepWaypoint[i]];
+				this.creeps[i].position.y = Map.yPathArray[this.creepWaypoint[i]];
 				
 				if (this.creeps[i].position.x == 1 && this.creeps[i].position.y == 1)
 				{
 					
-					this.creepWaypoint[i] = xPathArray.length - 2;
-					this.creeps[i].position.x = xPathArray[xPathArray.length - 1];
-					this.creeps[i].position.y = yPathArray[xPathArray.length - 1];
+					this.creepWaypoint[i] = this.pathLength - 1;
+					this.creeps[i].position.x = Map.xPathArray[this.pathLength];
+					this.creeps[i].position.y = Map.yPathArray[this.pathLength];
 					this.MOVE_N[i] = false;
 					this.MOVE_S[i] = false;
 				}
