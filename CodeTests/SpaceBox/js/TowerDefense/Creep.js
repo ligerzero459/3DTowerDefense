@@ -31,7 +31,7 @@ Creep.create = function ( color, health, speed ) {
 	this.geometry = new THREE.SphereGeometry( 100, 20, 20 );
 	this.geometry.computeTangents();
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
-	this.mesh.position.set( this.x, this.y, 52 );
+	this.mesh.position.set( this.x, this.y, 100 );
 	this.mesh.health = health;
 	this.mesh.speed = speed;
 	this.mesh.MOVE_N = false;
