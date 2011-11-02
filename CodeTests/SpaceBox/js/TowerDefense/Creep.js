@@ -1,8 +1,9 @@
 var Creep = Creep || {};
 
-Creep.initialize = function (xPathArray, yPathArray, xLength, yLength) {
-	this.x = xPathArray[xLength];
-	this.y = yPathArray[yLength];
+Creep.initialize = function ( xPathArray, yPathArray, xLength ) {
+	this.pathLength = xLength;
+	this.x = xPathArray[this.pathLength];
+	this.y = yPathArray[this.pathLength];
 	this.creeps = [];
 	this.creepWaypoint = [];
 	this.totalCreeps = 0;
@@ -26,7 +27,7 @@ Creep.runLevel = function() {
 	}
 }
 
-Creep.create = function (color, health, speed) {
+Creep.create = function ( color, health, speed ) {
 	this.material = new THREE.MeshLambertMaterial ( { color: color } );
 	this.geometry = new THREE.SphereGeometry( 100, 20, 20 );
 	this.geometry.computeTangents();
@@ -39,13 +40,13 @@ Creep.create = function (color, health, speed) {
 	this.MOVE_E = [false, false, false, false];
 	this.MOVE_W = [false, false, false, false];
 	this.creeps.push ( this.mesh );
-	this.creepWaypoint.push ( xLength - 1 );
+	this.creepWaypoint.push ( this.pathLength - 1 );
 	this.totalCreeps++;
 	
 	scene.add( this.mesh );
 }
 
-Creep.update = function(xPathArray, yPathArray) {
+Creep.update = function( xPathArray, yPathArray ) {
 	for (var i in this.creeps)
 	{
 			
@@ -124,7 +125,7 @@ Creep.update = function(xPathArray, yPathArray) {
 	}
 }
 
-Creep.isDead = function (i) {
+Creep.isDead = function ( i ) {
 	scene.remove(this.creeps[i]);
 	this.creeps.splice(i, 1);
 }
