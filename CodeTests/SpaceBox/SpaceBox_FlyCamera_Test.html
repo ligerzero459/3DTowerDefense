@@ -88,7 +88,6 @@
 				addControls();
 				Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
 				Creep.initialize();
-				Tower.initialize();
 				
 				// Setup Group
 				group = new THREE.Object3D();
@@ -144,7 +143,6 @@
 				
 				// New Path Generation Code - Beta Test
 				Map.generate();
-				Tower.create("Tower", 10, 10);
 				
 				renderer = new THREE.WebGLRenderer();
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
@@ -160,7 +158,7 @@
 				container.appendChild( stats.domElement );
 				
 				// Delay to prevent game start before rendering is complete
-				setTimeout("Creep.runLevel()", 4000);
+				setTimeout("Creep.runLevel()", 6000);
 				
 				window.addEventListener( 'resize', onWindowResize, false );				
 			}

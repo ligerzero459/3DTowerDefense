@@ -6,6 +6,6 @@ Tower.initialize = function () {
 	this.towerIndex = {"Tower": 0, "Sniper": 1};
 }
 
-Tower.create = function ( type, x, y ) {
-	var index = this.towerIndex[type];
+Tower.create = function ( x, y ) {
+	
 }
