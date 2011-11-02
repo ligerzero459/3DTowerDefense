@@ -35,10 +35,10 @@ Creep.create = function ( color, health, speed ) {
 	this.mesh.position.set( this.x, this.y, 0 );
 	this.mesh.health = health;
 	this.mesh.speed = speed;
-	this.MOVE_N = [false, false, false, false];
-	this.MOVE_S = [false, false, false, false];
-	this.MOVE_E = [false, false, false, false];
-	this.MOVE_W = [false, false, false, false];
+	this.mesh.MOVE_N = [false, false, false, false];
+	this.mesh.MOVE_S = [false, false, false, false];
+	this.mesh.MOVE_E = [false, false, false, false];
+	this.mesh.MOVE_W = [false, false, false, false];
 	this.creeps.push ( this.mesh );
 	this.creepWaypoint.push ( this.pathLength - 1 );
 	this.totalCreeps++;
@@ -49,71 +49,70 @@ Creep.create = function ( color, health, speed ) {
 Creep.update = function() {
 	for (var i in this.creeps)
 	{
-			
 		if (this.creeps[i].position.x != Map.xPathArray[this.creepWaypoint[i]])
 		{
-			if (this.creeps[i].position.x > Map.xPathArray[this.creepWaypoint[i]] && this.MOVE_E[i] == false)
+			if (this.creeps[i].position.x > Map.xPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_E[i] == false)
 			{
 				this.creeps[i].position.x -= this.creeps[i].speed;
-				this.MOVE_W[i] = true;
+				this.creeps[i].MOVE_W[i] = true;
 			}
-			else if (this.creeps[i].position.x < Map.xPathArray[this.creepWaypoint[i]] && this.MOVE_W[i] == false)
+			else if (this.creeps[i].position.x < Map.xPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_W[i] == false)
 			{
 				this.creeps[i].position.x += this.creeps[i].speed;
-				this.MOVE_E[i] = true;
+				this.creeps[i].MOVE_E[i] = true;
 			}
 			else
 			{
 				this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
-				
+				/*
 				if (this.creeps[i].position.x == 3 && this.creeps[i].position.y == 1)
 				{
 					this.creepWaypoint[i] = this.pathLength - 1;
 					this.creeps[i].position.x = Map.xPathArray[this.pathLength];
 					this.creeps[i].position.y = Map.yPathArray[this.pathLength];
-					this.MOVE_E[i] = false;
-					this.MOVE_W[i] = false;
+					this.creeps[i].MOVE_E[i] = false;
+					this.creeps[i].MOVE_W[i] = false;
 				}
 				else
 				{
 					this.creepWaypoint[i]--;
-					this.MOVE_E[i] = false;
-					this.MOVE_W[i] = false;
-				}
+					this.creeps[i].MOVE_E[i] = false;
+					this.creeps[i].MOVE_W[i] = false;
+				}*/
 			}
 		}
 		
 		if (this.creeps[i].position.y != Map.yPathArray[this.creepWaypoint[i]])
 		{
-			if (this.creeps[i].position.y > Map.yPathArray[this.creepWaypoint[i]] && this.MOVE_N[i] == false)
+			if (this.creeps[i].position.y > Map.yPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_N[i] == false)
 			{
 				this.creeps[i].position.y -= this.creeps[i].speed;
-				this.MOVE_S[i] = true;
+				this.creeps[i].MOVE_S[i] = true;
 			}					
-			else if (this.creeps[i].position.y < Map.yPathArray[this.creepWaypoint[i]] && this.MOVE_S[i] == false)
+			else if (this.creeps[i].position.y < Map.yPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_S[i] == false)
 			{
 				this.creeps[i].position.y += this.creeps[i].speed;
-				this.MOVE_N[i] = true;
+				this.creeps[i].MOVE_N[i] = true;
 			}	
 			else
 			{
 				this.creeps[i].position.y = Map.yPathArray[this.creepWaypoint[i]];
-				
+				/*
 				if (this.creeps[i].position.x == 1 && this.creeps[i].position.y == 1)
 				{
 					
 					this.creepWaypoint[i] = this.pathLength - 1;
 					this.creeps[i].position.x = Map.xPathArray[this.pathLength];
 					this.creeps[i].position.y = Map.yPathArray[this.pathLength];
-					this.MOVE_N[i] = false;
-					this.MOVE_S[i] = false;
+					this.creeps[i].MOVE_N[i] = false;
+					this.creeps[i].MOVE_S[i] = false;
 				}
 				else
 				{
 					this.creepWaypoint[i]--;
-					this.MOVE_N[i] = false;
-					this.MOVE_S[i] = false;
-				}
+					this.creeps[i].MOVE_N[i] = false;
+					this.creeps[i].MOVE_S[i] = false;
+				}*/
 			}
 		}
 	
