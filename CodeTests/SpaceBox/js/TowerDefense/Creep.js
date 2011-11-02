@@ -6,7 +6,6 @@ Creep.initialize = function () {
 	this.y = Map.yPathArray[this.pathLength];
 	this.creeps = [];
 	this.creepWaypoint = [];
-	this.totalCreeps = 0;
 	this.currentWave = 0;
 	this.wave = [{"color": 0x00FFFF, "health": 100, "amount": 15, "speed": 3.7, "spawnwait": 8000, "nextwave": 15000}, {"color": 0xFF0000, "health": 100, "amount": 20, "speed": 5, "spawnwait": 10000, "nextwave": 10000}];
 	
@@ -32,7 +31,7 @@ Creep.create = function ( color, health, speed ) {
 	this.geometry = new THREE.SphereGeometry( 100, 20, 20 );
 	this.geometry.computeTangents();
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
-	this.mesh.position.set( this.x, this.y, 0 );
+	this.mesh.position.set( this.x, this.y, 52 );
 	this.mesh.health = health;
 	this.mesh.speed = speed;
 	this.mesh.MOVE_N = false;
@@ -41,7 +40,6 @@ Creep.create = function ( color, health, speed ) {
 	this.mesh.MOVE_W = false;
 	this.creeps.push ( this.mesh );
 	this.creepWaypoint.push ( this.pathLength - 1 );
-	this.totalCreeps++;
 	
 	scene.add( this.mesh );
 }
