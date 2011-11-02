@@ -80,6 +80,8 @@ Creep.update = function() {
 			this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
 			this.creeps[i].position.y = Map.yPathArray[this.creepWaypoint[i]];
 			this.creepWaypoint[i]--;
+			this.creeps[i].MOVE_N = false;
+			this.creeps[i].MOVE_S = false;
 			this.creeps[i].MOVE_E = false;
 			this.creeps[i].MOVE_W = false;
 			/*
