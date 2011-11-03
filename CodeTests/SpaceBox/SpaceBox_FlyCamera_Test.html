@@ -87,7 +87,6 @@
 				addCamera();
 				addControls();
 				Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
-				Creep.initialize();
 				
 				// Setup Group
 				group = new THREE.Object3D();
@@ -130,17 +129,6 @@
 				planeMesh.scale.set( 1, 1, 1 );
 				scene.add( planeMesh );
 				
-				/*
-				// Path Algorithm
-				x = 100;
-				y = 100;
-				
-				generatePath();	
-				
-				xLength = xPathArray.length - 1;
-				yLength = yPathArray.length - 1;
-				*/
-				
 				// New Path Generation Code - Beta Test
 				Map.generate();
 				
@@ -158,6 +146,7 @@
 				container.appendChild( stats.domElement );
 				
 				// Delay to prevent game start before rendering is complete
+				Creep.initialize();
 				setTimeout("Creep.runLevel()", 6000);
 				
 				window.addEventListener( 'resize', onWindowResize, false );				
