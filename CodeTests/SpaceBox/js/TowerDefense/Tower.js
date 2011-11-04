@@ -7,12 +7,11 @@ Tower.initialize = function () {
 	this.towerFired = [];
 }
 
-Tower.create = function() {
+Tower.create = function( x, y ) {
 	this.material = new THREE.MeshLambertMaterial ( { color: 0xFFFF00 } );
 	this.geometry = new THREE.CubeGeometry( 80, 80, 80, 10, 10, 10 );
-	this.geometry.computeTangents();
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
-	this.mesh.position.set( 4300, 1500, 100 );
+	this.mesh.position.set( x, y, 100 );
 	this.mesh.charge = 100;
 	this.mesh.firespeed = 10;
 	this.mesh.damage = 5;
