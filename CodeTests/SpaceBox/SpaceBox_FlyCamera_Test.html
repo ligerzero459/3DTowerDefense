@@ -146,8 +146,8 @@
 				container.appendChild( stats.domElement );
 				
 				// Delay to prevent game start before rendering is complete
-				//Creep.initialize();
-				//setTimeout("Creep.runLevel()", 6000);
+				Creep.initialize();
+				setTimeout("Creep.runLevel()", 6000);
 				
 				Tower.initialize();
 				Tower.create( -1500,  4300 );
