@@ -18,6 +18,7 @@ Tower.create = function( x, y, type ) {
 	this.mesh.damage = this.towerType[type].damage;
 	this.mesh.range = this.towerType[type].range;
 	this.mesh.charging = false;
+	this.mesh.originalMaterial = new THREE.MeshLambertMaterial ( { color: this.towerType[type].color } );
 	this.towers.push( this.mesh );
 	this.towerFired.push ( false );
 	
@@ -39,6 +40,8 @@ Tower.update = function() {
 				var firingTower = this.towers[i];
 				Tower.hit(firingTower, target);
 				this.towers[i].charging = true;
+				this.towers[i].materials = new THREE.MeshLambertMaterial ( { color: 0xFF0000 } );
+				setTimeout("this.towers[i].materials = this.towers[i].originalMaterial", 500);
 			}
 		}
 		else
