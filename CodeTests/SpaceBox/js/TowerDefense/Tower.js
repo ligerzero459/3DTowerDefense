@@ -68,7 +68,7 @@ Tower.creepsInRange = function(i) {
 		}
 	}
 	
-	if (creepCounter < 0) {
+	if (creepCounter > 0) {
 		return inRange;
 	}
 	else {
