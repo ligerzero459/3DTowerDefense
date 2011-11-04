@@ -87,7 +87,6 @@
 				addCamera();
 				addControls();
 				Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
-				Tower.initialize();
 				
 				// Setup Group
 				group = new THREE.Object3D();
@@ -149,6 +148,9 @@
 				// Delay to prevent game start before rendering is complete
 				Creep.initialize();
 				setTimeout("Creep.runLevel()", 6000);
+				
+				Tower.initialize();
+				Tower.create( 4300, 1500 );
 				
 				window.addEventListener( 'resize', onWindowResize, false );				
 			}
