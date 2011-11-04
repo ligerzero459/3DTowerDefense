@@ -33,7 +33,7 @@ Tower.update = function() {
 			var targets = Tower.creepsInRange(i);
 			
 			// If there are targets in range, select the one furthest along the track
-			if (targets != null)
+			if (targets != 0)
 			{
 				var target = targets[0];
 				var firingTower = this.towers[i];
@@ -54,9 +54,9 @@ Tower.update = function() {
 
 Tower.creepsInRange = function(i) {
 	var inRange = [];
+	var creepCounter = 0;
 	
-	for (var j in Creep.creeps)
-	{
+	for (var j in Creep.creeps) {
 		var xDistance = Creep.creeps[j].position.x - this.towers[i].position.x;
 		var yDistance = Creep.creeps[j].position.y - this.towers[i].position.y;
 		var Distance = Math.sqrt(Math.pow( xDistance, 2 ) + Math.pow( yDistance, 2 ));
@@ -64,13 +64,19 @@ Tower.creepsInRange = function(i) {
 		if ( Distance <= ( 200 * this.towers[i].range ) )
 		{
 			inRange.push( Creep.creeps[j] );
+			creepCounter++;
 		}
 	}
 	
-	return inRange;
+	if (creepCounter < 0) {
+		return inRange;
+	}
+	else {
+		return 0;
+	}
 }
 
 Tower.hit = function(firingTower, target) {
 	target.health -= firingTower.damage;
-	firingTower.charge -= firingTower.shotPower;
+	firingTower.charge -= firingTower.shotPower;	
 }
