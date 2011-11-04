@@ -145,15 +145,16 @@
 				stats.domElement.style.zIndex = 100;
 				container.appendChild( stats.domElement );
 				
-				// Delay to prevent game start before rendering is complete
-				Creep.initialize();
-				setTimeout("Creep.runLevel()", 10000);
-				
 				Tower.initialize();
 				Tower.create( -1500, 4300, 0 );
 				Tower.create( -1100, 2300, 1 );
 				
-				camera.lookAt(Tower.towers[0]);
+				// Delay to prevent game start before rendering is complete
+				Creep.initialize();
+				setTimeout("Creep.runLevel()", 10000);
+				
+				target.set( -1500, 4300, 0 );
+				camera.lookAt( target );
 				
 				window.addEventListener( 'resize', onWindowResize, false );				
 			}
