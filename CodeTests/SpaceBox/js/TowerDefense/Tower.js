@@ -40,8 +40,6 @@ Tower.update = function() {
 				var firingTower = this.towers[i];
 				Tower.hit(firingTower, target);
 				this.towers[i].charging = true;
-				this.towers[i].materials = new THREE.MeshLambertMaterial ( { color: 0xFF0000 } );
-				//setTimeout("this.towers[i].materials = this.towers[i].originalMaterial", 500);
 			}
 		}
 		else
