@@ -4,7 +4,6 @@ Tower.initialize = function () {
 	this.towers = [];
 	this.towerType = [{"type": "Tower", "color": 0xFFFF00, "geometry": new THREE.CubeGeometry(80, 80, 80, 10, 10, 10), "damage": 5, "fireSpeed": 5, "range": 3, "shotPower": 100}, {"type": "Sniper", "color": 0x00CC00, "geometry": new THREE.CubeGeometry(80, 80, 80, 10, 10, 10), "damage": 15, "fireSpeed": 2, "range": 10, "shotPower": 100}];
 	this.towerIndex = {"Tower": 0, "Sniper": 1};
-	this.towerFired = [];
 }
 
 Tower.create = function( x, y, type ) {
@@ -20,7 +19,6 @@ Tower.create = function( x, y, type ) {
 	this.mesh.charging = false;
 	this.mesh.originalMaterial = new THREE.MeshLambertMaterial ( { color: this.towerType[type].color } );
 	this.towers.push( this.mesh );
-	this.towerFired.push ( false );
 	
 	scene.add( this.mesh );
 }
