@@ -23,7 +23,9 @@ Tower.create = function( x, y ) {
 }
 
 Tower.update = function() {
-	Tower.creepsInRange();
+	var targets = Tower.creepsInRange();
+	
+	return 0;
 }
 
 Tower.creepsInRange = function() {
