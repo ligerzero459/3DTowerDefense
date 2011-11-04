@@ -28,23 +28,27 @@
 	</head>
 	<body>
 	
-	<script type="text/javascript" src="../../../build/Three.js"></script>
+	<script src="Three.js"></script>
     <!--Make sure path in previous script points to the correct build directory-->
     <!--You can copy the build directory into your project path or point it to-->
     <!--the three.js directory-->
-    <script type="text/javascript" src="../../../examples/js/ShaderExtras.js"></script>
+    <script src="js/ShaderExtras.js"></script>
+    <script src="js/Detector.js"></script>
+    <script src="js/RequestAnimationFrame.js"></script>
+    <script src="js/Stats.js"></script>
+	
+	<!--Tower Defense classes-->
+	<script src="js/TowerDefense/Creep.js"></script>
+	<script src="js/TowerDefense/Map.js"></script>
+	<script src="js/TowerDefense/Tower.js"></script>
 
-    <script type="text/javascript" src="../../../examples/js/Detector.js"></script>
-    <script type="text/javascript" src="../../../examples/js/RequestAnimationFrame.js"></script>
-    <script type="text/javascript" src="../../../examples/js/Stats.js"></script>
-	<script type="text/javascript" src="js/TowerDefense/Creep.js"></script>
-
-	<script type="text/javascript">
+	<script>
             
-			var camera, scene, renderer, group;
-            var container, stats;
-			var meshPlanet, planeMesh, mesh, geometry;
-			var model;
+			var camera, renderer, group;
+            var container, stats, dt;
+			var meshPlanet, planeMesh, mesh, geometry, model;
+			var lastUpdate = new Date().getTime();
+			var speed = .01;		//Lower = faster
             
 			var	texture_placeholder;
 			
@@ -56,17 +60,12 @@
 				PLANE_S_H_W = 50;
 			
 			var target = new THREE.Vector3();
+			var scene = new THREE.Scene();
 			
 			var x = 0, y = 0, counter = 1;
-			var MOVE_N = [false, false, false, false], 
-				MOVE_S = [false, false, false, false], 
-				MOVE_E = [false, false, false, false], 
-				MOVE_W = [false, false, false, false];
 			
 			var xPathArray = new Array();
 			var yPathArray = new Array();
-			var creeps = new Array();
-			var creepWaypoint = new Array();
 
 			init();
 			animate();
@@ -76,11 +75,19 @@
 				container = document.createElement( 'div' );
                 document.body.appendChild( container );
 				
+				info = document.createElement( 'div' );
+				info.style.position = 'absolute';
+				info.style.top = '10px';
+				info.style.width = '100%';
+				info.style.textAlign = 'center';
+				info.style.backgroundColor = '#ffffff';
+				info.innerHTML = 'Tower Defense Test';
+				container.appendChild( info );
+				
+				// Initialization
 				addCamera();
 				addControls();
-				
-				// Setup Scene
-				scene = new THREE.Scene();
+				Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
 				
 				// Setup Group
 				group = new THREE.Object3D();
@@ -123,56 +130,8 @@
 				planeMesh.scale.set( 1, 1, 1 );
 				scene.add( planeMesh );
 				
-				// Path Algorithm
-				x = 100;
-				y = 100;
-				
-				generatePath();	
-				
-								xLength = xPathArray.length - 1;
-				yLength = yPathArray.length - 1;
-				
-				// Spawning 'creep's
-				/*
-				material = new THREE.MeshLambertMaterial ( { color: 0x00FFFF } );
-				geometry = new THREE.SphereGeometry( 100, 20, 20 );
-				geometry.computeTangents();
-				mesh = new THREE.Mesh ( geometry, material );
-				mesh.position.set( xPathArray[xLength], yPathArray[yLength], 0 );
-				creeps.push( mesh );
-				creepWaypoint.push( xLength-1 );
-				scene.add( mesh );
-				
-				material = new THREE.MeshLambertMaterial ( { color: 0xFF0000 } );
-				geometry = new THREE.SphereGeometry( 100, 20, 20 );
-				geometry.computeTangents();
-				mesh = new THREE.Mesh ( geometry, material );
-				mesh.position.set( xPathArray[xLength-4], yPathArray[yLength-4], 0  );
-				creeps.push( mesh );
-				creepWaypoint.push( xLength-5 );
-				scene.add( mesh );
-				
-				material = new THREE.MeshLambertMaterial ( { color: 0xAA00FF } );
-				geometry = new THREE.SphereGeometry( 100, 20, 20 );
-				geometry.computeTangents();
-				mesh = new THREE.Mesh ( geometry, material );
-				mesh.position.set( xPathArray[xLength-6], yPathArray[yLength-6], 0 );
-				creeps.push( mesh );
-				creepWaypoint.push( xLength-7 );
-				scene.add( mesh );
-				
-				material = new THREE.MeshLambertMaterial ( { color: 0x7FFF00 } );
-				geometry = new THREE.SphereGeometry( 100, 20, 20 );
-				geometry.computeTangents();
-				mesh = new THREE.Mesh ( geometry, material );
-				mesh.position.set( xPathArray[xLength-10], yPathArray[yLength-10], 0 );
-				creeps.push( mesh );
-				creepWaypoint.push( xLength-11 );
-				scene.add( mesh );*/
-				
-				//Creep "Class" Test
-				Creep.initialize();
-				
+				// New Path Generation Code - Beta Test
+				Map.generate();
 				
 				renderer = new THREE.WebGLRenderer();
 				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
@@ -187,10 +146,15 @@
 				stats.domElement.style.zIndex = 100;
 				container.appendChild( stats.domElement );
 				
-				window.addEventListener( 'resize', onWindowResize, false );
+				// Delay to prevent game start before rendering is complete
+				Creep.initialize();
+				setTimeout("Creep.runLevel()", 10000);
 				
-				animate();
+				Tower.initialize();
+				Tower.create( -1500, 4300, 0 );
+				Tower.create( -1100, 2300, 1 );
 				
+				window.addEventListener( 'resize', onWindowResize, false );				
 			}
 			
 			function loadTexture( path ) {
@@ -291,7 +255,7 @@
 				var material = new THREE.MeshLambertMaterial ( parameters );
 				
 				meshPlanet = new THREE.Mesh( geometry, material ) ;
-				meshPlanet.position.set ( 0, 0, 0 );
+				meshPlanet.position.set ( 0, 0, 100 );
 				scene.add( meshPlanet );
 				
 			}
@@ -320,248 +284,29 @@
 
 			}
 			
-			function generatePath()
-			{
-				for (var i = 1; i <= 20	; i ++)
-				{
-					x += 200;
-					
-					xPathArray.push(x);
-					yPathArray.push(y);
-					
-					material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
-					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
-					planeMesh = new THREE.Mesh ( geometry, material );
-					planeMesh.position.set( x, y, 0 );
-					planeMesh.scale.set( 1, 1, 1 );
-					scene.add( planeMesh );
-				}
-				
-				for (var i = 1; i <= 15; i++)
-				{
-					y += 200;
-					
-					xPathArray.push(x);
-					yPathArray.push(y);
-					
-					material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
-					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
-					planeMesh = new THREE.Mesh ( geometry, material );
-					planeMesh.position.set( x, y, 0 );
-					planeMesh.scale.set( 1, 1, 1 );
-					scene.add( planeMesh );
-				}
-				
-				for (var i = 1; i <= 5	; i ++)
-				{
-					x -= 200;
-					
-					xPathArray.push(x);
-					yPathArray.push(y);
-					
-					material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
-					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
-					planeMesh = new THREE.Mesh ( geometry, material );
-					planeMesh.position.set( x, y, 0 );
-					planeMesh.scale.set( 1, 1, 1 );
-					scene.add( planeMesh );
-				}
-				
-				for (var i = 1; i <= 30; i++)
-				{
-					y -= 200;
-					
-					xPathArray.push(x);
-					yPathArray.push(y);
-					
-					material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
-					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
-					planeMesh = new THREE.Mesh ( geometry, material );
-					planeMesh.position.set( x, y, 0 );
-					planeMesh.scale.set( 1, 1, 1 );
-					scene.add( planeMesh );
-				}
-				
-				for (var i = 1; i <= 25	; i ++)
-				{
-					x -= 200;
-					
-					xPathArray.push(x);
-					yPathArray.push(y);
-					
-					material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
-					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
-					planeMesh = new THREE.Mesh ( geometry, material );
-					planeMesh.position.set( x, y, 0 );
-					planeMesh.scale.set( 1, 1, 1 );
-					scene.add( planeMesh );
-				}
-				
-				for (var i = 1; i <= 25; i++)
-				{
-					y += 200;
-					
-					xPathArray.push(x);
-					yPathArray.push(y);
-					
-					material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
-					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
-					planeMesh = new THREE.Mesh ( geometry, material );
-					planeMesh.position.set( x, y, 0 );
-					planeMesh.scale.set( 1, 1, 1 );
-					scene.add( planeMesh );
-				}
-				
-				for (var i = 1; i <= 10	; i ++)
-				{
-					x -= 200;
-					
-					xPathArray.push(x);
-					yPathArray.push(y);
-					
-					material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
-					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
-					planeMesh = new THREE.Mesh ( geometry, material );
-					planeMesh.position.set( x, y, 0 );
-					planeMesh.scale.set( 1, 1, 1 );
-					scene.add( planeMesh );
-				}
-				
-				for (var i = 1; i <= 6; i++)
-				{
-					y -= 200;
-					
-					xPathArray.push(x);
-					yPathArray.push(y);
-					
-					material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
-					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
-					planeMesh = new THREE.Mesh ( geometry, material );
-					planeMesh.position.set( x, y, 0 );
-					planeMesh.scale.set( 1, 1, 1 );
-					scene.add( planeMesh );
-				}
-				
-				for (var i = 1; i <= 13	; i ++)
-				{
-					x += 200;
-					
-					xPathArray.push(x);
-					yPathArray.push(y);
-					
-					material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
-					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
-					planeMesh = new THREE.Mesh ( geometry, material );
-					planeMesh.position.set( x, y, 0 );
-					planeMesh.scale.set( 1, 1, 1 );
-					scene.add( planeMesh );
-				}
-				
-				for (var i = 1; i <= 20; i++)
-				{
-					y += 200;
-					
-					xPathArray.push(x);
-					yPathArray.push(y);
-					
-					material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
-					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
-					planeMesh = new THREE.Mesh ( geometry, material );
-					planeMesh.position.set( x, y, 0 );
-					planeMesh.scale.set( 1, 1, 1 );
-					scene.add( planeMesh );
-				}
-			}
-			
-			function updateCreeps()
-			{
-				for (var i in creeps)
-				{
-						
-					if (creeps[i].position.x != xPathArray[creepWaypoint[i]])
-					{
-						if (creeps[i].position.x > xPathArray[creepWaypoint[i]] && MOVE_E[i] == false)
-						{
-							creeps[i].position.x -= 1.7;
-							MOVE_W[i] = true;
-						}
-						else if (creeps[i].position.x < xPathArray[creepWaypoint[i]] && MOVE_W[i] == false)
-						{
-							creeps[i].position.x += 1.7;
-							MOVE_E[i] = true;
-						}
-						else
-						{
-							creeps[i].position.x = xPathArray[creepWaypoint[i]];
-							
-							if (creeps[i].position.x == 3 && creeps[i].position.y == 1)
-							{
-								creepWaypoint[i] = xPathArray.length - 2;
-								creeps[i].position.x = xPathArray[xPathArray.length - 1];
-								creeps[i].position.y = yPathArray[xPathArray.length - 1];
-								MOVE_E[i] = false;
-								MOVE_W[i] = false;
-							}
-							else
-							{
-								creepWaypoint[i]--;
-								MOVE_E[i] = false;
-								MOVE_W[i] = false;
-							}
-						}
-					}
-					
-					if (creeps[i].position.y != yPathArray[creepWaypoint[i]])
-					{
-						if (creeps[i].position.y > yPathArray[creepWaypoint[i]] && MOVE_N[i] == false)
-						{
-							creeps[i].position.y -= 1.7;
-							MOVE_S[i] = true;
-						}					
-						else if (creeps[i].position.y < yPathArray[creepWaypoint[i]] && MOVE_S[i] == false)
-						{
-							creeps[i].position.y += 1.7;
-							MOVE_N[i] = true;
-						}	
-						else
-						{
-							creeps[i].position.y = yPathArray[creepWaypoint[i]];
-							
-							if (creeps[i].position.x == 1 && creeps[i].position.y == 1)
-							{
-								
-								creepWaypoint[i] = xPathArray.length - 2;
-								creeps[i].position.x = xPathArray[xPathArray.length - 1];
-								creeps[i].position.y = yPathArray[xPathArray.length - 1];
-								MOVE_N[i] = false;
-								MOVE_S[i] = false;
-							}
-							else
-							{
-								creepWaypoint[i]--;
-								MOVE_N[i] = false;
-								MOVE_S[i] = false;
-							}
-						}
-					}
-					
-				}
-			}
-			
 			function animate() {
 				
 				requestAnimationFrame( animate );
 				
 				render();
-				stats.update();
 				
 			}
 
 			function render() {
 			
+				stats.update();
 				controls.update();
+				var now = new Date().getTime();
 				
-				//updateCreeps();
+				dt = (now - lastUpdate) / 1000;		//Limits game speed
+				if (dt > speed)
+				{
+				
+					Creep.update();
+					Tower.update();
+					lastUpdate = now;
+					
+				}
 				
 				renderer.clear();
 				renderer.render( scene, camera );
