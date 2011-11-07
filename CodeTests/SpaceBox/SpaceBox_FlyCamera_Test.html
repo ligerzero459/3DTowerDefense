@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 	<head>
-		<title>3D Tower Defense Fly Camera Demo</title>
+		<title>3D Tower Defense</title>
 		<meta charset="utf-8">
 		<style type="text/css">
 			body {
@@ -9,7 +9,7 @@
 				margin: 0px;
 				overflow: hidden;
 			}
-
+			
 			#info {
 				position: absolute;
 				top: 0px; width: 100%;
@@ -20,7 +20,22 @@
 				font-weight: bold;
 				text-align:center;
 			}
-
+			
+			#renderWindow {
+				position: absolute;
+				top: 0px;
+				width: 90%;
+				height: 100%;
+			}
+			
+			#gui {
+				position: right;
+				top: 0px;
+				width: 10%;
+				height: 100%;
+				color: #ffffff;
+			}
+			
 			a {
 				color: #ffffff;
 			}
@@ -28,15 +43,16 @@
 	</head>
 	<body>
 	
-	<script src="../../../build/Three.js"></script>
+	<script src="Three.js"></script>
     <!--Make sure path in previous script points to the correct build directory-->
     <!--You can copy the build directory into your project path or point it to-->
     <!--the three.js directory-->
-    <script src="../../../examples/js/ShaderExtras.js"></script>
-
-    <script src="../../../examples/js/Detector.js"></script>
-    <script src="../../../examples/js/RequestAnimationFrame.js"></script>
-    <script src="../../../examples/js/Stats.js"></script>
+    <script src="js/ShaderExtras.js"></script>
+    <script src="js/Detector.js"></script>
+    <script src="js/RequestAnimationFrame.js"></script>
+    <script src="js/Stats.js"></script>
+	
+	<!--Tower Defense classes-->
 	<script src="js/TowerDefense/Creep.js"></script>
 	<script src="js/TowerDefense/Map.js"></script>
 	<script src="js/TowerDefense/Tower.js"></script>
@@ -71,10 +87,10 @@
 
 			function init() {
 
-				container = document.createElement( 'div' );
+				container = $("#renderWindow");
                 document.body.appendChild( container );
 				
-				info = document.createElement( 'div' );
+				info = $("#info");
 				info.style.position = 'absolute';
 				info.style.top = '10px';
 				info.style.width = '100%';
@@ -82,6 +98,9 @@
 				info.style.backgroundColor = '#ffffff';
 				info.innerHTML = 'Tower Defense Test';
 				container.appendChild( info );
+				
+				var gui = $("#gui");
+				document.body.appendChild( gui );
 				
 				// Initialization
 				addCamera();
@@ -119,7 +138,7 @@
 				
 				scene.add(group);*/
 				
-				/*material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
+				material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
 				geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
 				planeMesh = new THREE.Mesh ( geometry, material );
 				//planeMesh.rotation.z = 0;
@@ -127,7 +146,7 @@
 				//planeMesh.rotation.x = Math.tan(180 * Math.PI / 360);
 				planeMesh.position.set( 0, 0, 0 );
 				planeMesh.scale.set( 1, 1, 1 );
-				scene.add( planeMesh );*/
+				scene.add( planeMesh );
 				
 				// New Path Generation Code - Beta Test
 				Map.generate();
@@ -145,16 +164,13 @@
 				stats.domElement.style.zIndex = 100;
 				container.appendChild( stats.domElement );
 				
-				Tower.initialize();
-				Tower.create( -1500, 4300, 0 );
-				Tower.create( -1100, 2300, 1 );
-				
 				// Delay to prevent game start before rendering is complete
 				Creep.initialize();
 				setTimeout("Creep.runLevel()", 10000);
 				
-				target.set( -1500, 4300, 0 );
-				camera.lookAt( target );
+				Tower.initialize();
+				Tower.create( -1500, 4300, 0 );
+				Tower.create( -1100, 2300, 1 );
 				
 				window.addEventListener( 'resize', onWindowResize, false );				
 			}
@@ -198,7 +214,13 @@
 			function addCamera() {
 			
 				camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
-				camera.position.z = 3000;
+				camera.position.z = 7600;
+				
+				target.x = 0;
+				target.y = 0;
+				target.z = 0;
+				
+				camera.lookAt ( target );
 				
 				camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
 				camera.updateProjectionMatrix();
