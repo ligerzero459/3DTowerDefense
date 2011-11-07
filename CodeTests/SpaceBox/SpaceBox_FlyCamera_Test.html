@@ -85,32 +85,25 @@
 
 			function init() {
 
-				container = $("#renderWindow");
-                //document.body.append( container );
+				container = document.createElement( 'div' );
+                document.body.appendChild( container );
 				
-				//info = $("#info");
-				//container.appendChild( info );
-				
-				//var gui = $("#gui");
-				//document.body.appendChild( gui );
-				
-				
-				renderer = new THREE.WebGLRenderer();
-				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
-				renderer.sortObjects = false;
-				renderer.autoClear = false;
-				container.append( renderer.domElement );
-				
-				stats = new Stats();
-				stats.domElement.style.position = 'absolute';
-				stats.domElement.style.top = '0px';
-				stats.domElement.style.zIndex = 100;
-				container.append( stats.domElement );
+				info = document.createElement( 'div' );
+				info.style.position = 'absolute';
+				info.style.top = '10px';
+				info.style.width = '100%';
+				info.style.textAlign = 'center';
+				info.style.backgroundColor = '#ffffff';
+				info.innerHTML = 'Tower Defense Test';
+				container.appendChild( info );
 				
 				// Initialization
 				addCamera();
 				addControls();
 				Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
+				
+				// Setup Group
+				group = new THREE.Object3D();
 				
 				var ambientLight = new THREE.AmbientLight( 0xffffff );
 				scene.add( ambientLight );
@@ -140,7 +133,7 @@
 				
 				scene.add(group);*/
 				
-				/*material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
+				material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
 				geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
 				planeMesh = new THREE.Mesh ( geometry, material );
 				//planeMesh.rotation.z = 0;
@@ -148,21 +141,31 @@
 				//planeMesh.rotation.x = Math.tan(180 * Math.PI / 360);
 				planeMesh.position.set( 0, 0, 0 );
 				planeMesh.scale.set( 1, 1, 1 );
-				scene.add( planeMesh );*/
+				scene.add( planeMesh );
 				
 				// New Path Generation Code - Beta Test
 				Map.generate();
 				
-				Tower.initialize();
-				Tower.create( -1500, 4300, 0 );
-				Tower.create( -1100, 2300, 1 );
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+				renderer.sortObjects = false;
+				renderer.autoClear = false;
+
+				container.appendChild( renderer.domElement );
+				
+				stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				stats.domElement.style.zIndex = 100;
+				container.appendChild( stats.domElement );
 				
 				// Delay to prevent game start before rendering is complete
 				Creep.initialize();
 				setTimeout("Creep.runLevel()", 10000);
 				
-				target.set( -1500, 4300, 0 );
-				camera.lookAt( target );
+				Tower.initialize();
+				Tower.create( -1500, 4300, 0 );
+				Tower.create( -1100, 2300, 1 );
 				
 				window.addEventListener( 'resize', onWindowResize, false );				
 			}
@@ -206,7 +209,13 @@
 			function addCamera() {
 			
 				camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
-				camera.position.z = 3000;
+				camera.position.z = 7600;
+				
+				target.x = 0;
+				target.y = 0;
+				target.z = 0;
+				
+				camera.lookAt ( target );
 				
 				camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
 				camera.updateProjectionMatrix();
