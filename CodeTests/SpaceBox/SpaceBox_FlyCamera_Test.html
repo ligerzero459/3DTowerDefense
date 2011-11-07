@@ -1,10 +1,22 @@
-<!DOCTYPE HTML>
-<html lang="en">
+<html>
 	<head>
 		<title>3D Tower Defense Fly Camera Demo</title>
-		<meta charset="utf-8">
-		<style type="text/css">
-			body {
+		<script src="../../../build/Three.js"></script>
+		<!--Make sure path in previous script points to the correct build directory-->
+		<!--You can copy the build directory into your project path or point it to-->
+		<!--the three.js directory-->
+		<script src="../../../examples/js/ShaderExtras.js"></script>
+
+		<script src="../../../examples/js/Detector.js"></script>
+		<script src="../../../examples/js/RequestAnimationFrame.js"></script>
+		<script src="../../../examples/js/Stats.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+		<script src="js/TowerDefense/Creep.js"></script>
+		<script src="js/TowerDefense/Map.js"></script>
+		<script src="js/TowerDefense/Tower.js"></script>
+		
+		<style>
+			html, body {
 				background-color: rgb(0,0,0);
 				margin: 0px;
 				overflow: hidden;
@@ -19,7 +31,6 @@
 				font-size:13px;
 				font-weight: bold;
 				text-align:center;
-				innerHTML: 'Tower Defense Test';
 			}
 			
 			#renderWindow {
@@ -27,6 +38,7 @@
 				top: 0px;
 				width: 90%;
 				height: 100%;
+				z-index: 1;
 			}
 			
 			#gui {
@@ -35,27 +47,15 @@
 				width: 10%;
 				height: 100%;
 				color: #ffffff;
+				z-index: 2;
 			}
 			
 			a {
 				color: #ffffff;
 			}
 		</style>
-		<script src="../../../build/Three.js"></script>
-		<!--Make sure path in previous script points to the correct build directory-->
-		<!--You can copy the build directory into your project path or point it to-->
-		<!--the three.js directory-->
-		<script src="../../../examples/js/ShaderExtras.js"></script>
 
-		<script src="../../../examples/js/Detector.js"></script>
-		<script src="../../../examples/js/RequestAnimationFrame.js"></script>
-		<script src="../../../examples/js/Stats.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
-		<script src="js/TowerDefense/Creep.js"></script>
-		<script src="js/TowerDefense/Map.js"></script>
-		<script src="js/TowerDefense/Tower.js"></script>
-
-		<script>
+		<script type="text/javascript">
             
 			var camera, renderer, group;
             var container, stats, dt;
@@ -86,13 +86,13 @@
 			function init() {
 
 				container = $("#renderWindow");
-                //document.body.appendChild( container );
+                document.body.appendChild( container );
 				
 				//info = $("#info");
 				//container.appendChild( info );
 				
 				var gui = $("#gui");
-				//document.body.appendChild( gui );
+				document.body.appendChild( gui );
 				
 				// Initialization
 				addCamera();
@@ -322,6 +322,7 @@
 
 		</script>
 	</head>
+	
 	<body>
 	<div id="gui"></div>
     <div id="renderWindow"></div>
