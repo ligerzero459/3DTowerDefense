@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 	<head>
-		<title>3D Tower Defense</title>
+		<title>3D Tower Defense Fly Camera Demo</title>
 		<meta charset="utf-8">
 		<style type="text/css">
 			body {
@@ -43,18 +43,16 @@
 	</head>
 	<body>
 	
-	<script src="Three.js"></script>
+	<script src="../../../build/Three.js"></script>
     <!--Make sure path in previous script points to the correct build directory-->
     <!--You can copy the build directory into your project path or point it to-->
     <!--the three.js directory-->
-    <script src="js/ShaderExtras.js"></script>
-    <script src="js/Detector.js"></script>
-    <script src="js/RequestAnimationFrame.js"></script>
-    <script src="js/Stats.js"></script>
+    <script src="../../../examples/js/ShaderExtras.js"></script>
+
+    <script src="../../../examples/js/Detector.js"></script>
+    <script src="../../../examples/js/RequestAnimationFrame.js"></script>
+    <script src="../../../examples/js/Stats.js"></script>
 	<script src="js/jquery-ui-1.8.16.custom.min.js"></script>
-	
-	
-	<!--Tower Defense classes-->
 	<script src="js/TowerDefense/Creep.js"></script>
 	<script src="js/TowerDefense/Map.js"></script>
 	<script src="js/TowerDefense/Tower.js"></script>
@@ -140,7 +138,7 @@
 				
 				scene.add(group);*/
 				
-				material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
+				/*material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
 				geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
 				planeMesh = new THREE.Mesh ( geometry, material );
 				//planeMesh.rotation.z = 0;
@@ -148,7 +146,7 @@
 				//planeMesh.rotation.x = Math.tan(180 * Math.PI / 360);
 				planeMesh.position.set( 0, 0, 0 );
 				planeMesh.scale.set( 1, 1, 1 );
-				scene.add( planeMesh );
+				scene.add( planeMesh );*/
 				
 				// New Path Generation Code - Beta Test
 				Map.generate();
@@ -166,13 +164,16 @@
 				stats.domElement.style.zIndex = 100;
 				container.appendChild( stats.domElement );
 				
+				Tower.initialize();
+				Tower.create( -1500, 4300, 0 );
+				Tower.create( -1100, 2300, 1 );
+				
 				// Delay to prevent game start before rendering is complete
 				Creep.initialize();
 				setTimeout("Creep.runLevel()", 10000);
 				
-				Tower.initialize();
-				Tower.create( -1500, 4300, 0 );
-				Tower.create( -1100, 2300, 1 );
+				target.set( -1500, 4300, 0 );
+				camera.lookAt( target );
 				
 				window.addEventListener( 'resize', onWindowResize, false );				
 			}
@@ -216,13 +217,7 @@
 			function addCamera() {
 			
 				camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
-				camera.position.z = 7600;
-				
-				target.x = 0;
-				target.y = 0;
-				target.z = 0;
-				
-				camera.lookAt ( target );
+				camera.position.z = 3000;
 				
 				camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
 				camera.updateProjectionMatrix();
