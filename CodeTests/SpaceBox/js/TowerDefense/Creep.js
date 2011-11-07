@@ -117,7 +117,7 @@ Creep.update = function() {
 			this.creeps[i].MOVE_W = false;
 		}
 	
-		info.innerHTML = 'Total Creeps Remaining: ' + this.wave[this.currentWave].amount;
+		//info.innerHTML = 'Total Creeps Remaining: ' + this.wave[this.currentWave].amount;
 		if (this.creeps[i].poison == true) {
 			this.creeps[i].health -= this.creeps[i].poisonDamage;
 		}
