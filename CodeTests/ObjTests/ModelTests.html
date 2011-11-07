@@ -72,8 +72,8 @@
 				*/
 				
 				//Example Model Import (uncomment to see):
-				var m = 'models/WarpGate.js';
-				addModels(m, 10, 0, 10, 0, 0, 0, 120);
+				var m = 'obj/viper/viperThree.js';
+				addModels(m, 0, 0, 0, 0, 0, 0, 120);
 				
 
 				//Add Models in Here
@@ -145,19 +145,17 @@
 			
 			function addModels(m, x, y, z, rx, ry, rz, s) {
 			
-				var material = new THREE.MeshLambertMaterial( { color: 0x555555 } );
+				var material = new THREE.MeshFaceMaterial();
 				
 				var loader = new THREE.JSONLoader();
 				var callbackAfterLoading = function ( geometry ) { 
-					geometry.computeTangents();
-					
+				
 					mesh = new THREE.Mesh ( geometry, material );
 					mesh.position.set ( x, y, z );
 					mesh.scale.set( s, s, s );
 					mesh.rotation.set( rx, ry, rz );
 					mesh.overdraw = true;
-					mesh.matrixAutoUpdate = false;
-					mesh.updateMatrix();
+					
 					scene.add(mesh);
 				}
 				loader.load( { model: m, callback: callbackAfterLoading } ); 
