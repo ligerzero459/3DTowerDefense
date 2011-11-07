@@ -148,13 +148,13 @@
 				renderer.sortObjects = false;
 				renderer.autoClear = false;
 
-				container.appendChild( renderer.domElement );
+				container.append( renderer.domElement );
 				
 				stats = new Stats();
 				stats.domElement.style.position = 'absolute';
 				stats.domElement.style.top = '0px';
 				stats.domElement.style.zIndex = 100;
-				container.appendChild( stats.domElement );
+				container.append( stats.domElement );
 				
 				Tower.initialize();
 				Tower.create( -1500, 4300, 0 );
