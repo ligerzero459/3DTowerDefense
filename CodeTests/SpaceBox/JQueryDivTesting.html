@@ -57,32 +57,33 @@
 			}
 		</style>
 		<script type="text/javascript">
+		var camera, renderer, group;
+		var container, stats, dt;
+		var meshPlanet, planeMesh, mesh, geometry, model;
+		var lastUpdate = new Date().getTime();
+		var speed = .01;		//Lower = faster
+				
+		var	texture_placeholder;
+				
+		var SCREEN_HEIGHT = window.innerHeight;
+		var SCREEN_WIDTH  = window.innerWidth;
+		var MARGIN = 0;
+				
+		var PLANE_HEIGHT = 10000, PLANE_WIDTH = 10000,
+			PLANE_S_H_W = 50;
+				
+		var target = new THREE.Vector3();
+		var scene = new THREE.Scene();
+				
+		var x = 0, y = 0, counter = 1;
+				
+		var xPathArray = new Array();
+		var yPathArray = new Array();
+		
         $(document).ready(function() {
 			if ( ! Detector.webgl )
                 Detector.addGetWebGLMessage();
             else {
-				var camera, renderer, group;
-				var container, stats, dt;
-				var meshPlanet, planeMesh, mesh, geometry, model;
-				var lastUpdate = new Date().getTime();
-				var speed = .01;		//Lower = faster
-				
-				var	texture_placeholder;
-				
-				var SCREEN_HEIGHT = window.innerHeight;
-				var SCREEN_WIDTH  = window.innerWidth;
-				var MARGIN = 0;
-				
-				var PLANE_HEIGHT = 10000, PLANE_WIDTH = 10000,
-					PLANE_S_H_W = 50;
-				
-				var target = new THREE.Vector3();
-				var scene = new THREE.Scene();
-				
-				var x = 0, y = 0, counter = 1;
-				
-				var xPathArray = new Array();
-				var yPathArray = new Array();
 
 				init();
 				animate();
