@@ -27,6 +27,8 @@ Creep.runLevel = function() {
 }
 
 Creep.create = function ( color, health, speed ) {
+	//Creep geometry
+	//Will be changed to include models soon
 	this.material = new THREE.MeshLambertMaterial ( { color: color } );
 	this.geometry = new THREE.SphereGeometry( 100, 20, 20 );
 	this.geometry.computeTangents();
@@ -34,10 +36,21 @@ Creep.create = function ( color, health, speed ) {
 	this.mesh.position.set( this.x, this.y, 100 );
 	this.mesh.health = health;
 	this.mesh.speed = speed;
+	
+	// Sets move direction to prevent creep from moving backwards
+	// if it passes the waypoint
 	this.mesh.MOVE_N = false;
 	this.mesh.MOVE_S = false;
 	this.mesh.MOVE_E = false;
 	this.mesh.MOVE_W = false;
+	
+	// Creep poison code
+	// Determines if it's poisoned, for how long and how much damage
+	this.mesh.poison.isPoisoned = false;
+	this.mesh.poison.damage = 0;
+	this.mesh.poison.duration = 0;
+	this.mesh.poison.moves = 0;
+	
 	this.creeps.push ( this.mesh );
 	this.creepWaypoint.push ( this.pathLength - 1 );
 	
@@ -105,6 +118,9 @@ Creep.update = function() {
 		}
 	
 		info.innerHTML = 'Total Creeps Remaining: ' + this.wave[this.currentWave].amount;
+		if (this.creeps[i].poison == true) {
+			this.creeps[i].health -= this.creeps[i].poisonDamage;
+		}
 		if (this.creeps[i].health <= 0)
 		{
 			Creep.isDead(i);

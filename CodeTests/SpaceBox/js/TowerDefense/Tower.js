@@ -17,6 +17,7 @@ Tower.create = function( x, y, type ) {
 	this.mesh.damage = this.towerType[type].damage;
 	this.mesh.range = this.towerType[type].range;
 	this.mesh.charging = false;
+	this.mesh.towerType = this.towerType[type].type;
 	this.mesh.originalMaterial = new THREE.MeshLambertMaterial ( { color: this.towerType[type].color } );
 	this.towers.push( this.mesh );
 	

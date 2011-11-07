@@ -9,7 +9,7 @@
 				margin: 0px;
 				overflow: hidden;
 			}
-
+			
 			#info {
 				position: absolute;
 				top: 0px; width: 100%;
@@ -20,7 +20,22 @@
 				font-weight: bold;
 				text-align:center;
 			}
-
+			
+			#renderWindow {
+				position: absolute;
+				top: 0px;
+				width: 90%;
+				height: 100%;
+			}
+			
+			#gui {
+				position: right;
+				top: 0px;
+				width: 10%;
+				height: 100%;
+				color: #ffffff;
+			}
+			
 			a {
 				color: #ffffff;
 			}
@@ -72,10 +87,10 @@
 
 			function init() {
 
-				container = document.createElement( 'div' );
+				container = $("#renderWindow");
                 document.body.appendChild( container );
 				
-				info = document.createElement( 'div' );
+				info = $("#info");
 				info.style.position = 'absolute';
 				info.style.top = '10px';
 				info.style.width = '100%';
@@ -83,6 +98,9 @@
 				info.style.backgroundColor = '#ffffff';
 				info.innerHTML = 'Tower Defense Test';
 				container.appendChild( info );
+				
+				var gui = $("#gui");
+				document.body.appendChild( gui );
 				
 				// Initialization
 				addCamera();
