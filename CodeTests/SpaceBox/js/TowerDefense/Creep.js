@@ -46,10 +46,10 @@ Creep.create = function ( color, health, speed ) {
 	
 	// Creep poison code
 	// Determines if it's poisoned, for how long and how much damage
-	this.mesh.poison.isPoisoned = false;
-	this.mesh.poison.damage = 0;
-	this.mesh.poison.duration = 0;
-	this.mesh.poison.moves = 0;
+	this.mesh.isPoisoned = false;
+	this.mesh.poisonDamage = 0;
+	this.mesh.poisonDuration = 0;
+	this.mesh.poisonMoves = 0;
 	
 	this.creeps.push ( this.mesh );
 	this.creepWaypoint.push ( this.pathLength - 1 );
