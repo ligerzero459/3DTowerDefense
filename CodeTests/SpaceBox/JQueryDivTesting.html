@@ -98,9 +98,9 @@
 					addCamera();
 					addControls();
 					Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
-					Creep.initialize();
-					Tower.initialize();
-					Gui.initialize();
+					setTimeout("Creep.initialize()", 3000);
+					setTimeout("Tower.initialize()", 3000);
+					setTimeout("Gui.initialize()", 3000);
 					
 					var ambientLight = new THREE.AmbientLight( 0xffffff );
 					scene.add( ambientLight );
@@ -118,7 +118,6 @@
 					
 					// Drawing the planet in the center
 					drawPlanet();
-					
 					
 					material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
 					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
