@@ -2,18 +2,18 @@ var Gui = Gui || {};
 
 Gui.initialize = function() {
 	// Create Score/Cash Box
-	this.createDiv("TL", "score", 50, 12, 10, 10, "gui"); //Background to score box
+	this.createDiv("TL", "score", 170, 32, 10, 10, "gui"); //Background to score box
 	$("#score").css("background-color", "#000000");
 	$("#score").css("border-radius", "3px");
 	$("#score").css("border", "2px solid white");
 	
-	this.createDiv("TL", "scoreDisplay", 0, 12, 10, 10, "score");
+	this.createDiv("TL", "scoreDisplay", 170, 32, 0, 0, "score");
 	$("#scoreDisplay").text("Score: 0  Cash: $0");
 	$("#scoreDisplay").css("text-align", "center");
-	$("#scoreDisplay").css("font-size", "12px");
+	$("#scoreDisplay").css("font-size", "14px");
 	
 	// Create Tower Selection Box
-	this.createDiv("TR", "towerBox", 40, 200, 10, 10, "gui");
+	this.createDiv("TR", "towerBox", 270, 460, 10, 10, "gui");
 	$("#towerBox").css("background-color", "#ffffff");
 	$("#towerBox").css("border-radius", "3px");
 	$("#towerBox").css("border", "2px solid white");
