@@ -31,10 +31,10 @@ Gui.initialize = function() {
 		$(towerID).css("border-radius", "3px");
 		$(towerID).css("border", "2px solid black");
 		
-		this.createDiv("TL", towerPic, 40, 40, 15, 10, towerID);
+		this.createDiv("TL", towerPic, 40, 40, 15, 10, Tower.towers[i].towerType);
 		$(towerPic).css("background-color", "#ffffff");
 		
-		this.createDiv("TL", towerInfo, 180, 60, 5, 60, towerID);
+		this.createDiv("TL", towerInfo, 180, 60, 5, 60, Tower.towers[i].towerType);
 		$(towerInfo).css("background-color", "#ffffff");	
 	}
 	
