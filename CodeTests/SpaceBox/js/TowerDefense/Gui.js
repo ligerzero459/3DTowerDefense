@@ -20,8 +20,8 @@ Gui.initialize = function() {
 	
 	for (var i in Tower.towers)
 	{
-		var top = 10 + (i * 75);
-		this.createDiv("TL", Tower.towers[i].towerType, 250, 70, top, 10, "towerBox");
+		var top = 10 + (i * 80);
+		this.createDiv("TL", Tower.towers[i].towerType, 250, 70, top, 8, "towerBox");
 		
 		var towerID = "#" + Tower.towers[i].towerType;
 		$(towerID).css("background-color", "#7A7A7A");
