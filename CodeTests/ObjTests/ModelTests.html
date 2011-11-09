@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>3D Tower Defense Fly Camera Demo</title>
+		<meta charset="utf-8">
+		<style type="text/css">
+			body {
+				background-color: 0x000000;
+				margin: 0px;
+				overflow: hidden;
+			}
+
+			#info {
+				position: absolute;
+				top: 0px; width: 100%;
+				color: #ffffff;
+				padding: 5px;
+				font-family:Monospace;
+				font-size:13px;
+				font-weight: bold;
+				text-align:center;
+			}
+
+			a {
+				color: #ffffff;
+			}
+		</style>
+	</head>
+	<body>
+	
+	<script src="../../../build/Three.js"></script>
+    <!--Make sure path in previous script points to the correct build directory-->
+    <!--You can copy the build directory into your project path or point it to-->
+    <!--the three.js directory-->
+    <script src="../../../examples/js/ShaderExtras.js"></script>
+
+    <script src="../../../examples/js/Detector.js"></script>
+    <script src="../../../examples/js/RequestAnimationFrame.js"></script>
+    <script src="../../../examples/js/Stats.js"></script>
+
+	<script>
+            
+			var camera, scene, renderer,
+				container, mesh, stats, geometry,
+				model, texture_placeholder;
+				
+			var SCREEN_HEIGHT = window.innerHeight,
+				SCREEN_WIDTH  = window.innerWidth,
+				MARGIN = 0, target = new THREE.Vector3();
+
+			init();
+			animate();
+
+			function init() {
+
+				container = document.createElement( 'div' );
+                document.body.appendChild( container );
+				
+				addCamera();
+				addControls();
+				
+				// Setup Scene
+				scene = new THREE.Scene();
+				
+				var ambientLight = new THREE.AmbientLight( 0xffffff );
+				scene.add( ambientLight );
+				
+				/*
+				Add models by calling the addModels function. It's already set up and should work find.
+				The parameters, in order, are: Model, X, Y, Z, RotationX, RotationY, RotationZ, and Scale.
+				Model is the path where the model is on the server, the rest is pretty self-explanitory.
+				*/
+				
+				//Example Model Import (uncomment to see):
+				var m = 'obj/viper/viperThree.js';
+				addModels(m, 0, 0, 0, 0, 0, 0, 120);
+				
+
+				//Add Models in Here
+				
+				
+				
+				//
+				
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+				renderer.sortObjects = false;
+				renderer.autoClear = false;
+
+				container.appendChild( renderer.domElement );
+				
+				stats = new Stats();
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.top = '0px';
+				stats.domElement.style.zIndex = 100;
+				container.appendChild( stats.domElement );
+				
+				window.addEventListener( 'resize', onWindowResize, false );
+				
+			}
+			
+			function onWindowResize( event ) {
+
+				SCREEN_HEIGHT = window.innerHeight;
+				SCREEN_WIDTH  = window.innerWidth;
+
+				renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+
+				camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+				camera.updateProjectionMatrix();
+				
+				//controls.screen.width = SCREEN_WIDTH;
+				//controls.screen.height = SCREEN_HEIGHT;
+				
+				camera.radius = ( SCREEN_WIDTH + SCREEN_HEIGHT ) / 4;  
+			}
+			
+			function addCamera() {
+			
+				camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
+				camera.position.z = 200;
+				
+				target.x = 0;
+				target.y = 0;
+				target.z = 0;
+				
+				camera.lookAt ( target );
+				
+				camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+				camera.updateProjectionMatrix();
+				
+			}
+			
+			function addControls() {
+			
+				controls = new THREE.FlyControls( camera );
+
+				controls.movementSpeed = 200;
+				controls.domElement = container;
+				controls.rollSpeed = Math.PI / 6;
+				controls.autoForward = false;
+				controls.dragToLook = true;
+				
+			}
+			
+			function addModels(m, x, y, z, rx, ry, rz, s) {
+			
+				var material = new THREE.MeshFaceMaterial();
+				
+				var loader = new THREE.JSONLoader();
+				var callbackAfterLoading = function ( geometry ) { 
+				
+					mesh = new THREE.Mesh ( geometry, material );
+					mesh.position.set ( x, y, z );
+					mesh.scale.set( s, s, s );
+					mesh.rotation.set( rx, ry, rz );
+					mesh.overdraw = true;
+					
+					scene.add(mesh);
+				}
+				loader.load( { model: m, callback: callbackAfterLoading } ); 
+
+			}
+			
+			function animate() {
+				
+				requestAnimationFrame( animate );
+				
+				render();
+				stats.update();
+				
+			}
+
+			function render() {
+			
+				controls.update();
+				
+				renderer.clear();
+				renderer.render( scene, camera );
+
+			}
+
+		</script>
+	</body>
+</html>
