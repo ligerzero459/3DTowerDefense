@@ -27,6 +27,12 @@ Gui.initialize = function() {
 		$(towerID).css("background-color", "#7A7A7A");
 		$(towerID).css("border-radius", "3px");
 		$(towerID).css("border", "2px solid black");
+		
+		this.createDiv("TL", towerID + "pic", 40, 40, 15, 10, towerID);
+		$(towerID + "pic").css("background-color", "#ffffff");
+		
+		this.createDiv("TL", towerID + "info", 180, 60, 5, 60, towerID);
+		$(towerID + "info").css("background-color", "#ffffff");
 	}
 	
 	Gui.display();
