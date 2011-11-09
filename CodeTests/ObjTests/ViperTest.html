@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 	<head>
-		<title>3D Tower Defense Fly Camera Demo</title>
+		<title>Viper Model Test</title>
 		<meta charset="utf-8">
 		<style type="text/css">
 			body {
@@ -118,11 +118,8 @@
 			function addCamera() {
 			
 				camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
-				camera.position.z = 200;
-				
-				target.x = 0;
-				target.y = 0;
-				target.z = 0;
+				camera.position.z = 800;
+				camera.position.y = 300;
 				
 				camera.lookAt ( target );
 				
