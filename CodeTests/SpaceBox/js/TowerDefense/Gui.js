@@ -38,7 +38,7 @@ Gui.initialize = function() {
 		$("#" + towerInfo).css("background-color", "#ffffff");
 		$("#" + towerInfo).css("color", "#000000");
 		
-		var towerHTML = "<div style='position: absolute; top: 2; left: 5;'>" + Tower.towers[i].towerType + "<br>Power: " + Tower.towers[i].damage + " Fire Speed: " + Tower.towers[i].fireSpeed + "<br>Range: " + Tower.towers[i].range + "</div>";
+		var towerHTML = "<div style='position: absolute; top: 0; left: 0;'>" + Tower.towers[i].towerType + "<br>Power: " + Tower.towers[i].damage + " Fire Speed: " + Tower.towers[i].fireSpeed + "<br>Range: " + Tower.towers[i].range + "</div>";
 		$("#" + towerInfo).html(towerHTML);
 	}
 	
