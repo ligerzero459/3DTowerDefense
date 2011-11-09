@@ -16,7 +16,18 @@ Gui.initialize = function() {
 	this.createDiv("TR", "towerBox", 270, 460, 10, 10, "gui");
 	$("#towerBox").css("background-color", "#ffffff");
 	$("#towerBox").css("border-radius", "3px");
-	$("#towerBox").css("border", "2px solid white");
+	$("#towerBox").css("border", "2px solid black");
+	
+	for (var i in Tower.towers)
+	{
+		var top = 10 + (i * 75);
+		this.createDiv("TL", Tower.towers[i].towerType, 250, 70, top, 10, "towerBox");
+		
+		var towerID = "#" + Tower.towers[i].towerType;
+		$(towerID).css("background-color", "#7A7A7A");
+		$(towerID).css("border-radius", "3px");
+		$(towerID).css("border", "2px solid black");
+	}
 	
 }
 
