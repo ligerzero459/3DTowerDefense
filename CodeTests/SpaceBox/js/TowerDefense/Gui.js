@@ -10,7 +10,7 @@ Gui.initialize = function() {
 	this.createDiv("TL", "scoreDisplay", 170, 32, 0, 0, "score");
 	$("#scoreDisplay").text("Score: 0  Cash: $0");
 	$("#scoreDisplay").css("text-align", "center");
-	$("#scoreDisplay").css("font-size", "14px");
+	$("#scoreDisplay").css("font-size", "16px");
 	
 	// Create Tower Selection Box
 	this.createDiv("TR", "towerBox", 270, 460, 10, 10, "gui");
