@@ -98,8 +98,7 @@
 					addCamera();
 					addControls();
 					Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
-					setTimeout("Creep.initialize()", 3000);
-					setTimeout("Tower.initialize()", 3000);
+					Tower.initialize();
 					setTimeout("Gui.initialize()", 3000);
 					
 					var ambientLight = new THREE.AmbientLight( 0xffffff );
@@ -143,12 +142,11 @@
 					container.append( stats.domElement );
 					
 					// Delay to prevent game start before rendering is complete
+					Creep.initialize();
 					setTimeout("Creep.runLevel()", 10000);
 					
 					Tower.create( -1500, 4300, 0 );
 					Tower.create( -1100, 2300, 1 );
-					
-					Gui.display();
 					
 					window.addEventListener( 'resize', onWindowResize, false );				
 				}

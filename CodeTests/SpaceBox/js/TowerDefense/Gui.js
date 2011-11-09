@@ -29,6 +29,7 @@ Gui.initialize = function() {
 		$(towerID).css("border", "2px solid black");
 	}
 	
+	Gui.display();
 }
 
 Gui.createDiv = function(type, id, width, height, p1, p2, appendTo) {
