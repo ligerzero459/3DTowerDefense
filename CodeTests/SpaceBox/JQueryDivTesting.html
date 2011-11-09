@@ -116,7 +116,7 @@
 					drawBox();
 					
 					// Drawing the planet in the center
-					drawPlanet();
+					drawSun();
 					
 					material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
 					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
@@ -237,19 +237,19 @@
 					
 				}
 				
-				function drawPlanet() {
+				function drawSun() {
 				
 					var parameters = {
 						map: THREE.ImageUtils.loadTexture( 'textures/test1/EarthMap_2500x1250.jpg' )
 					};
 					
-					geometry = new THREE.SphereGeometry( 200, 20, 20 );
+					geometry = new THREE.SphereGeometry( 400, 40, 40 );
 					geometry.computeTangents();
 					
 					var material = new THREE.MeshLambertMaterial ( parameters );
 					
 					meshPlanet = new THREE.Mesh( geometry, material ) ;
-					meshPlanet.position.set ( 0, 0, 100 );
+					meshPlanet.position.set ( 0, 0, 200 );
 					scene.add( meshPlanet );
 					
 				}

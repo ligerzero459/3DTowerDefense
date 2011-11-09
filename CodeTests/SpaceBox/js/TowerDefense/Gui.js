@@ -18,12 +18,12 @@ Gui.initialize = function() {
 	$("#towerBox").css("border-radius", "3px");
 	$("#towerBox").css("border", "2px solid black");
 	
-	for (var i in Tower.towers)
+	for (var i in Tower.towerType)
 	{
 		var top = 10 + (i * 80);
-		this.createDiv("TL", Tower.towers[i].towerType, 250, 70, top, 8, "towerBox");
+		this.createDiv("TL", Tower.towerType[i].type, 250, 70, top, 8, "towerBox");
 		
-		var towerID = Tower.towers[i].towerType;
+		var towerID = Tower.towerType[i].type;
 		var towerPic = towerID + "Pic";
 		var towerInfo = towerID + "Info";
 		
@@ -38,7 +38,7 @@ Gui.initialize = function() {
 		$("#" + towerInfo).css("background-color", "#ffffff");
 		$("#" + towerInfo).css("color", "#000000");
 		
-		var towerHTML = "<div style='position: absolute; top: 0; left: 0;'>" + Tower.towers[i].towerType + "<br>Power: " + Tower.towers[i].damage + " Fire Speed: " + Tower.towers[i].fireSpeed + "<br>Range: " + Tower.towers[i].range + "</div>";
+		var towerHTML = "<div style='position: absolute; top: 0; left: 0;'>" + Tower.towerType[i].type + "<br>Power: " + Tower.towerType[i].damage + " Fire Speed: " + Tower.towerType[i].fireSpeed + "<br>Range: " + Tower.towerType[i].range + "</div>";
 		$("#" + towerInfo).html(towerHTML);
 	}
 	

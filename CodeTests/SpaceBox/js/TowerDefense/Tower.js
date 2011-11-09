@@ -9,7 +9,7 @@ Tower.initialize = function () {
 	{"type": "Rapid", "color": 0xFFFF00, "geometry": new THREE.CubeGeometry(90, 90, 90, 10, 10, 10), "damage": 5, "fireSpeed": 5, "range": 3, "shotPower": 100},  // Venus
 	{"type": "Fire", "color": 0xFFFF00, "geometry": new THREE.CubeGeometry(90, 90, 90, 10, 10, 10), "damage": 5, "fireSpeed": 5, "range": 3, "shotPower": 100},  // Mars
 	{"type": "Splash", "color": 0xFFFF00, "geometry": new THREE.CubeGeometry(90, 90, 90, 10, 10, 10), "damage": 5, "fireSpeed": 5, "range": 3, "shotPower": 100},  // Jupiter
-	{"type": "Poison", "color": 0xFFFF00, "geometry": new THREE.CubeGeometry(90, 90, 90, 10, 10, 10), "damage": 5, "fireSpeed": 5, "range": 3, "shotPower": 100},  // Uranus
+	{"type": "Poison", "color": 0xFFFF00, "geometry": new THREE.CubeGeometry(90, 90, 90, 10, 10, 10), "damage": 5, "fireSpeed": 5, "range": 3, "shotPower": 100, "poisonDamage": 3, "poisonDuration": 5},  // Uranus
 	{"type": "Laser", "color": 0xFFFF00, "geometry": new THREE.CubeGeometry(90, 90, 90, 10, 10, 10), "damage": 5, "fireSpeed": 5, "range": 3, "shotPower": 100},  // Neptune
 	{"type": "Slow", "color": 0xFFFF00, "geometry": new THREE.CubeGeometry(90, 90, 90, 10, 10, 10), "damage": 5, "fireSpeed": 5, "range": 3, "shotPower": 100},   // Pluto
 	 ];
@@ -28,7 +28,13 @@ Tower.create = function( x, y, type ) {
 	this.mesh.charging = false;
 	this.mesh.towerType = this.towerType[type].type;
 	this.mesh.originalMaterial = new THREE.MeshLambertMaterial ( { color: this.towerType[type].color } );
+	if (this.mesh.towerType == "Poison") {
+		this.mesh.poisonDamage = this.towerType[type].poisonDamage;
+		this.mesh.
+	}
+	else {
 	this.towers.push( this.mesh );
+	}
 	
 	scene.add( this.mesh );
 }
@@ -42,12 +48,17 @@ Tower.update = function() {
 			var targets = Tower.creepsInRange(i);
 			
 			// If there are targets in range, select the one furthest along the track
-			if (targets != 0)
-			{
-				var target = targets[0];
-				var firingTower = this.towers[i];
-				Tower.hit(firingTower, target);
-				this.towers[i].charging = true;
+			if (this.towers[i].towerType == "Splash") {
+				break;
+			}
+			else {
+				if (targets != 0)
+				{
+					var target = targets[0];
+					var firingTower = this.towers[i];
+					Tower.hit(firingTower, target);
+					this.towers[i].charging = true;
+				}
 			}
 		}
 		else
@@ -87,5 +98,8 @@ Tower.creepsInRange = function(i) {
 
 Tower.hit = function(firingTower, target) {
 	target.health -= firingTower.damage;
-	firingTower.charge -= firingTower.shotPower;	
+	firingTower.charge -= firingTower.shotPower;
+	if (firingTower.towerType == "Poison") {
+		break;
+	}
 }
