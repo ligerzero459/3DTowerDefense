@@ -23,19 +23,19 @@ Gui.initialize = function() {
 		var top = 10 + (i * 80);
 		this.createDiv("TL", Tower.towers[i].towerType, 250, 70, top, 8, "towerBox");
 		
-		var towerID = "#" + Tower.towers[i].towerType;
-		var towerPic = towerID + "pic";
-		var towerInfo = towerID + "info";
+		var towerID = Tower.towers[i].towerType;
+		var towerPic = towerID + "Pic";
+		var towerInfo = towerID + "Info";
 		
-		$(towerID).css("background-color", "#7A7A7A");
-		$(towerID).css("border-radius", "3px");
-		$(towerID).css("border", "2px solid black");
+		$("#" + towerID).css("background-color", "#7A7A7A");
+		$("#" + towerID).css("border-radius", "3px");
+		$("#" + towerID).css("border", "2px solid black");
 		
-		this.createDiv("TL", towerPic, 40, 40, 15, 10, Tower.towers[i].towerType);
-		$(towerPic).css("background-color", "#ffffff");
+		this.createDiv("TL", towerPic, 40, 40, 15, 10, towerID);
+		$("#" + towerPic).css("background-color", "#ffffff");
 		
-		this.createDiv("TL", towerInfo, 180, 60, 5, 60, Tower.towers[i].towerType);
-		$(towerInfo).css("background-color", "#ffffff");	
+		this.createDiv("TL", towerInfo, 180, 60, 5, 60, towerID);
+		$("#" + towerInfo).css("background-color", "#ffffff");	
 	}
 	
 	Gui.display();
