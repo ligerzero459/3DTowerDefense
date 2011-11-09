@@ -93,7 +93,7 @@
 				function init() {
 
 					container = $("#renderWindow");
-					var gui = $("#gui");
+					Gui.initialize();
 					
 					// Initialization
 					addCamera();
@@ -164,6 +164,8 @@
 					Tower.initialize();
 					Tower.create( -1500, 4300, 0 );
 					Tower.create( -1100, 2300, 1 );
+					
+					Gui.display();
 					
 					window.addEventListener( 'resize', onWindowResize, false );				
 				}
