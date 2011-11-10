@@ -76,13 +76,12 @@
 		var PLANE_HEIGHT = 10000, PLANE_WIDTH = 10000,
 			PLANE_S_H_W = 50;
 				
-		var target = new THREE.Vector3();
 		var scene = new THREE.Scene();
-				
-		var x = 0, z = 0, counter = 1;
 				
 		var xPathArray = new Array();
 		var zPathArray = new Array();
+		
+		var target;
 		
         $(document).ready(function() {
 			if ( ! Detector.webgl )
@@ -227,12 +226,9 @@
 				
 					camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
 					camera.position.z = 7600;
+					camera.position.y = 800;
 					
-					target.x = 0;
-					target.y = 0;
-					target.z = 0;
-					
-					camera.lookAt ( target );
+					target = new THREE.Vector3( 0, 0, 0 );
 					
 					camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
 					camera.updateProjectionMatrix();
@@ -241,13 +237,19 @@
 				
 				function addControls() {
 				
-					controls = new THREE.FlyControls( camera );
+					controls = new THREE.TrackballControls( camera );
 
-					controls.movementSpeed = 1500;
-					controls.domElement = container;
-					controls.rollSpeed = Math.PI / 5;
-					controls.autoForward = false;
-					controls.dragToLook = true;
+					controls.rotateSpeed = 1.0;
+					controls.zoomSpeed = 1.2;
+					controls.panSpeed = 0.8;
+
+					controls.noZoom = false;
+					controls.noPan = true;
+
+					controls.staticMoving = false;
+					controls.dynamicDampingFactor = 0.3;
+
+					controls.keys = [ 65, 83, 68 ];
 					
 				}
 				
@@ -325,6 +327,8 @@
 				
 					stats.update();
 					controls.update();
+					camera.lookAt ( target );
+					
 					var now = new Date().getTime();
 					
 					if (gameOn == true) {
