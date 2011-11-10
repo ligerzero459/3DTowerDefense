@@ -54,6 +54,14 @@
 				z-index: 2;
 			}
 			
+			#TOPcontainer{
+				position: absolute;
+				border: 1px solid #000;
+				bg-color: blue;
+				width: 100%;
+				height: 60px;
+			}
+			
 			a {
 				color: #ffffff;
 			}
@@ -313,6 +321,15 @@
 	</head>
 	
 	<body>
+	<div id="TOPcontainer">
+	<table border=1 style="background-color: #0000ff;">
+	<tr><td><a href="#" onMouseOver= "return changeImage()"><img name="jsplay" src="Play.jpg" width="110" height="28" border="0" alt="javascript play"></a></td>
+		<td><img name="jsoption" src="Options.jpg" width="110" height="28" border="0" alt="javascript option"></td>
+		<td><img name="jsbutton" src="HighScore.jpg" width="110" height="28" border="0" alt="javascript high"></td>
+		<td width=400% align=right>SCORE &nbsp&nbsp&nbsp&nbsp  jsScore</td>
+	</tr>
+	</table>
+	</div>
 	<div id="gui"></div>
 	<div id="renderWindow"></div>
 	</body>
