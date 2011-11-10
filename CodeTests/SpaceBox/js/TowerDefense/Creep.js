@@ -56,6 +56,10 @@ Creep.create = function ( color, health, speed ) {
 	
 	// Creep fire properties
 	// Determines if it's on fire, for how long and how much damage occurs
+	this.mesh.isOnFire = false;
+	this.mesh.fireDamage = 0;
+	this.mesh.fireDuration = 0;
+	this.mesh.fireMoves = 0;
 	
 	this.creeps.push ( this.mesh );
 	this.creepWaypoint.push ( this.pathLength - 1 );
@@ -131,6 +135,15 @@ Creep.update = function() {
 				this.creeps[i].poisonMoves = 0;
 			}
 		}
+		else if (this.creeps[i].isOnFire == true) {
+			this.creeps[i].health -= this.creeps[i].fireDamage;
+			this.creeps[i].fireMoves += 1;
+			if (this.creeps[i].fireDuration == this.creeps[i].fireMoves) {
+				this.creeps[i].isOnFire = false;
+				this.creeps[i].fireMoves = 0;
+			}
+		}
+		
 		if (this.creeps[i].health <= 0)
 		{
 			Creep.isDead(i);

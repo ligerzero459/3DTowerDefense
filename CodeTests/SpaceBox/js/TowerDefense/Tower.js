@@ -33,6 +33,11 @@ Tower.create = function( x, y, type ) {
 		this.mesh.poisonDuration = this.towerType[type].poisonDuration;
 		this.towers.push( this.mesh );
 	}
+	else if (this.mesh.towerType == "Fire") {
+		this.mesh.fireDamage = this.towerType[type].fireDamage;
+		this.mesh.fireDuration = this.towerType[type].fireDuration;
+		this.towers.push( this.mesh );
+	}
 	else {
 	this.towers.push( this.mesh );
 	}
@@ -115,6 +120,17 @@ Tower.hit = function(firingTower, target) {
 		else if (target.isPoisoned == true && target.poisonDamage < firingTower.poisonDamage) {
 			target.poisonDamage = firingTower.poisonDamage;
 			target.poisonDuration = firingTower.poisonDuration;
+		}
+	}
+	else if (firingTower.towerType == "Fire") {
+		if (target.isOnFire == false) {
+			target.isOnFire = true;
+			target.fireDamage = firingTower.fireDamage;
+			target.fireDuration = firingTower.fireDuration;
+		}
+		else if (target.isOnFire == true && target.fireDamage < firingTower.fireDamage) {
+			target.fireDamage = firingTower.fireDamage;
+			target.fireDuration = firingTower.fireDuration;
 		}
 	}
 }
