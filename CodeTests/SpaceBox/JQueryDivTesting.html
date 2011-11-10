@@ -82,6 +82,7 @@
 		var zPathArray = new Array();
 		
 		var target, theta = 45;
+		var isLeftDown = false, isRightDown = false;
 		
         $(document).ready(function() {
 			if ( ! Detector.webgl )
@@ -163,10 +164,8 @@
 
 					switch( event.keyCode ) {
 
-					case 16: isShiftDown = true; break;
-					case 17: isCtrlDown = true; break;
-					case 37: theta -= 10; break;
-					case 39: theta += 10; break;
+					case 37: isLeftDown = true; break;
+					case 39: isRightDown = true; break;
 
 					}
 				}
@@ -175,9 +174,9 @@
 
 					switch( event.keyCode ) {
 
-						case 16: isShiftDown = false; break;
-						case 17: isCtrlDown = false; break;
-
+					case 37: isLeftDown = false; break;
+					case 39: isRightDown = false; break;
+					
 					}
 				}
 					
@@ -274,13 +273,13 @@
 
 					controls.keys = [ 65, 83, 68 ];*/
 					
-					/*controls = new THREE.FlyControls( camera );
+					controls = new THREE.FlyControls( camera );
 
 					controls.movementSpeed = 1500;
 					controls.domElement = container;
 					controls.rollSpeed = Math.PI / 5;
 					controls.autoForward = false;
-					controls.dragToLook = true;*/
+					controls.dragToLook = true;
 					
 				}
 				
@@ -357,11 +356,11 @@
 				function render() {
 				
 					stats.update();
-					//controls.update();
-					camera.lookAt ( target );
+					controls.update();
+					//camera.lookAt ( target );
 					
-					camera.position.x = 7600 * Math.sin( theta * Math.PI / 360 );
-					camera.position.z = 2000 * Math.cos( theta * Math.PI / 360 );
+					//camera.position.x = 7600 * Math.sin( theta * Math.PI / 360 );
+					//camera.position.z = 2000 * Math.cos( theta * Math.PI / 360 );
 					
 					var now = new Date().getTime();
 					
