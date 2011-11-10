@@ -157,7 +157,9 @@
 					// Delay to prevent game start before rendering is complete
 					//Creep.initialize();
 					
-					window.addEventListener( 'resize', onWindowResize, false );				
+					window.addEventListener( 'resize', onWindowResize, false );
+					document.addEventListener( 'keydown', onDocumentKeyDown, false );
+					document.addEventListener( 'keyup', onDocumentKeyUp, false );					
 				}
 				
 				function onDocumentKeyDown( event ) {
