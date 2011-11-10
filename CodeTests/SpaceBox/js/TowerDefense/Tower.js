@@ -15,11 +15,11 @@ Tower.initialize = function () {
 	 ];
 }
 
-Tower.create = function( x, y, type ) {
+Tower.create = function( x, z, type ) {
 	this.material = new THREE.MeshLambertMaterial ( { color: this.towerType[type].color } );
 	this.geometry = this.towerType[type].geometry;
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
-	this.mesh.position.set( x, y, 100 );
+	this.mesh.position.set( x, 100, z );
 	this.mesh.shotPower = this.towerType[type].shotPower;
 	this.mesh.charge = 100;
 	this.mesh.fireSpeed = this.towerType[type].fireSpeed;
@@ -90,7 +90,7 @@ Tower.creepsInRange = function(i) {
 	
 	for (var j in Creep.creeps) {
 		var xDistance = Creep.creeps[j].position.x - this.towers[i].position.x;
-		var yDistance = Creep.creeps[j].position.y - this.towers[i].position.y;
+		var yDistance = Creep.creeps[j].position.z - this.towers[i].position.z;
 		var Distance = Math.sqrt(Math.pow( xDistance, 2 ) + Math.pow( yDistance, 2 ));
 		
 		if ( Distance <= ( 200 * this.towers[i].range ) )
