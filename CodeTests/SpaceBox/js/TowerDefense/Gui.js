@@ -13,7 +13,7 @@ Gui.initialize = function() {
 	$("#scoreDisplay").css("font-size", "16px");
 	
 	// Create Tower Selection Box
-	this.createDiv("TR", "towerBox", 270, 900, 10, 10, "gui");
+	this.createDiv("TR", "towerBox", 270, 700, 10, 10, "gui");
 	$("#towerBox").css("background-color", "#ffffff");
 	$("#towerBox").css("border-radius", "3px");
 	$("#towerBox").css("border", "2px solid black");
