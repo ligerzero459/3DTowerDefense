@@ -85,7 +85,7 @@ Creep.update = function() {
 			else
 			{
 				this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
-				this.creeps[i].position.y = Map.yPathArray[this.creepWaypoint[i]];
+				this.creeps[i].position.z = Map.yPathArray[this.creepWaypoint[i]];
 				this.creepWaypoint[i]--;
 				this.creeps[i].MOVE_N = false;
 				this.creeps[i].MOVE_S = false;
@@ -93,22 +93,22 @@ Creep.update = function() {
 				this.creeps[i].MOVE_W = false;
 			}
 		}
-		else if (this.creeps[i].position.y != Map.yPathArray[this.creepWaypoint[i]])
+		else if (this.creeps[i].position.z != Map.yPathArray[this.creepWaypoint[i]])
 		{
-			if (this.creeps[i].position.y > Map.yPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_N == false)
+			if (this.creeps[i].position.z > Map.yPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_N == false)
 			{
-				this.creeps[i].position.y -= this.creeps[i].speed;
+				this.creeps[i].position.z -= this.creeps[i].speed;
 				this.creeps[i].MOVE_S = true;
 			}					
-			else if (this.creeps[i].position.y < Map.yPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_S == false)
+			else if (this.creeps[i].position.z < Map.yPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_S == false)
 			{
-				this.creeps[i].position.y += this.creeps[i].speed;
+				this.creeps[i].position.z += this.creeps[i].speed;
 				this.creeps[i].MOVE_N = true;
 			}
 			else
 			{
 				this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
-				this.creeps[i].position.y = Map.yPathArray[this.creepWaypoint[i]];
+				this.creeps[i].position.z = Map.yPathArray[this.creepWaypoint[i]];
 				this.creepWaypoint[i]--;
 				this.creeps[i].MOVE_N = false;
 				this.creeps[i].MOVE_S = false;
@@ -119,7 +119,7 @@ Creep.update = function() {
 		else
 		{
 			this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
-			this.creeps[i].position.y = Map.yPathArray[this.creepWaypoint[i]];
+			this.creeps[i].position.z = Map.yPathArray[this.creepWaypoint[i]];
 			this.creepWaypoint[i]--;
 			this.creeps[i].MOVE_N = false;
 			this.creeps[i].MOVE_S = false;

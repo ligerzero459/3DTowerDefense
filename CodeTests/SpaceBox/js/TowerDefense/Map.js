@@ -28,7 +28,7 @@ Map.generate = function () {
 	
 	for (var i = 1; i <= 15; i++)
 	{
-		this.z += 200;
+		this.z += -200;
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
@@ -44,7 +44,7 @@ Map.generate = function () {
 	
 	for (var i = 1; i <= 5	; i ++)
 	{
-		this.x -= 200;
+		this.x += -200;
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
@@ -60,7 +60,7 @@ Map.generate = function () {
 	
 	for (var i = 1; i <= 30; i++)
 	{
-		this.z -= 200;
+		this.z += 200;
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
@@ -76,7 +76,7 @@ Map.generate = function () {
 	
 	for (var i = 1; i <= 25	; i ++)
 	{
-		this.x -= 200;
+		this.x += -200;
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
@@ -92,7 +92,7 @@ Map.generate = function () {
 	
 	for (var i = 1; i <= 25; i++)
 	{
-		this.z += 200;
+		this.z += -200;
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
@@ -108,7 +108,7 @@ Map.generate = function () {
 	
 	for (var i = 1; i <= 10	; i ++)
 	{
-		this.x -= 200;
+		this.x += -200;
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
@@ -124,7 +124,7 @@ Map.generate = function () {
 	
 	for (var i = 1; i <= 6; i++)
 	{
-		this.z -= 200;
+		this.z += 200;
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
@@ -156,7 +156,7 @@ Map.generate = function () {
 	
 	for (var i = 1; i <= 20; i++)
 	{
-		this.z += 200;
+		this.z += -200;
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
