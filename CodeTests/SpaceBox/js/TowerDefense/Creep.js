@@ -3,7 +3,7 @@ var Creep = Creep || {};
 Creep.initialize = function () {
 	this.pathLength = Map.xPathArray.length - 1
 	this.x = Map.xPathArray[this.pathLength];
-	this.y = Map.yPathArray[this.pathLength];
+	this.z = Map.zPathArray[this.pathLength];
 	this.creeps = [];
 	this.creepWaypoint = [];
 	this.currentWave = 0;
@@ -33,7 +33,7 @@ Creep.create = function ( color, health, speed ) {
 	this.geometry = new THREE.SphereGeometry( 100, 20, 20 );
 	this.geometry.computeTangents();
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
-	this.mesh.position.set( this.x, this.y, 100 );
+	this.mesh.position.set( this.x, 100, this.z );
 	this.mesh.health = health;
 	this.mesh.speed = speed;
 	
@@ -85,7 +85,7 @@ Creep.update = function() {
 			else
 			{
 				this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
-				this.creeps[i].position.z = Map.yPathArray[this.creepWaypoint[i]];
+				this.creeps[i].position.z = Map.zPathArray[this.creepWaypoint[i]];
 				this.creepWaypoint[i]--;
 				this.creeps[i].MOVE_N = false;
 				this.creeps[i].MOVE_S = false;
@@ -93,14 +93,14 @@ Creep.update = function() {
 				this.creeps[i].MOVE_W = false;
 			}
 		}
-		else if (this.creeps[i].position.z != Map.yPathArray[this.creepWaypoint[i]])
+		else if (this.creeps[i].position.z != Map.zPathArray[this.creepWaypoint[i]])
 		{
-			if (this.creeps[i].position.z > Map.yPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_N == false)
+			if (this.creeps[i].position.z > Map.zPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_N == false)
 			{
 				this.creeps[i].position.z -= this.creeps[i].speed;
 				this.creeps[i].MOVE_S = true;
 			}					
-			else if (this.creeps[i].position.z < Map.yPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_S == false)
+			else if (this.creeps[i].position.z < Map.zPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_S == false)
 			{
 				this.creeps[i].position.z += this.creeps[i].speed;
 				this.creeps[i].MOVE_N = true;
@@ -108,7 +108,7 @@ Creep.update = function() {
 			else
 			{
 				this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
-				this.creeps[i].position.z = Map.yPathArray[this.creepWaypoint[i]];
+				this.creeps[i].position.z = Map.zPathArray[this.creepWaypoint[i]];
 				this.creepWaypoint[i]--;
 				this.creeps[i].MOVE_N = false;
 				this.creeps[i].MOVE_S = false;
@@ -119,7 +119,7 @@ Creep.update = function() {
 		else
 		{
 			this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
-			this.creeps[i].position.z = Map.yPathArray[this.creepWaypoint[i]];
+			this.creeps[i].position.z = Map.zPathArray[this.creepWaypoint[i]];
 			this.creepWaypoint[i]--;
 			this.creeps[i].MOVE_N = false;
 			this.creeps[i].MOVE_S = false;
