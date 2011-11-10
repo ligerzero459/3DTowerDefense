@@ -13,14 +13,14 @@ Gui.initialize = function() {
 	$("#scoreDisplay").css("font-size", "16px");
 	
 	// Create Tower Selection Box
-	this.createDiv("TR", "towerBox", 270, "100%", 10, 10, "gui");
+	this.createDiv("TR", "towerBox", 270, 900, 10, 10, "gui");
 	$("#towerBox").css("background-color", "#ffffff");
 	$("#towerBox").css("border-radius", "3px");
 	$("#towerBox").css("border", "2px solid black");
 	
 	for (var i in Tower.towerType)
 	{
-		var top = 10 + (i * 76);
+		var top = 10 + (i * 56);
 		this.createDiv("TL", Tower.towerType[i].type, 250, 50, top, 8, "towerBox");
 		
 		var towerID = Tower.towerType[i].type;
