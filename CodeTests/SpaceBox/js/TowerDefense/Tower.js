@@ -30,7 +30,8 @@ Tower.create = function( x, y, type ) {
 	this.mesh.originalMaterial = new THREE.MeshLambertMaterial ( { color: this.towerType[type].color } );
 	if (this.mesh.towerType == "Poison") {
 		this.mesh.poisonDamage = this.towerType[type].poisonDamage;
-		this.mesh.
+		this.mesh.poisonDuration = this.towerType[type].poisonDuration;
+		this.towers.push( this.mesh );
 	}
 	else {
 	this.towers.push( this.mesh );
