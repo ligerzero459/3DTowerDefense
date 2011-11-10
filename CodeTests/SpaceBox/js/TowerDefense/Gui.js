@@ -13,15 +13,15 @@ Gui.initialize = function() {
 	$("#scoreDisplay").css("font-size", "16px");
 	
 	// Create Tower Selection Box
-	this.createDiv("TR", "towerBox", 270, 460, 10, 10, "gui");
+	this.createDiv("TR", "towerBox", 270, "100%", 10, 10, "gui");
 	$("#towerBox").css("background-color", "#ffffff");
 	$("#towerBox").css("border-radius", "3px");
 	$("#towerBox").css("border", "2px solid black");
 	
 	for (var i in Tower.towerType)
 	{
-		var top = 10 + (i * 80);
-		this.createDiv("TL", Tower.towerType[i].type, 250, 70, top, 8, "towerBox");
+		var top = 10 + (i * 76);
+		this.createDiv("TL", Tower.towerType[i].type, 250, 50, top, 8, "towerBox");
 		
 		var towerID = Tower.towerType[i].type;
 		var towerPic = towerID + "Pic";
@@ -29,9 +29,9 @@ Gui.initialize = function() {
 		
 		$("#" + towerID).css("background-color", "#7A7A7A");
 		$("#" + towerID).css("border-radius", "3px");
-		$("#" + towerID).css("border", "2px solid black");
+		$("#" + towerID).css("border", "1px solid black");
 		
-		this.createDiv("TL", towerPic, 40, 40, 15, 10, towerID);
+		/*this.createDiv("TL", towerPic, 40, 40, 15, 10, towerID);
 		$("#" + towerPic).css("background-color", "#ffffff");
 		
 		this.createDiv("TL", towerInfo, 180, 60, 5, 60, towerID);
@@ -39,7 +39,7 @@ Gui.initialize = function() {
 		$("#" + towerInfo).css("color", "#000000");
 		
 		var towerHTML = "<div style='position: absolute; top: 0; left: 0;'>" + Tower.towerType[i].type + "<br>Power: " + Tower.towerType[i].damage + " Fire Speed: " + Tower.towerType[i].fireSpeed + "<br>Range: " + Tower.towerType[i].range + "</div>";
-		$("#" + towerInfo).html(towerHTML);
+		$("#" + towerInfo).html(towerHTML);*/
 	}
 	
 	Gui.display();
