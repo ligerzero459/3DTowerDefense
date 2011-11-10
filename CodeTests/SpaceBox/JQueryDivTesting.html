@@ -215,11 +215,7 @@
 					Tower.create( -1500, -4300, 0 );
 					Tower.create( -1100, -2300, 1 );
 					
-					$("#Tower").css("opacity", "1.0");
-					$("#Tower").click(function(e) {
-						e.preventDefault();
-						Tower.activate();
-					});
+					Tower.activate("Tower");
 					
 					gameOn = true;
 					firstStart = true;
