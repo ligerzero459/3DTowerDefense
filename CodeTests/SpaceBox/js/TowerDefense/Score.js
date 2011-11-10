@@ -11,7 +11,7 @@ Score.initialize = function ()
     this.myScore = 0;
 }
   
-Score.setScore = function (var hit)
+Score.setScore = function (hit)
 {
     //Increase score by 10?
     if (hit == true)
