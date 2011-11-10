@@ -36,22 +36,22 @@ Score.towerCheck = function ()
 	case 700: //Pluto
 		Tower.activate("Slow");
 		break;
-	case 600; //Neptune
+	case 600: //Neptune
 		Tower.activate("Laser");
 		break;
-	case 500; //Uranus
+	case 500: //Uranus
 		Tower.activate("Poison");
 		break;
-	case 400; //Saturn
+	case 400: //Saturn
 		Tower.activate("Sniper");
 		break;
-	case 300; //Jupiter
+	case 300: //Jupiter
 		Tower.activate("Splash");
 		break;
-	case 200; //Mars
+	case 200: //Mars
 		Tower.activate("Fire");
 		break;
-	case 100; //Venus
+	case 100: //Venus
 		Tower.activate("Rapid");
 		break;
 	default:  //Earth

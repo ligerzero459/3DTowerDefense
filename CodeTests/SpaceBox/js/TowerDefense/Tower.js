@@ -113,6 +113,6 @@ Tower.hit = function(firingTower, target) {
 	}
 }
 
-Tower.activate = function (var towerName) {
+Tower.activate = function (towerName) {
 	return 0;
 }
