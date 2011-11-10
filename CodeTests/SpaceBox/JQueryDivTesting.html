@@ -357,9 +357,13 @@
 						theta += 1.5;
 					}
 					else if (isUpDown) {
-						if (yDistance > 200) {
+						if (xDistance > 200) {
 							xDistance -= 45;
+						}
+						if (zDistance > 200) {
 							zDistance -= 45;
+						}
+						if (yDistance > 200) {
 							yDistance -= 15;
 						}
 					}
