@@ -84,7 +84,9 @@
 		var target, theta = 45;
 		var xDistance = 9000, zDistance = 9000, yDistance = 3000;
 		var isLeftDown = false, isRightDown = false,
-			isUpDown = false, isDownDown = false;
+			isUpDown = false, isDownDown = false,
+			wDown = false, sDown = false,
+			aDown = false, dDown = false;;
 		
         $(document).ready(function() {
 			if ( ! Detector.webgl )
@@ -160,20 +162,40 @@
 					
 					window.addEventListener( 'resize', onWindowResize, false );
 					document.addEventListener( 'keydown', onDocumentKeyDown, false );
-					
+					document.addEventListener( 'keyup', onDocumentKeyUp, false );					
 				}
 				
 				function onDocumentKeyDown( event ) {
 
 					switch( event.keyCode ) {
 
-					case 37: theta -= 1.5; break;
-					case 38: xDistance -= 15; zDistance -= 15; yDistance -= 5; break;
-					case 39: theta += 1.5; break;
-					case 40: xDistance += 15; zDistance += 15; yDistance += 5; break;
+					case 37: isLeftDown = true; break;
+					case 38: isUpDown = true; break;
+					case 39: isRightDown = true; break;
+					case 40: isDownDown = true; break;
+					case 65: aDown = true; break;		// a
+					case 68: dDown = true; break;		// d
+					case 83: sDown = true; break;		// s
+					case 87: wDown = true; break;		// w
 
 					}
 					
+				}
+
+				function onDocumentKeyUp( event ) {
+
+					switch( event.keyCode ) {
+
+					case 37: isLeftDown = false; break;
+					case 38: isUpDown = false; break;
+					case 39: isRightDown = false; break;
+					case 40: isDownDown = false; break;
+					case 65: aDown = true; break;
+					case 68: dDown = true; break;
+					case 83: sDown = true; break;
+					case 87: wDown = true; break;
+					
+					}
 				}
 					
 				function onWindowResize( event ) {
@@ -327,6 +349,23 @@
 				
 					stats.update();
 					camera.lookAt ( target );
+					
+					if (isLeftDown) {
+						theta -= 1.5;
+					}
+					else if (isRightDown) {
+						theta += 1.5;
+					}
+					else if (isUpDown) {
+						xDistance -= 45;
+						zDistance -= 45;
+						yDistance -= 15;
+					}
+					else if (isDownDown) {
+						xDistance += 45;
+						zDistance += 45;
+						yDistance += 15;
+					}
 					
 					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
 					camera.position.z = zDistance * Math.cos( theta * Math.PI / 360 );
