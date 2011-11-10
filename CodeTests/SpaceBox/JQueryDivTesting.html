@@ -109,7 +109,6 @@
 					
 					// Initialization
 					addCamera();
-					addControls();
 					Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
 					Tower.initialize();
 					Score.initialize();
@@ -161,31 +160,20 @@
 					
 					window.addEventListener( 'resize', onWindowResize, false );
 					document.addEventListener( 'keydown', onDocumentKeyDown, false );
-					document.addEventListener( 'keyup', onDocumentKeyUp, false );					
+					
 				}
 				
 				function onDocumentKeyDown( event ) {
 
 					switch( event.keyCode ) {
 
-					case 37: isLeftDown = true; break;
-					case 38: isUpDown = true; break;
-					case 39: isRightDown = true; break;
-					case 40: isDownDown = true; break;
+					case 37: theta -= 1.5; break;
+					case 38: xDistance -= 15; zDistance -= 15; yDistance -= 5; break;
+					case 39: theta += 1.5; break;
+					case 40: xDistance += 15; zDistance += 15; yDistance += 5; break;
 
 					}
-				}
-
-				function onDocumentKeyUp( event ) {
-
-					switch( event.keyCode ) {
-
-					case 37: isLeftDown = false; break;
-					case 38: isUpDown = false; break;
-					case 39: isRightDown = false; break;
-					case 40: isDownDown = false; break;
 					
-					}
 				}
 					
 				function onWindowResize( event ) {
@@ -265,32 +253,6 @@
 					
 				}
 				
-				function addControls() {
-				
-					/*controls = new THREE.TrackballControls( camera );
-
-					controls.rotateSpeed = 1.0;
-					controls.zoomSpeed = 1.2;
-					controls.panSpeed = 0.8;
-
-					controls.noZoom = false;
-					controls.noPan = true;
-
-					controls.staticMoving = false;
-					controls.dynamicDampingFactor = 0.3;
-
-					controls.keys = [ 65, 83, 68 ];*/
-					
-					/*controls = new THREE.FlyControls( camera );
-
-					controls.movementSpeed = 1500;
-					controls.domElement = container;
-					controls.rollSpeed = Math.PI / 5;
-					controls.autoForward = false;
-					controls.dragToLook = true;*/
-					
-				}
-				
 				function drawBox() {
 					
 					// Textures modified to provide space-type backgrounds
@@ -364,25 +326,7 @@
 				function render() {
 				
 					stats.update();
-					//controls.update();
 					camera.lookAt ( target );
-					
-					if (isLeftDown) {
-						theta -= 2;
-					}
-					else if (isRightDown) {
-						theta += 2;
-					}
-					else if (isUpDown) {
-						xDistance -= 9;
-						zDistance -= 9;
-						yDistance -= 3;
-					}
-					else if (isDownDown) {
-						xDistance += 9;
-						zDistance += 9;
-						yDistance += 3;
-					}
 					
 					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
 					camera.position.z = zDistance * Math.cos( theta * Math.PI / 360 );
