@@ -101,7 +101,6 @@
 				animate();
 
 				function init() {
-					$("#renderWindow").css("display", "block");
 					container = $("#renderWindow");
 					
 					$("#start").click(function(e) {
@@ -149,13 +148,13 @@
 					renderer.sortObjects = false;
 					renderer.autoClear = false;
 
-					container.append( renderer.domElement );
+					container.appendChild( renderer.domElement );
 					
 					stats = new Stats();
 					stats.domElement.style.position = 'absolute';
 					stats.domElement.style.bottom = '0px';
 					stats.domElement.style.right = '0px';
-					container.append( stats.domElement );
+					container.appendChild( stats.domElement );
 					
 					// Delay to prevent game start before rendering is complete
 					Creep.initialize();
