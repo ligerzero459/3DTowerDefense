@@ -136,6 +136,15 @@ Tower.hit = function(firingTower, target) {
 }
 
 Tower.activate = function (towerName) {
+	$("#" + towerName).css("opacity", "1.0");
+	$("#" + towerName).click(function(e) {
+		e.preventDefault();
+		Tower.placeTower();
+	});
+	return 0;
+}
+
+Tower.placeTower = function () {
 	alert("Successful");
 	return 0;
 }
