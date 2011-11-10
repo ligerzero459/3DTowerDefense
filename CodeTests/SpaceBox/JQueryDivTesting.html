@@ -108,7 +108,7 @@
 					addControls();
 					Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
 					Tower.initialize();
-					Score.scoreObj();
+					Score.initialize();
 					setTimeout("Gui.initialize()", 3000);
 					
 					var ambientLight = new THREE.AmbientLight( 0xffffff );
@@ -325,9 +325,9 @@
 	<body>
 	<div id="TOPcontainer">
 	<table border=1 style="background-color: #00ffff;">
-	<tr><td><a href="#" onMouseOver= "return changeImage()"><img name="jsplay" src="Play.jpg" width="110" height="28" border="0" alt="javascript play"></a></td>
-		<td><img name="jsoption" src="Options.jpg" width="110" height="28" border="0" alt="javascript option"></td>
-		<td><img name="jsbutton" src="HighScore.jpg" width="110" height="28" border="0" alt="javascript high"></td>
+	<tr><td><a href="#" onMouseOver= "return changeImage()"><img name="jsplay" src="textures/Play.jpg" width="110" height="28" border="0" alt="javascript play"></a></td>
+		<td><img name="jsoption" src="textures/Options.jpg" width="110" height="28" border="0" alt="javascript option"></td>
+		<td><img name="jsbutton" src="textures/HighScore.jpg" width="110" height="28" border="0" alt="javascript high"></td>
 		<td width=400% align=right>SCORE &nbsp&nbsp&nbsp&nbsp  jsScore</td>
 	</tr>
 	</table>

@@ -5,7 +5,7 @@ Score.TestBox = function ()
   alert("It Works");
 }
 
-Score.scoreObj = function ()
+Score.initialize = function ()
 {
     //constructor
     this.myScore = 0;
