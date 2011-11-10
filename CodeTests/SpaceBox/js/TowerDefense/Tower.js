@@ -112,3 +112,7 @@ Tower.hit = function(firingTower, target) {
 		target.poisonDuration = firingTower.poisonDuration;
 	}
 }
+
+Tower.activate = function (var towerName) {
+
+}

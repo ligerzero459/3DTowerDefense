@@ -131,4 +131,6 @@ Creep.update = function() {
 Creep.isDead = function ( i ) {
 	scene.remove(this.creeps[i]);
 	this.creeps.splice(i, 1);
+	Score.setScore(true);
+	Score.towerCheck();
 }

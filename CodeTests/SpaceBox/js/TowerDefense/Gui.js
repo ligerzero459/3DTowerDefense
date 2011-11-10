@@ -8,7 +8,7 @@ Gui.initialize = function() {
 	$("#score").css("border", "2px solid white");
 	
 	this.createDiv("TL", "scoreDisplay", 170, 32, 0, 0, "score");
-	$("#scoreDisplay").text("Score: 0  Cash: $0");
+	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $0");
 	$("#scoreDisplay").css("text-align", "center");
 	$("#scoreDisplay").css("font-size", "16px");
 	
