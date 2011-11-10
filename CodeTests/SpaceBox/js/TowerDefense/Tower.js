@@ -136,5 +136,6 @@ Tower.hit = function(firingTower, target) {
 }
 
 Tower.activate = function (towerName) {
+	alert("Successful");
 	return 0;
 }
