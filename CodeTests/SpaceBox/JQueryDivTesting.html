@@ -350,6 +350,7 @@
 					stats.update();
 					camera.lookAt ( target );
 					
+					// Camera control code
 					if (isLeftDown) {
 						theta -= 1.5;
 					}
@@ -378,6 +379,15 @@
 					else if (sDown) {
 						if (yDistance > 200) {
 							yDistance -= 15;
+						}
+					}else if (aDown) {
+						if (target.x < 10000 && target.x > -10000) {
+							target.x -= 15;
+						}
+					}
+					else if (dDown) {
+						if (target.x < 10000 && target.x > -10000) {
+							target.x += 15;
 						}
 					}
 					
