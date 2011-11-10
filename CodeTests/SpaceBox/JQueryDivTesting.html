@@ -79,10 +79,10 @@
 		var target = new THREE.Vector3();
 		var scene = new THREE.Scene();
 				
-		var x = 0, y = 0, counter = 1;
+		var x = 0, z = 0, counter = 1;
 				
 		var xPathArray = new Array();
-		var yPathArray = new Array();
+		var zPathArray = new Array();
 		
         $(document).ready(function() {
 			if ( ! Detector.webgl )
@@ -135,6 +135,7 @@
 					planeMesh = new THREE.Mesh ( geometry, material );
 					planeMesh.position.set( 0, 0, 0 );
 					planeMesh.scale.set( 1, 1, 1 );
+					planeMesh.rotation.x = - 90 * Math.PI / 180;
 					scene.add( planeMesh );
 					
 					// Map Path Generation
@@ -154,7 +155,7 @@
 					container.appendChild( stats.domElement );
 					
 					// Delay to prevent game start before rendering is complete
-					Creep.initialize();
+					//Creep.initialize();
 					
 					window.addEventListener( 'resize', onWindowResize, false );				
 				}
