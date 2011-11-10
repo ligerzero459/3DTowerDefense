@@ -56,7 +56,7 @@ Tower.update = function() {
 					var firingTower = this.towers[i];
 					Tower.hit(firingTower, target);
 					this.towers[i].charging = true;
-				{
+				}
 			}
 			else {
 				if (targets != 0)
