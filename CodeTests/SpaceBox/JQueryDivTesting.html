@@ -37,14 +37,6 @@
 				text-align:center;
 			}
 			
-			#renderWindow {
-				position: absolute;
-				top: 45px;
-				width: 100%;
-				height: 100%;
-				z-index: 1;
-			}
-			
 			#gui {
 				position: absolute;
 				top: 45px;
@@ -102,6 +94,11 @@
 
 				function init() {
 					container = document.createElement( 'div' );
+					container.setAttribute('id', "renderWindow");
+					container.style.width = "100%";
+					container.style.height = "100%";
+					container.style.top = "45px";
+					container.style.left ="0px";
 					document.body.appendChild( container );
 					
 					$("#start").click(function(e) {
@@ -111,7 +108,7 @@
 					
 					// Initialization
 					addCamera();
-					//addControls();
+					addControls();
 					Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
 					Tower.initialize();
 					Score.initialize();
@@ -320,7 +317,7 @@
 				function render() {
 				
 					stats.update();
-					//controls.update();
+					controls.update();
 					var now = new Date().getTime();
 					
 					if (gameOn == true) {
@@ -357,6 +354,5 @@
 	</table>
 	</div>
 	<div id="gui"></div>
-	<div id="renderWindow"></div>
 	</body>
 </html>
