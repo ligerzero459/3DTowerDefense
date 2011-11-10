@@ -107,9 +107,15 @@ Tower.hit = function(firingTower, target) {
 	target.health -= firingTower.damage;
 	firingTower.charge -= firingTower.shotPower;
 	if (firingTower.towerType == "Poison") {
-		target.isPoisoned = true;
-		target.poisonDamage = firingTower.poisonDamage;
-		target.poisonDuration = firingTower.poisonDuration;
+		if (target.isPoisoned == false) {
+			target.isPoisoned = true;
+			target.poisonDamage = firingTower.poisonDamage;
+			target.poisonDuration = firingTower.poisonDuration;
+		}
+		else if (target.isPoisoned == true && target.poisonDamage < firingTower.poisonDamage) {
+			target.poisonDamage = firingTower.poisonDamage;
+			target.poisonDuration = firingTower.poisonDuration;
+		}
 	}
 }
 

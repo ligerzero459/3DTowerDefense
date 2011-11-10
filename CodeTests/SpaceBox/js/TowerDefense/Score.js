@@ -1,33 +1,24 @@
 var Score = Score || {};
 
-Score.TestBox = function ()
-{
-  alert("It Works");
-}
-
-Score.initialize = function ()
-{
-    //constructor
+Score.initialize = function () {
     this.myScore = 0;
+	this.myCash = 0;
 }
   
-Score.setScore = function (hit)
-{
-    //Increase score by 10?
-    if (hit == true)
-    {
-      this.myScore += 10;
-    }
+Score.setScore = function () {
+    this.myScore += 10;
+	this.myCash += 100;
 }
   
-Score.getScore = function ()
-{
-    //Return score
+Score.getScore = function () {
     return this.myScore;
 }
+
+Score.getCash = function () {
+	return this.myCash;
+}
   
-Score.towerCheck = function ()
-{
+Score.towerCheck = function () {
     switch(this.myscore)
 	{
 	case 800: //Mercury
