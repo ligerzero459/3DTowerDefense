@@ -165,6 +165,8 @@
 
 					case 16: isShiftDown = true; break;
 					case 17: isCtrlDown = true; break;
+					case 37: theta -= 10; break;
+					case 39: theta += 10; break;
 
 					}
 				}
@@ -245,9 +247,9 @@
 				function addCamera() {
 				
 					camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
-					camera.position.x = 7600 * Math.sin( theta * Math.PI / 360 );
-					camera.position.z = 7600 * Math.cos( theta * Math.PI / 360 );
-					camera.position.y = 2000;
+					camera.position.x = 9000 * Math.sin( theta * Math.PI / 360 );
+					camera.position.z = 9000 * Math.cos( theta * Math.PI / 360 );
+					camera.position.y = 3500;
 					
 					target = new THREE.Vector3( 0, 0, 0 );
 					
