@@ -82,7 +82,9 @@
 		var zPathArray = new Array();
 		
 		var target, theta = 45;
-		var isLeftDown = false, isRightDown = false;
+		var xDistance = 9000, zDistance = 9000, yDistance = 3000;
+		var isLeftDown = false, isRightDown = false,
+			isUpDown = false, isDownDown = false;
 		
         $(document).ready(function() {
 			if ( ! Detector.webgl )
@@ -167,7 +169,9 @@
 					switch( event.keyCode ) {
 
 					case 37: isLeftDown = true; break;
+					case 38: isUpDown = true; break;
 					case 39: isRightDown = true; break;
+					case 40: isDownDown = true; break;
 
 					}
 				}
@@ -177,7 +181,9 @@
 					switch( event.keyCode ) {
 
 					case 37: isLeftDown = false; break;
+					case 38: isUpDown = false; break;
 					case 39: isRightDown = false; break;
+					case 40: isDownDown = false; break;
 					
 					}
 				}
@@ -248,9 +254,9 @@
 				function addCamera() {
 				
 					camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
-					camera.position.x = 9000 * Math.sin( theta * Math.PI / 360 );
-					camera.position.z = 9000 * Math.cos( theta * Math.PI / 360 );
-					camera.position.y = 3500;
+					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
+					camera.position.z = zDistance * Math.cos( theta * Math.PI / 360 );
+					camera.position.y = yDistance;
 					
 					target = new THREE.Vector3( 0, 0, 0 );
 					
@@ -362,14 +368,25 @@
 					camera.lookAt ( target );
 					
 					if (isLeftDown) {
-						theta -= 5;
+						theta -= 2;
 					}
 					else if (isRightDown) {
-						theta += 5;
+						theta += 2;
+					}
+					else if (isUpDown) {
+						xDistance -= 1;
+						zDistance -= 1;
+						yDistance -= .333;
+					}
+					else if (isDownDown) {
+						xDistance += 1;
+						zDistance += 1;
+						yDistance += .333;
 					}
 					
-					camera.position.x = 9000 * Math.sin( theta * Math.PI / 360 );
-					camera.position.z = 9000 * Math.cos( theta * Math.PI / 360 );
+					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
+					camera.position.z = zDistance * Math.cos( theta * Math.PI / 360 );
+					camera.position.y = yDistance;
 					
 					var now = new Date().getTime();
 					
