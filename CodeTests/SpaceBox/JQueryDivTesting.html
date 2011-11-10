@@ -82,7 +82,7 @@
 		var zPathArray = new Array();
 		
 		var target, theta = 45;
-		var xDistance = 9000, zDistance = 9000, yDistance = 3000;
+		var xDistance = 9000, zDistance = 9000, yDistance = 9000;
 		var isLeftDown = false, isRightDown = false,
 			isUpDown = false, isDownDown = false,
 			wDown = false, sDown = false,
@@ -365,13 +365,13 @@
 							zDistance -= 45;
 						}
 						if (yDistance > 300) {
-							yDistance -= 15;
+							yDistance -= 45;
 						}
 					}
 					else if (isDownDown) {
 						xDistance += 45;
 						zDistance += 45;
-						yDistance += 15;
+						yDistance += 45;
 					}
 					else if (wDown) {
 						yDistance += 15;
@@ -379,17 +379,6 @@
 					else if (sDown) {
 						if (yDistance > 200) {
 							yDistance -= 15;
-						}
-					}else if (aDown) {
-						if (target.x < 10000 && target.x > -10000) {
-							target.x -= 15;
-							target.z -= 15;
-						}
-					}
-					else if (dDown) {
-						if (target.x < 10000 && target.x > -10000) {
-							target.x += 15;
-							target.z += 15;
 						}
 					}
 					
