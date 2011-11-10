@@ -81,7 +81,7 @@
 		var xPathArray = new Array();
 		var zPathArray = new Array();
 		
-		var target;
+		var target, theta = 45;
 		
         $(document).ready(function() {
 			if ( ! Detector.webgl )
@@ -159,6 +159,42 @@
 					window.addEventListener( 'resize', onWindowResize, false );				
 				}
 				
+				function onDocumentKeyDown( event ) {
+
+					switch( event.keyCode ) {
+
+					case 16: isShiftDown = true; break;
+					case 17: isCtrlDown = true; break;
+
+					}
+				}
+
+				function onDocumentKeyUp( event ) {
+
+					switch( event.keyCode ) {
+
+						case 16: isShiftDown = false; break;
+						case 17: isCtrlDown = false; break;
+
+					}
+				}
+					
+				function onWindowResize( event ) {
+
+					SCREEN_HEIGHT = window.innerHeight;
+					SCREEN_WIDTH  = window.innerWidth;
+
+					renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+
+					camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+					camera.updateProjectionMatrix();
+					
+					//controls.screen.width = SCREEN_WIDTH;
+					//controls.screen.height = SCREEN_HEIGHT;
+					
+					camera.radius = ( SCREEN_WIDTH + SCREEN_HEIGHT ) / 4;  
+				}
+				
 				function startGame() {
 					setTimeout("Creep.runLevel()", 10000);
 					Tower.create( -1500, 4300, 0 );
@@ -206,26 +242,11 @@
 
 				}
 				
-				function onWindowResize( event ) {
-
-					SCREEN_HEIGHT = window.innerHeight;
-					SCREEN_WIDTH  = window.innerWidth;
-
-					renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
-
-					camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-					camera.updateProjectionMatrix();
-					
-					//controls.screen.width = SCREEN_WIDTH;
-					//controls.screen.height = SCREEN_HEIGHT;
-					
-					camera.radius = ( SCREEN_WIDTH + SCREEN_HEIGHT ) / 4;  
-				}
-				
 				function addCamera() {
 				
 					camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
-					camera.position.z = 7600;
+					camera.position.x = 7600 * Math.sin( theta * Math.PI / 360 );
+					camera.position.z = 2000 * Math.cos( theta * Math.PI / 360 );
 					camera.position.y = 800;
 					
 					target = new THREE.Vector3( 0, 0, 0 );
@@ -237,7 +258,7 @@
 				
 				function addControls() {
 				
-					controls = new THREE.TrackballControls( camera );
+					/*controls = new THREE.TrackballControls( camera );
 
 					controls.rotateSpeed = 1.0;
 					controls.zoomSpeed = 1.2;
@@ -249,7 +270,15 @@
 					controls.staticMoving = false;
 					controls.dynamicDampingFactor = 0.3;
 
-					controls.keys = [ 65, 83, 68 ];
+					controls.keys = [ 65, 83, 68 ];*/
+					
+					/*controls = new THREE.FlyControls( camera );
+
+					controls.movementSpeed = 1500;
+					controls.domElement = container;
+					controls.rollSpeed = Math.PI / 5;
+					controls.autoForward = false;
+					controls.dragToLook = true;*/
 					
 				}
 				
@@ -326,9 +355,11 @@
 				function render() {
 				
 					stats.update();
-					controls.update();
-					camera.position.y = 800;
+					//controls.update();
 					camera.lookAt ( target );
+					
+					camera.position.x = 7600 * Math.sin( theta * Math.PI / 360 );
+					camera.position.z = 2000 * Math.cos( theta * Math.PI / 360 );
 					
 					var now = new Date().getTime();
 					
