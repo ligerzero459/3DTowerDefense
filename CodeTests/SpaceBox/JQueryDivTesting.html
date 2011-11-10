@@ -362,10 +362,10 @@
 					camera.lookAt ( target );
 					
 					if (isLeftDown) {
-						theta -= 50;
+						theta -= 5;
 					}
 					else if (isRightDown) {
-						theta += 50;
+						theta += 5;
 					}
 					
 					camera.position.x = 9000 * Math.sin( theta * Math.PI / 360 );
