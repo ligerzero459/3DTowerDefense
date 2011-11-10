@@ -50,7 +50,13 @@ Tower.update = function() {
 			
 			// If there are targets in range, select the one furthest along the track
 			if (this.towers[i].towerType == "Splash") {
-				break;
+				for (var j in targets)
+				{
+					var target = targets[j];
+					var firingTower = this.towers[i];
+					Tower.hit(firingTower, target);
+					this.towers[i].charging = true;
+				{
 			}
 			else {
 				if (targets != 0)
@@ -101,6 +107,6 @@ Tower.hit = function(firingTower, target) {
 	target.health -= firingTower.damage;
 	firingTower.charge -= firingTower.shotPower;
 	if (firingTower.towerType == "Poison") {
-		break;
+		target.isPoisoned = true;
 	}
 }
