@@ -44,12 +44,18 @@ Creep.create = function ( color, health, speed ) {
 	this.mesh.MOVE_E = false;
 	this.mesh.MOVE_W = false;
 	
-	// Creep poison code
-	// Determines if it's poisoned, for how long and how much damage
+	// Creep poison properties
+	// Determines if it's poisoned, for how long and how much damage occurs
 	this.mesh.isPoisoned = false;
 	this.mesh.poisonDamage = 0;
 	this.mesh.poisonDuration = 0;
 	this.mesh.poisonMoves = 0;
+	
+	// Creep slow properties
+	// Will determine if the creep is slowed, for how many turns and by how much
+	
+	// Creep fire properties
+	// Determines if it's on fire, for how long and how much damage occurs
 	
 	this.creeps.push ( this.mesh );
 	this.creepWaypoint.push ( this.pathLength - 1 );
@@ -116,10 +122,14 @@ Creep.update = function() {
 			this.creeps[i].MOVE_E = false;
 			this.creeps[i].MOVE_W = false;
 		}
-	
-		//info.innerHTML = 'Total Creeps Remaining: ' + this.wave[this.currentWave].amount;
-		if (this.creeps[i].poison == true) {
+		
+		if (this.creeps[i].isPoisoned == true) {
 			this.creeps[i].health -= this.creeps[i].poisonDamage;
+			this.creeps[i].poisonMoves += 1;
+			if (this.creeps[i].poisonDuration == this.creeps[i].poisonMoves) {
+				this.creeps[i].isPoisoned = false;
+				this.creeps[i].poisonMoves = 0;
+			}
 		}
 		if (this.creeps[i].health <= 0)
 		{
@@ -131,4 +141,7 @@ Creep.update = function() {
 Creep.isDead = function ( i ) {
 	scene.remove(this.creeps[i]);
 	this.creeps.splice(i, 1);
+	Score.setScore(true);
+	Score.towerCheck();
+	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
 }

@@ -17,9 +17,10 @@
 		<script src="js/TowerDefense/Map.js"></script>
 		<script src="js/TowerDefense/Tower.js"></script>
 		<script src="js/TowerDefense/Gui.js"></script>
+		<script src="js/TowerDefense/Score.js"></script>
 		
 		<style>
-			html, body {
+			body {
 				background-color: rgb(0,0,0);
 				margin: 0px;
 				overflow: hidden;
@@ -36,22 +37,22 @@
 				text-align:center;
 			}
 			
-			#renderWindow {
-				position: absolute;
-				top: 0px;
-				width: 100%;
-				height: 100%;
-				z-index: 1;
-			}
-			
 			#gui {
 				position: absolute;
-				top: 0px;
+				top: 45px;
 				left: 0px;
 				width: 100%;
 				height: 100%;
 				color: #ffffff;
 				z-index: 2;
+			}
+			
+			#TOPcontainer{
+				padding: 2.5px 0px 2.5px 0px;
+				position: absolute;
+				border: 1px solid #000;
+				width: 100%;
+				height: 45px;
 			}
 			
 			a {
@@ -63,6 +64,7 @@
 		var container, stats, dt;
 		var meshPlanet, planeMesh, mesh, geometry, model;
 		var lastUpdate = new Date().getTime();
+		var firstStart = false, gameOn = false;
 		var speed = .01;		//Lower = faster
 				
 		var	texture_placeholder;
@@ -91,14 +93,25 @@
 				animate();
 
 				function init() {
-
-					container = $("#renderWindow");
+					container = document.createElement( 'div' );
+					container.setAttribute('id', "renderWindow");
+					container.style.width = "100%";
+					container.style.height = "100%";
+					container.style.top = "45px";
+					container.style.left ="0px";
+					document.body.appendChild( container );
+					
+					$("#start").click(function(e) {
+						e.preventDefault(); // if desired...
+						startGame();
+					});
 					
 					// Initialization
 					addCamera();
 					addControls();
 					Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
 					Tower.initialize();
+					Score.initialize();
 					setTimeout("Gui.initialize()", 3000);
 					
 					var ambientLight = new THREE.AmbientLight( 0xffffff );
@@ -116,7 +129,7 @@
 					drawBox();
 					
 					// Drawing the planet in the center
-					drawPlanet();
+					drawSun();
 					
 					material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
 					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
@@ -133,22 +146,38 @@
 					renderer.sortObjects = false;
 					renderer.autoClear = false;
 
-					container.append( renderer.domElement );
+					container.appendChild( renderer.domElement );
 					
 					stats = new Stats();
 					stats.domElement.style.position = 'absolute';
 					stats.domElement.style.bottom = '0px';
 					stats.domElement.style.right = '0px';
-					container.append( stats.domElement );
+					container.appendChild( stats.domElement );
 					
 					// Delay to prevent game start before rendering is complete
 					Creep.initialize();
-					setTimeout("Creep.runLevel()", 10000);
-					
-					Tower.create( -1500, 4300, 0 );
-					Tower.create( -1100, 2300, 1 );
 					
 					window.addEventListener( 'resize', onWindowResize, false );				
+				}
+				
+				function startGame() {
+					setTimeout("Creep.runLevel()", 10000);
+					Tower.create( -1500, 4300, 0 );
+					Tower.create( -1100, 2300, 1 );
+					gameOn = true;
+					firstStart = true;
+				}
+				
+				function pauseGame() {
+					if (firstStart == true) {
+						gameOn = false;
+					}
+				}
+				
+				function unpauseGame() {
+					if (firstStart == true) {
+						gameOn = true;
+					}
 				}
 				
 				function loadTexture( path ) {
@@ -237,19 +266,19 @@
 					
 				}
 				
-				function drawPlanet() {
+				function drawSun() {
 				
 					var parameters = {
-						map: THREE.ImageUtils.loadTexture( 'textures/test1/EarthMap_2500x1250.jpg' )
+						map: THREE.ImageUtils.loadTexture( 'textures/sunmap.jpg' )
 					};
 					
-					geometry = new THREE.SphereGeometry( 200, 20, 20 );
+					geometry = new THREE.SphereGeometry( 400, 40, 40 );
 					geometry.computeTangents();
 					
 					var material = new THREE.MeshLambertMaterial ( parameters );
 					
 					meshPlanet = new THREE.Mesh( geometry, material ) ;
-					meshPlanet.position.set ( 0, 0, 100 );
+					meshPlanet.position.set ( 0, 0, 200 );
 					scene.add( meshPlanet );
 					
 				}
@@ -291,14 +320,16 @@
 					controls.update();
 					var now = new Date().getTime();
 					
-					dt = (now - lastUpdate) / 1000;		//Limits game speed
-					if (dt > speed)
-					{
-					
-						Creep.update();
-						Tower.update();
-						lastUpdate = now;
+					if (gameOn == true) {
+						dt = (now - lastUpdate) / 1000;		//Limits game speed
+						if (dt > speed)
+						{
 						
+							Creep.update();
+							Tower.update();
+							lastUpdate = now;
+							
+						}
 					}
 					
 					renderer.clear();
@@ -313,7 +344,15 @@
 	</head>
 	
 	<body>
+	<div id="TOPcontainer">
+	<table border=1 style="background-color: #00ffff;">
+	<tr><td><a id="start" href="#"><img name="jsplay" src="textures/Play.jpg" width="110" height="28" border="0" alt="javascript play"></a></td>
+		<td><img name="jsoption" src="textures/Options.jpg" width="110" height="28" border="0" alt="javascript option"></td>
+		<td><img name="jsbutton" src="textures/HighScore.jpg" width="110" height="28" border="0" alt="javascript high"></td>
+		<td width=400% align=right></td>
+	</tr>
+	</table>
+	</div>
 	<div id="gui"></div>
-	<div id="renderWindow"></div>
 	</body>
 </html>

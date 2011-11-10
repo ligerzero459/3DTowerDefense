@@ -8,38 +8,38 @@ Gui.initialize = function() {
 	$("#score").css("border", "2px solid white");
 	
 	this.createDiv("TL", "scoreDisplay", 170, 32, 0, 0, "score");
-	$("#scoreDisplay").text("Score: 0  Cash: $0");
+	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $0");
 	$("#scoreDisplay").css("text-align", "center");
 	$("#scoreDisplay").css("font-size", "16px");
 	
 	// Create Tower Selection Box
-	this.createDiv("TR", "towerBox", 270, 460, 10, 10, "gui");
+	this.createDiv("TR", "towerBox", 270, 900, 10, 10, "gui");
 	$("#towerBox").css("background-color", "#ffffff");
 	$("#towerBox").css("border-radius", "3px");
 	$("#towerBox").css("border", "2px solid black");
 	
-	for (var i in Tower.towers)
+	for (var i in Tower.towerType)
 	{
-		var top = 10 + (i * 80);
-		this.createDiv("TL", Tower.towers[i].towerType, 250, 70, top, 8, "towerBox");
+		var top = 10 + (i * 56);
+		this.createDiv("TL", Tower.towerType[i].type, 250, 50, top, 8, "towerBox");
 		
-		var towerID = Tower.towers[i].towerType;
+		var towerID = Tower.towerType[i].type;
 		var towerPic = towerID + "Pic";
 		var towerInfo = towerID + "Info";
 		
 		$("#" + towerID).css("background-color", "#7A7A7A");
 		$("#" + towerID).css("border-radius", "3px");
-		$("#" + towerID).css("border", "2px solid black");
+		$("#" + towerID).css("border", "1px solid black");
 		
-		this.createDiv("TL", towerPic, 40, 40, 15, 10, towerID);
+		/*this.createDiv("TL", towerPic, 40, 40, 15, 10, towerID);
 		$("#" + towerPic).css("background-color", "#ffffff");
 		
 		this.createDiv("TL", towerInfo, 180, 60, 5, 60, towerID);
 		$("#" + towerInfo).css("background-color", "#ffffff");
 		$("#" + towerInfo).css("color", "#000000");
 		
-		var towerHTML = "<div style='position: absolute; top: 0; left: 0;'>" + Tower.towers[i].towerType + "<br>Power: " + Tower.towers[i].damage + " Fire Speed: " + Tower.towers[i].fireSpeed + "<br>Range: " + Tower.towers[i].range + "</div>";
-		$("#" + towerInfo).html(towerHTML);
+		var towerHTML = "<div style='position: absolute; top: 0; left: 0;'>" + Tower.towerType[i].type + "<br>Power: " + Tower.towerType[i].damage + " Fire Speed: " + Tower.towerType[i].fireSpeed + "<br>Range: " + Tower.towerType[i].range + "</div>";
+		$("#" + towerInfo).html(towerHTML);*/
 	}
 	
 	Gui.display();
