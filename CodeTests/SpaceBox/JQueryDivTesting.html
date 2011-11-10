@@ -374,14 +374,14 @@
 						theta += 2;
 					}
 					else if (isUpDown) {
-						xDistance -= 3;
-						zDistance -= 3;
-						yDistance -= 1;
+						xDistance -= 9;
+						zDistance -= 9;
+						yDistance -= 3;
 					}
 					else if (isDownDown) {
-						xDistance += 3;
-						zDistance += 3;
-						yDistance += 1;
+						xDistance += 9;
+						zDistance += 9;
+						yDistance += 3;
 					}
 					
 					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
