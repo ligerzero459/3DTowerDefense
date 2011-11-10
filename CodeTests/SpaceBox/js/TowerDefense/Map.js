@@ -154,7 +154,7 @@ Map.generate = function () {
 		scene.add( this.planeMesh );
 	}
 	
-	for (var i = 1; i <= 20; i++)
+	for (var i = 1; i <= 21; i++)
 	{
 		this.z += -200;
 		

@@ -158,7 +158,7 @@
 					container.appendChild( stats.domElement );
 					
 					// Delay to prevent game start before rendering is complete
-					//Creep.initialize();
+					Creep.initialize();
 					
 					window.addEventListener( 'resize', onWindowResize, false );
 					document.addEventListener( 'keydown', onDocumentKeyDown, false );
@@ -357,14 +357,24 @@
 						theta += 1.5;
 					}
 					else if (isUpDown) {
-						xDistance -= 45;
-						zDistance -= 45;
-						yDistance -= 15;
+						if (yDistance > 200) {
+							xDistance -= 45;
+							zDistance -= 45;
+							yDistance -= 15;
+						}
 					}
 					else if (isDownDown) {
 						xDistance += 45;
 						zDistance += 45;
 						yDistance += 15;
+					}
+					else if (wDown) {
+						yDistance += 15;
+					}
+					else if (sDown) {
+						if (yDistance > 200) {
+							yDistance -= 15;
+						}
 					}
 					
 					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
