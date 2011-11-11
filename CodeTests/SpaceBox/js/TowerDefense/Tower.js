@@ -13,6 +13,7 @@ Tower.initialize = function () {
 	{"type": "Laser", "color": 0xFFFF00, "geometry": new THREE.CubeGeometry(90, 90, 90, 10, 10, 10), "damage": 5, "fireSpeed": 5, "range": 3, "shotPower": 100},  // Neptune
 	{"type": "Slow", "color": 0xFFFF00, "geometry": new THREE.CubeGeometry(90, 90, 90, 10, 10, 10), "damage": 5, "fireSpeed": 5, "range": 3, "shotPower": 100},   // Pluto
 	 ];
+	 this.towerIndex = 0;
 }
 
 Tower.create = function( x, z, type ) {
@@ -138,10 +139,16 @@ Tower.hit = function(firingTower, target) {
 Tower.activate = function (towerName) {
 	$("#" + towerName).css("opacity", "1.0");
 	$("#" + towerName).click(function(e) {
-		Tower.placeTower();
+		Tower.placeTower(towerName);
 	});
 }
 
-Tower.placeTower = function () {
-	alert("Successful");
+Tower.placeTower = function (towerName) {
+	towerMode = true;
+	if (towerName == "Tower") {
+		this.towerIndex = 0;
+	}
+	else if (towerName == "Sniper") {
+		this.towerIndex = 1;
+	}
 }

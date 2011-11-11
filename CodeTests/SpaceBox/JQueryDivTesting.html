@@ -94,8 +94,8 @@
 			isCtrlDown = false;
 
 		var rollOverMesh, rollOverMaterial, voxelPosition = new THREE.Vector3(), tmpVec = new THREE.Vector3();
-		var cubeGeo, cubeMaterial;
 		var i, intersector;
+		var towerMode = false;
 		
         $(document).ready(function() {
 			if ( ! Detector.webgl )
@@ -154,11 +154,6 @@
 					rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.7, transparent: true } );
 					rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
 					scene.add( rollOverMesh );
-					
-					// cubes
-
-					cubeGeo = new THREE.CubeGeometry( 200, 200, 200 );
-					cubeMaterial = new THREE.MeshLambertMaterial( { color: 0x00ff80 } );
 
 					// picking
 
@@ -230,19 +225,16 @@
 				}
 
 				function onDocumentMouseDown( event ) {
+					if (towerMode == true) {
+						var intersects = ray.intersectScene( scene );
 
-					var intersects = ray.intersectScene( scene );
-
-					intersector = getRealIntersector( intersects );
-					setVoxelPosition( intersector );
-
-					var voxel = new THREE.Mesh( cubeGeo, cubeMaterial );
-					voxel.position.copy( voxelPosition );
-					voxel.matrixAutoUpdate = false;
-					voxel.updateMatrix();
-					scene.add( voxel );
+						intersector = getRealIntersector( intersects );
+						setVoxelPosition( intersector );
+						
+						Tower.Create( voxelPosition.x, voxelPosition.z, Tower.towerIndex );
+						towerMode = false;
+					}
 					
-
 				}
 				
 				function onDocumentKeyDown( event ) {
@@ -292,8 +284,6 @@
 				
 				function startGame() {
 					setTimeout("Creep.runLevel()", 10000);
-					Tower.create( -1500, -4300, 0 );
-					Tower.create( -1100, -2300, 1 );
 					
 					Tower.activate("Tower");
 					
@@ -454,20 +444,21 @@
 						}
 					}
 					
-					ray = projector.pickingRay( mouse2D.clone(), camera );
+					if (towerMode == true) {
+						ray = projector.pickingRay( mouse2D.clone(), camera );
 
-					var intersects = ray.intersectScene( scene );
+						var intersects = ray.intersectScene( scene );
 
-					if ( intersects.length > 0 ) {
+						if ( intersects.length > 0 ) {
 
-						intersector = getRealIntersector( intersects );
-						if ( intersector ) {
+							intersector = getRealIntersector( intersects );
+							if ( intersector ) {
 
-							setVoxelPosition( intersector );
-							rollOverMesh.position = voxelPosition;
+								setVoxelPosition( intersector );
+								rollOverMesh.position = voxelPosition;
 
+							}
 						}
-
 					}
 					
 					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
