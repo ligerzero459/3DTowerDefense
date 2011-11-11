@@ -142,7 +142,7 @@
 					// Drawing the planet in the center
 					drawSun();
 					
-					material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true, opacity: 0.3 } );
+					material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true, opacity: 0.1 } );
 					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
 					planeMesh = new THREE.Mesh ( geometry, material );
 					planeMesh.position.set( 0, 0, 0 );
