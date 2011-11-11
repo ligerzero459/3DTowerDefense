@@ -158,8 +158,7 @@
 					// cubes
 
 					cubeGeo = new THREE.CubeGeometry( 200, 200, 200 );
-					cubeMaterial = new THREE.MeshLambertMaterial( { color: 0x00ff80, shading: THREE.FlatShading, map: THREE.ImageUtils.loadTexture( "textures/square-outline.png" ) } );
-					cubeMaterial.color.setHSV( 0.1, 0.7, 1.0 );
+					cubeMaterial = new THREE.MeshLambertMaterial( { color: 0x00ff80 } );
 
 					// picking
 
@@ -225,8 +224,6 @@
 
 				function onDocumentMouseMove( event ) {
 
-					event.preventDefault();
-
 					mouse2D.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 					mouse2D.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
@@ -234,27 +231,17 @@
 
 				function onDocumentMouseDown( event ) {
 
-					event.preventDefault();
-
 					var intersects = ray.intersectScene( scene );
 
-					if ( intersects.length > 0 ) {
+					intersector = getRealIntersector( intersects );
+					setVoxelPosition( intersector );
 
-						intersector = getRealIntersector( intersects );
-
-						// create cube
-
-					} else {
-
-						intersector = getRealIntersector( intersects );
-						setVoxelPosition( intersector );
-
-						var voxel = new THREE.Mesh( cubeGeo, cubeMaterial );
-						voxel.position.copy( voxelPosition );
-						voxel.matrixAutoUpdate = false;
-						voxel.updateMatrix();
-						scene.add( voxel );
-					}
+					var voxel = new THREE.Mesh( cubeGeo, cubeMaterial );
+					voxel.position.copy( voxelPosition );
+					voxel.matrixAutoUpdate = false;
+					voxel.updateMatrix();
+					scene.add( voxel );
+					
 
 				}
 				
