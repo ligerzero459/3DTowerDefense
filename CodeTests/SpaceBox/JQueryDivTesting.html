@@ -142,13 +142,13 @@
 					// Drawing the planet in the center
 					drawSun();
 					
-					material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
+					/*material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
 					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
 					planeMesh = new THREE.Mesh ( geometry, material );
 					planeMesh.position.set( 0, 0, 0 );
 					planeMesh.scale.set( 1, 1, 1 );
 					planeMesh.rotation.x = - 90 * Math.PI / 180;
-					scene.add( planeMesh );
+					scene.add( planeMesh );*/
 					
 					rollOverGeo = new THREE.CubeGeometry( 200, 200, 200 );
 					rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.7, transparent: true } );
