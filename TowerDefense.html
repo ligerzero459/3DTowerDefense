@@ -1,9 +1,7 @@
-<!DOCTYPE HTML>
-<html lang="en">
+<html>
 	<head>
 		<title>3D Tower Defense</title>
-		<meta charset="utf-8">
-		<style type="text/css">
+		<style>
 			body {
 				background-color: rgb(0,0,0);
 				margin: 0px;
@@ -43,453 +41,434 @@
 				color: #ffffff;
 			}
 		</style>
-		<script src="Three.js"></script>
-		<!--Make sure path in previous script points to the correct build directory-->
-		<!--You can copy the build directory into your project path or point it to-->
-		<!--the three.js directory-->
-		<script src="js/ShaderExtras.js"></script>
-		<script src="js/Detector.js"></script>
-		<script src="js/RequestAnimationFrame.js"></script>
-		<script src="js/Stats.js"></script>
-		
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
-		
-		<!--Tower Defense classes-->
-		<script src="js/TowerDefense/Creep.js"></script>
-		<script src="js/TowerDefense/Map.js"></script>
-		<script src="js/TowerDefense/Tower.js"></script>
-		<script src="js/TowerDefense/Gui.js"></script>
-		<script src="js/TowerDefense/Score.js"></script>
-
 		<script>
-			var camera, renderer;
-			var container, stats, dt;
-			var meshPlanet, planeMesh, mesh, geometry, model;
-			var lastUpdate = new Date().getTime();
-			var firstStart = false, gameOn = false;
-			var speed = .01;		//Lower = faster
-					
-			var	texture_placeholder;
-					
-			var SCREEN_HEIGHT = window.innerHeight;
-			var SCREEN_WIDTH  = window.innerWidth;
-			var MARGIN = 0;
-					
-			var PLANE_HEIGHT = 10000, PLANE_WIDTH = 10000,
-				PLANE_S_H_W = 50;
-					
-			var scene = new THREE.Scene();
-					
-			var xPathArray = new Array();
-			var zPathArray = new Array();
-			
-			var target, theta = 45;
-			var xDistance = 9000, zDistance = 9000, yDistance = 9000;
-			var isLeftDown = false, isRightDown = false,
-				isUpDown = false, isDownDown = false,
-				wDown = false, sDown = false,
-				aDown = false, dDown = false;;
+		var camera, renderer;
+		var container, stats, dt;
+		var meshPlanet, planeMesh, mesh, geometry, model;
+		var lastUpdate = new Date().getTime();
+		var firstStart = false, gameOn = false;
+		var speed = .01;		//Lower = faster
 				
-			var projector, plane, cube;
-			var mouse2D, mouse3D, ray,
-				rollOveredFace, isShiftDown = false,
-				isCtrlDown = false;
-
-			var rollOverMesh, rollOverMaterial, voxelPosition = new THREE.Vector3(), tmpVec = new THREE.Vector3();
-			var i, intersector;
-			var towerMode = false;
+		var	texture_placeholder;
+				
+		var SCREEN_HEIGHT = window.innerHeight;
+		var SCREEN_WIDTH  = window.innerWidth;
+		var MARGIN = 0;
+				
+		var PLANE_HEIGHT = 10000, PLANE_WIDTH = 10000,
+			PLANE_S_H_W = 50;
+				
+		var scene = new THREE.Scene();
+				
+		var xPathArray = new Array();
+		var zPathArray = new Array();
+		
+		var target, theta = 45;
+		var xDistance = 9000, zDistance = 9000, yDistance = 9000;
+		var isLeftDown = false, isRightDown = false,
+			isUpDown = false, isDownDown = false,
+			wDown = false, sDown = false,
+			aDown = false, dDown = false;;
 			
-			$(document).ready(function() {
-				if ( ! Detector.webgl )
-					Detector.addGetWebGLMessage();
-				else {
+		var projector, plane, cube;
+		var mouse2D, mouse3D, ray,
+			rollOveredFace, isShiftDown = false,
+			isCtrlDown = false;
 
-					init();
-					animate();
+		var rollOverMesh, rollOverMaterial, voxelPosition = new THREE.Vector3(), tmpVec = new THREE.Vector3();
+		var i, intersector;
+		var towerMode = false;
+		
+        $(document).ready(function() {
+			if ( ! Detector.webgl )
+                Detector.addGetWebGLMessage();
+            else {
 
-					function init() {
-						container = document.createElement( 'div' );
-						container.setAttribute('id', "renderWindow");
-						container.style.position = "absolute"
-						container.style.top = 45;
-						container.style.left = 0;
-						document.body.appendChild( container );
-						
-						$("#start").click(function(e) {
-							e.preventDefault(); // if desired...
-							startGame();
-						});
-						
-						// Initialization
-						addCamera();
-						Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
-						Tower.initialize();
-						Score.initialize();
-						setTimeout("Gui.initialize()", 3000);
-						
-						var ambientLight = new THREE.AmbientLight( 0xffffff );
-						scene.add( ambientLight );
+				init();
+				animate();
 
-						texture_placeholder = document.createElement( 'canvas' );
-						texture_placeholder.width = 8000;
-						texture_placeholder.height = 8000;
+				function init() {
+					container = document.createElement( 'div' );
+					container.setAttribute('id', "renderWindow");
+					container.style.position = "absolute"
+					container.style.top = 45;
+					container.style.left = 0;
+					document.body.appendChild( container );
+					
+					$("#start").click(function(e) {
+						e.preventDefault(); // if desired...
+						startGame();
+					});
+					
+					// Initialization
+					addCamera();
+					Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
+					Tower.initialize();
+					Score.initialize();
+					setTimeout("Gui.initialize()", 3000);
+					
+					var ambientLight = new THREE.AmbientLight( 0xffffff );
+					scene.add( ambientLight );
 
-						var context = texture_placeholder.getContext( '2d' );
-						context.fillStyle = 'rgb( 200, 200, 200 )';
-						context.fillRect( 0, 0, texture_placeholder.width, texture_placeholder.height );
-						
-						// Drawing Space Box
-						drawBox();
-						
-						// Drawing the planet in the center
-						drawSun();
-						
-						material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
-						geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
-						planeMesh = new THREE.Mesh ( geometry, material );
-						planeMesh.position.set( 0, 0, 0 );
-						planeMesh.scale.set( 1, 1, 1 );
-						planeMesh.rotation.x = - 90 * Math.PI / 180;
-						scene.add( planeMesh );
-						
-						rollOverGeo = new THREE.CubeGeometry( 200, 200, 200 );
-						rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.7, transparent: true } );
-						rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
-						scene.add( rollOverMesh );
+					texture_placeholder = document.createElement( 'canvas' );
+					texture_placeholder.width = 8000;
+					texture_placeholder.height = 8000;
 
-						// picking
+					var context = texture_placeholder.getContext( '2d' );
+					context.fillStyle = 'rgb( 200, 200, 200 )';
+					context.fillRect( 0, 0, texture_placeholder.width, texture_placeholder.height );
+					
+					// Drawing Space Box
+					drawBox();
+					
+					// Drawing the planet in the center
+					drawSun();
+					
+					material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
+					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
+					planeMesh = new THREE.Mesh ( geometry, material );
+					planeMesh.position.set( 0, 0, 0 );
+					planeMesh.scale.set( 1, 1, 1 );
+					planeMesh.rotation.x = - 90 * Math.PI / 180;
+					scene.add( planeMesh );
+					
+					rollOverGeo = new THREE.CubeGeometry( 200, 200, 200 );
+					rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.7, transparent: true } );
+					rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
+					scene.add( rollOverMesh );
 
-						projector = new THREE.Projector();
-						
-						mouse2D = new THREE.Vector3( 0, 10000, 0.5 );
-						
-						// Map Path Generation
-						Map.generate();
-						
-						renderer = new THREE.WebGLRenderer();
-						renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
-						renderer.sortObjects = false;
-						renderer.autoClear = false;
+					// picking
 
-						container.appendChild( renderer.domElement );
+					projector = new THREE.Projector();
+					
+					mouse2D = new THREE.Vector3( 0, 10000, 0.5 );
+					
+					// Map Path Generation
+					Map.generate();
+					
+					renderer = new THREE.WebGLRenderer();
+					renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+					renderer.sortObjects = false;
+					renderer.autoClear = false;
+
+					container.appendChild( renderer.domElement );
+					
+					stats = new Stats();
+					stats.domElement.style.position = 'absolute';
+					stats.domElement.style.bottom = '0px';
+					stats.domElement.style.right = '0px';
+					container.appendChild( stats.domElement );
+					
+					// Delay to prevent game start before rendering is complete
+					Creep.initialize();
+					
+					window.addEventListener( 'resize', onWindowResize, false );
+					document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+					document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+					document.addEventListener( 'keydown', onDocumentKeyDown, false );
+					document.addEventListener( 'keyup', onDocumentKeyUp, false );					
+				}
+				
+				function getRealIntersector( intersects ) {
+
+				for( i = 0; i < intersects.length; i++ ) {
+
+					intersector = intersects[ i ];
+
+					if ( intersector.object != rollOverMesh ) {
+
+						return intersector;
+
+					}
+
+				}
+
+				return null;
+
+				}
+
+				function setVoxelPosition( intersector ) {
+
+					tmpVec.copy( intersector.face.normal );
+
+					voxelPosition.add( intersector.point, intersector.object.matrixRotationWorld.multiplyVector3( tmpVec ) );
+
+					voxelPosition.x = Math.floor( voxelPosition.x / 200 ) * 200 + 100;
+					voxelPosition.y = Math.floor( voxelPosition.y / 200 ) * 200 + 100;
+					voxelPosition.z = Math.floor( voxelPosition.z / 200 ) * 200 + 100;
+
+				}
+
+				function onDocumentMouseMove( event ) {
+
+					mouse2D.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+					mouse2D.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+				}
+
+				function onDocumentMouseDown( event ) {
+					if (towerMode == true) {
+						var intersects = ray.intersectScene( scene );
+
+						intersector = getRealIntersector( intersects );
+						setVoxelPosition( intersector );
 						
-						stats = new Stats();
-						stats.domElement.style.position = 'absolute';
-						stats.domElement.style.bottom = '0px';
-						stats.domElement.style.right = '0px';
-						container.appendChild( stats.domElement );
-						
-						// Delay to prevent game start before rendering is complete
-						Creep.initialize();
-						
-						window.addEventListener( 'resize', onWindowResize, false );
-						document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-						document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-						document.addEventListener( 'keydown', onDocumentKeyDown, false );
-						document.addEventListener( 'keyup', onDocumentKeyUp, false );					
+						Tower.create( voxelPosition.x, voxelPosition.z, Tower.towerIndex );
+						towerMode = false;
 					}
 					
-					function getRealIntersector( intersects ) {
+				}
+				
+				function onDocumentKeyDown( event ) {
 
-					for( i = 0; i < intersects.length; i++ ) {
+					switch( event.keyCode ) {
 
-						intersector = intersects[ i ];
-
-						if ( intersector.object != rollOverMesh ) {
-
-							return intersector;
-
-						}
-
-					}
-
-					return null;
-
-					}
-
-					function setVoxelPosition( intersector ) {
-
-						tmpVec.copy( intersector.face.normal );
-
-						voxelPosition.add( intersector.point, intersector.object.matrixRotationWorld.multiplyVector3( tmpVec ) );
-
-						voxelPosition.x = Math.floor( voxelPosition.x / 200 ) * 200 + 100;
-						voxelPosition.y = Math.floor( voxelPosition.y / 200 ) * 200 + 100;
-						voxelPosition.z = Math.floor( voxelPosition.z / 200 ) * 200 + 100;
-
-					}
-
-					function onDocumentMouseMove( event ) {
-
-						mouse2D.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-						mouse2D.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
-					}
-
-					function onDocumentMouseDown( event ) {
-						if (towerMode == true) {
-							var intersects = ray.intersectScene( scene );
-
-							intersector = getRealIntersector( intersects );
-							setVoxelPosition( intersector );
-							
-							Tower.create( voxelPosition.x, voxelPosition.z, Tower.towerIndex );
-							towerMode = false;
-						}
-						
-					}
-					
-					function onDocumentKeyDown( event ) {
-
-						switch( event.keyCode ) {
-
-						case 37: isLeftDown = true; break;
-						case 38: isUpDown = true; break;
-						case 39: isRightDown = true; break;
-						case 40: isDownDown = true; break;
-						case 83: sDown = true; break;		// s
-						case 87: wDown = true; break;		// w
-
-						}
-						
-					}
-
-					function onDocumentKeyUp( event ) {
-
-						switch( event.keyCode ) {
-
-						case 37: isLeftDown = false; break;
-						case 38: isUpDown = false; break;
-						case 39: isRightDown = false; break;
-						case 40: isDownDown = false; break;
-						case 83: sDown = false; break;
-						case 87: wDown = false; break;
-						
-						}
-					}
-						
-					function onWindowResize( event ) {
-
-						SCREEN_HEIGHT = window.innerHeight;
-						SCREEN_WIDTH  = window.innerWidth;
-
-						renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
-
-						camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-						camera.updateProjectionMatrix();
-						
-						//controls.screen.width = SCREEN_WIDTH;
-						//controls.screen.height = SCREEN_HEIGHT;
-						
-						camera.radius = ( SCREEN_WIDTH + SCREEN_HEIGHT ) / 4;  
-					}
-					
-					function startGame() {
-						setTimeout("Creep.runLevel()", 10000);
-						
-						Tower.activate("Tower");
-						
-						gameOn = true;
-						firstStart = true;
-					}
-					
-					function pauseGame() {
-						if (firstStart == true) {
-							gameOn = false;
-						}
-					}
-					
-					function unpauseGame() {
-						if (firstStart == true) {
-							gameOn = true;
-						}
-					}
-					
-					function loadTexture( path ) {
-
-						var texture = new THREE.Texture( texture_placeholder );
-						var material = new THREE.MeshBasicMaterial( { map: texture } );
-						
-						var image = new Image();
-						image.onload = function () {
-
-							texture.needsUpdate = true;
-							material.map.image = this;
-							
-							render();
-
-						};
-						image.src = path;
-
-						return material;
+					case 37: isLeftDown = true; break;
+					case 38: isUpDown = true; break;
+					case 39: isRightDown = true; break;
+					case 40: isDownDown = true; break;
+					case 83: sDown = true; break;		// s
+					case 87: wDown = true; break;		// w
 
 					}
 					
-					function addCamera() {
+				}
+
+				function onDocumentKeyUp( event ) {
+
+					switch( event.keyCode ) {
+
+					case 37: isLeftDown = false; break;
+					case 38: isUpDown = false; break;
+					case 39: isRightDown = false; break;
+					case 40: isDownDown = false; break;
+					case 83: sDown = false; break;
+					case 87: wDown = false; break;
 					
-						camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
-						camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
-						camera.position.z = zDistance * Math.cos( theta * Math.PI / 360 );
-						camera.position.y = yDistance;
-						
-						target = new THREE.Vector3( 0, 0, 0 );
-						
-						camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-						camera.updateProjectionMatrix();
-						
-					}
-					
-					function drawBox() {
-						
-						// Textures modified to provide space-type backgrounds
-						// Can be modified later
-						var materials = [
-
-							loadTexture( 'textures/test1/new.jpg' ), // right
-							loadTexture( 'textures/test1/new.jpg' ), // left
-							loadTexture( 'textures/test1/new.jpg' ), // top
-							loadTexture( 'textures/test1/new.jpg' ), // bottom
-							loadTexture( 'textures/test1/new.jpg' ), // back
-							loadTexture( 'textures/test1/new.jpg' )  // front
-
-						];
-					
-						mesh = new THREE.Mesh( new THREE.CubeGeometry( 50000, 50000, 50000, 7, 7, 7, materials ), new THREE.MeshFaceMaterial() );
-						mesh.scale.x = - 1;
-						mesh.overdraw = true;
-						scene.add( mesh );
-						
-					}
-					
-					function drawSun() {
-					
-						var parameters = {
-							map: THREE.ImageUtils.loadTexture( 'textures/sunmap.jpg' )
-						};
-						
-						geometry = new THREE.SphereGeometry( 400, 40, 40 );
-						geometry.computeTangents();
-						
-						var material = new THREE.MeshLambertMaterial ( parameters );
-						
-						meshPlanet = new THREE.Mesh( geometry, material ) ;
-						meshPlanet.position.set ( 0, 0, 200 );
-						scene.add( meshPlanet );
-						
-					}
-					
-					function addModels(m, x, z, rx, ry, rz, s) {
-					
-						var material = new THREE.MeshBasicMaterial( { color: 0x555555 } );
-						
-						var loader = new THREE.JSONLoader();
-						var callbackAfterLoading = function ( geometry ) { 
-							geometry.computeTangents();
-							
-							mesh = new THREE.Mesh ( geometry, material );
-							mesh.position.x = x;
-							mesh.position.z = z;
-							mesh.scale.x = mesh.scale.y = mesh.scale.z = s;
-							mesh.rotation.x = rx;
-							mesh.rotation.y = ry;
-							mesh.rotation.z = rz;
-							mesh.overdraw = true;
-							mesh.matrixAutoUpdate = false;
-							mesh.updateMatrix();
-						}
-						loader.load( { model: m, callback: callbackAfterLoading } ); 
-
-					}
-					
-					function animate() {
-						
-						requestAnimationFrame( animate );
-						
-						render();
-						
-					}
-
-					function render() {
-					
-						stats.update();
-						camera.lookAt ( target );
-						
-						// Camera control code
-						if (isLeftDown) {
-							theta -= 1.5;
-						}
-						else if (isRightDown) {
-							theta += 1.5;
-						}
-						else if (isUpDown) {
-							if (xDistance > 900) {
-								xDistance -= 45;
-							}
-							if (zDistance > 900) {
-								zDistance -= 45;
-							}
-							if (yDistance > 300) {
-								yDistance -= 45;
-							}
-						}
-						else if (isDownDown) {
-							xDistance += 45;
-							zDistance += 45;
-							yDistance += 45;
-						}
-						else if (wDown) {
-							yDistance += 15;
-						}
-						else if (sDown) {
-							if (yDistance > 200) {
-								yDistance -= 15;
-							}
-						}
-						
-						if (towerMode == true) {
-							ray = projector.pickingRay( mouse2D.clone(), camera );
-
-							var intersects = ray.intersectScene( scene );
-
-							if ( intersects.length > 0 ) {
-
-								intersector = getRealIntersector( intersects );
-								if ( intersector ) {
-
-									setVoxelPosition( intersector );
-									rollOverMesh.position = voxelPosition;
-
-								}
-							}
-						}
-						
-						camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
-						camera.position.z = zDistance * Math.cos( theta * Math.PI / 360 );
-						camera.position.y = yDistance;
-						
-						var now = new Date().getTime();
-						
-						if (gameOn == true) {
-							dt = (now - lastUpdate) / 1000;		//Limits game speed
-							if (dt > speed)
-							{
-							
-								Creep.update();
-								Tower.update();
-								lastUpdate = now;
-								
-							}
-						}
-						
-						renderer.clear();
-						renderer.render( scene, camera );
-
 					}
 				}
-			});
+					
+				function onWindowResize( event ) {
 
+					SCREEN_HEIGHT = window.innerHeight;
+					SCREEN_WIDTH  = window.innerWidth;
 
-			</script>
+					renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+
+					camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+					camera.updateProjectionMatrix();
+					
+					//controls.screen.width = SCREEN_WIDTH;
+					//controls.screen.height = SCREEN_HEIGHT;
+					
+					camera.radius = ( SCREEN_WIDTH + SCREEN_HEIGHT ) / 4;  
+				}
+				
+				function startGame() {
+					setTimeout("Creep.runLevel()", 10000);
+					
+					Tower.activate("Tower");
+					
+					gameOn = true;
+					firstStart = true;
+				}
+				
+				function pauseGame() {
+					if (firstStart == true) {
+						gameOn = false;
+					}
+				}
+				
+				function unpauseGame() {
+					if (firstStart == true) {
+						gameOn = true;
+					}
+				}
+				
+				function loadTexture( path ) {
+
+					var texture = new THREE.Texture( texture_placeholder );
+					var material = new THREE.MeshBasicMaterial( { map: texture } );
+					
+					var image = new Image();
+					image.onload = function () {
+
+						texture.needsUpdate = true;
+						material.map.image = this;
+						
+						render();
+
+					};
+					image.src = path;
+
+					return material;
+
+				}
+				
+				function addCamera() {
+				
+					camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
+					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
+					camera.position.z = zDistance * Math.cos( theta * Math.PI / 360 );
+					camera.position.y = yDistance;
+					
+					target = new THREE.Vector3( 0, 0, 0 );
+					
+					camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+					camera.updateProjectionMatrix();
+					
+				}
+				
+				function drawBox() {
+					
+					// Textures modified to provide space-type backgrounds
+					// Can be modified later
+					var materials = [
+
+						loadTexture( 'textures/test1/new.jpg' ), // right
+						loadTexture( 'textures/test1/new.jpg' ), // left
+						loadTexture( 'textures/test1/new.jpg' ), // top
+						loadTexture( 'textures/test1/new.jpg' ), // bottom
+						loadTexture( 'textures/test1/new.jpg' ), // back
+						loadTexture( 'textures/test1/new.jpg' )  // front
+
+					];
+				
+					mesh = new THREE.Mesh( new THREE.CubeGeometry( 50000, 50000, 50000, 7, 7, 7, materials ), new THREE.MeshFaceMaterial() );
+					mesh.scale.x = - 1;
+					mesh.overdraw = true;
+					scene.add( mesh );
+					
+				}
+				
+				function drawSun() {
+				
+					var parameters = {
+						map: THREE.ImageUtils.loadTexture( 'textures/sunmap.jpg' )
+					};
+					
+					geometry = new THREE.SphereGeometry( 400, 40, 40 );
+					geometry.computeTangents();
+					
+					var material = new THREE.MeshLambertMaterial ( parameters );
+					
+					meshPlanet = new THREE.Mesh( geometry, material ) ;
+					meshPlanet.position.set ( 0, 0, 200 );
+					scene.add( meshPlanet );
+					
+				}
+				
+				function addModels(m, x, z, rx, ry, rz, s) {
+				
+					var material = new THREE.MeshBasicMaterial( { color: 0x555555 } );
+					
+					var loader = new THREE.JSONLoader();
+					var callbackAfterLoading = function ( geometry ) { 
+						geometry.computeTangents();
+						
+						mesh = new THREE.Mesh ( geometry, material );
+						mesh.position.x = x;
+						mesh.position.z = z;
+						mesh.scale.x = mesh.scale.y = mesh.scale.z = s;
+						mesh.rotation.x = rx;
+						mesh.rotation.y = ry;
+						mesh.rotation.z = rz;
+						mesh.overdraw = true;
+						mesh.matrixAutoUpdate = false;
+						mesh.updateMatrix();
+					}
+					loader.load( { model: m, callback: callbackAfterLoading } ); 
+
+				}
+				
+				function animate() {
+					
+					requestAnimationFrame( animate );
+					
+					render();
+					
+				}
+
+				function render() {
+				
+					stats.update();
+					camera.lookAt ( target );
+					
+					// Camera control code
+					if (isLeftDown) {
+						theta -= 1.5;
+					}
+					else if (isRightDown) {
+						theta += 1.5;
+					}
+					else if (isUpDown) {
+						if (xDistance > 900) {
+							xDistance -= 45;
+						}
+						if (zDistance > 900) {
+							zDistance -= 45;
+						}
+						if (yDistance > 300) {
+							yDistance -= 45;
+						}
+					}
+					else if (isDownDown) {
+						xDistance += 45;
+						zDistance += 45;
+						yDistance += 45;
+					}
+					else if (wDown) {
+						yDistance += 15;
+					}
+					else if (sDown) {
+						if (yDistance > 200) {
+							yDistance -= 15;
+						}
+					}
+					
+					if (towerMode == true) {
+						ray = projector.pickingRay( mouse2D.clone(), camera );
+
+						var intersects = ray.intersectScene( scene );
+
+						if ( intersects.length > 0 ) {
+
+							intersector = getRealIntersector( intersects );
+							if ( intersector ) {
+
+								setVoxelPosition( intersector );
+								rollOverMesh.position = voxelPosition;
+
+							}
+						}
+					}
+					
+					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
+					camera.position.z = zDistance * Math.cos( theta * Math.PI / 360 );
+					camera.position.y = yDistance;
+					
+					var now = new Date().getTime();
+					
+					if (gameOn == true) {
+						dt = (now - lastUpdate) / 1000;		//Limits game speed
+						if (dt > speed)
+						{
+						
+							Creep.update();
+							Tower.update();
+							lastUpdate = now;
+							
+						}
+					}
+					
+					renderer.clear();
+					renderer.render( scene, camera );
+
+				}
+			}
+		});
+
+		</script>
 	</head>
 	<body>
 	<div id="TOPcontainer">
