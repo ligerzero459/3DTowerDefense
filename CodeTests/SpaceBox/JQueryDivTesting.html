@@ -76,13 +76,26 @@
 		var PLANE_HEIGHT = 10000, PLANE_WIDTH = 10000,
 			PLANE_S_H_W = 50;
 				
-		var target = new THREE.Vector3();
 		var scene = new THREE.Scene();
 				
-		var x = 0, y = 0, counter = 1;
-				
 		var xPathArray = new Array();
-		var yPathArray = new Array();
+		var zPathArray = new Array();
+		
+		var target, theta = 45;
+		var xDistance = 9000, zDistance = 9000, yDistance = 9000;
+		var isLeftDown = false, isRightDown = false,
+			isUpDown = false, isDownDown = false,
+			wDown = false, sDown = false,
+			aDown = false, dDown = false;;
+			
+		var projector, plane, cube;
+		var mouse2D, mouse3D, ray,
+			rollOveredFace, isShiftDown = false,
+			isCtrlDown = false;
+
+		var rollOverMesh, rollOverMaterial, voxelPosition = new THREE.Vector3(), tmpVec = new THREE.Vector3();
+		var i, intersector;
+		var towerMode = false;
 		
         $(document).ready(function() {
 			if ( ! Detector.webgl )
@@ -95,10 +108,9 @@
 				function init() {
 					container = document.createElement( 'div' );
 					container.setAttribute('id', "renderWindow");
-					container.style.width = "100%";
-					container.style.height = "100%";
-					container.style.top = "45px";
-					container.style.left ="0px";
+					container.style.position = "absolute"
+					container.style.top = 45;
+					container.style.left = 0;
 					document.body.appendChild( container );
 					
 					$("#start").click(function(e) {
@@ -108,7 +120,6 @@
 					
 					// Initialization
 					addCamera();
-					addControls();
 					Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
 					Tower.initialize();
 					Score.initialize();
@@ -131,12 +142,24 @@
 					// Drawing the planet in the center
 					drawSun();
 					
-					material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
+					material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true, opacity: 0.1 } );
 					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
 					planeMesh = new THREE.Mesh ( geometry, material );
 					planeMesh.position.set( 0, 0, 0 );
 					planeMesh.scale.set( 1, 1, 1 );
+					planeMesh.rotation.x = - 90 * Math.PI / 180;
 					scene.add( planeMesh );
+					
+					rollOverGeo = new THREE.CubeGeometry( 200, 200, 200 );
+					rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.7, transparent: true } );
+					rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
+					scene.add( rollOverMesh );
+
+					// picking
+
+					projector = new THREE.Projector();
+					
+					mouse2D = new THREE.Vector3( 0, 10000, 0.5 );
 					
 					// Map Path Generation
 					Map.generate();
@@ -157,13 +180,113 @@
 					// Delay to prevent game start before rendering is complete
 					Creep.initialize();
 					
-					window.addEventListener( 'resize', onWindowResize, false );				
+					window.addEventListener( 'resize', onWindowResize, false );
+					document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+					document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+					document.addEventListener( 'keydown', onDocumentKeyDown, false );
+					document.addEventListener( 'keyup', onDocumentKeyUp, false );					
+				}
+				
+				function getRealIntersector( intersects ) {
+
+				for( i = 0; i < intersects.length; i++ ) {
+
+					intersector = intersects[ i ];
+
+					if ( intersector.object != rollOverMesh ) {
+
+						return intersector;
+
+					}
+
+				}
+
+				return null;
+
+				}
+
+				function setVoxelPosition( intersector ) {
+
+					tmpVec.copy( intersector.face.normal );
+
+					voxelPosition.add( intersector.point, intersector.object.matrixRotationWorld.multiplyVector3( tmpVec ) );
+
+					voxelPosition.x = Math.floor( voxelPosition.x / 200 ) * 200 + 100;
+					voxelPosition.y = Math.floor( voxelPosition.y / 200 ) * 200 + 100;
+					voxelPosition.z = Math.floor( voxelPosition.z / 200 ) * 200 + 100;
+
+				}
+
+				function onDocumentMouseMove( event ) {
+
+					mouse2D.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+					mouse2D.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+				}
+
+				function onDocumentMouseDown( event ) {
+					if (towerMode == true) {
+						var intersects = ray.intersectScene( scene );
+
+						intersector = getRealIntersector( intersects );
+						setVoxelPosition( intersector );
+						
+						Tower.create( voxelPosition.x, voxelPosition.z, Tower.towerIndex );
+						towerMode = false;
+					}
+					
+				}
+				
+				function onDocumentKeyDown( event ) {
+
+					switch( event.keyCode ) {
+
+					case 37: isLeftDown = true; break;
+					case 38: isUpDown = true; break;
+					case 39: isRightDown = true; break;
+					case 40: isDownDown = true; break;
+					case 83: sDown = true; break;		// s
+					case 87: wDown = true; break;		// w
+
+					}
+					
+				}
+
+				function onDocumentKeyUp( event ) {
+
+					switch( event.keyCode ) {
+
+					case 37: isLeftDown = false; break;
+					case 38: isUpDown = false; break;
+					case 39: isRightDown = false; break;
+					case 40: isDownDown = false; break;
+					case 83: sDown = false; break;
+					case 87: wDown = false; break;
+					
+					}
+				}
+					
+				function onWindowResize( event ) {
+
+					SCREEN_HEIGHT = window.innerHeight;
+					SCREEN_WIDTH  = window.innerWidth;
+
+					renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+
+					camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+					camera.updateProjectionMatrix();
+					
+					//controls.screen.width = SCREEN_WIDTH;
+					//controls.screen.height = SCREEN_HEIGHT;
+					
+					camera.radius = ( SCREEN_WIDTH + SCREEN_HEIGHT ) / 4;  
 				}
 				
 				function startGame() {
 					setTimeout("Creep.runLevel()", 10000);
-					Tower.create( -1500, 4300, 0 );
-					Tower.create( -1100, 2300, 1 );
+					
+					Tower.activate("Tower");
+					
 					gameOn = true;
 					firstStart = true;
 				}
@@ -200,47 +323,17 @@
 
 				}
 				
-				function onWindowResize( event ) {
-
-					SCREEN_HEIGHT = window.innerHeight;
-					SCREEN_WIDTH  = window.innerWidth;
-
-					renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
-
-					camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-					camera.updateProjectionMatrix();
-					
-					//controls.screen.width = SCREEN_WIDTH;
-					//controls.screen.height = SCREEN_HEIGHT;
-					
-					camera.radius = ( SCREEN_WIDTH + SCREEN_HEIGHT ) / 4;  
-				}
-				
 				function addCamera() {
 				
 					camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
-					camera.position.z = 7600;
+					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
+					camera.position.z = zDistance * Math.cos( theta * Math.PI / 360 );
+					camera.position.y = yDistance;
 					
-					target.x = 0;
-					target.y = 0;
-					target.z = 0;
-					
-					camera.lookAt ( target );
+					target = new THREE.Vector3( 0, 0, 0 );
 					
 					camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
 					camera.updateProjectionMatrix();
-					
-				}
-				
-				function addControls() {
-				
-					controls = new THREE.FlyControls( camera );
-
-					controls.movementSpeed = 1500;
-					controls.domElement = container;
-					controls.rollSpeed = Math.PI / 5;
-					controls.autoForward = false;
-					controls.dragToLook = true;
 					
 				}
 				
@@ -317,7 +410,61 @@
 				function render() {
 				
 					stats.update();
-					controls.update();
+					camera.lookAt ( target );
+					
+					// Camera control code
+					if (isLeftDown) {
+						theta -= 1.5;
+					}
+					else if (isRightDown) {
+						theta += 1.5;
+					}
+					else if (isUpDown) {
+						if (xDistance > 900) {
+							xDistance -= 45;
+						}
+						if (zDistance > 900) {
+							zDistance -= 45;
+						}
+						if (yDistance > 300) {
+							yDistance -= 45;
+						}
+					}
+					else if (isDownDown) {
+						xDistance += 45;
+						zDistance += 45;
+						yDistance += 45;
+					}
+					else if (wDown) {
+						yDistance += 15;
+					}
+					else if (sDown) {
+						if (yDistance > 200) {
+							yDistance -= 15;
+						}
+					}
+					
+					if (towerMode == true) {
+						ray = projector.pickingRay( mouse2D.clone(), camera );
+
+						var intersects = ray.intersectScene( scene );
+
+						if ( intersects.length > 0 ) {
+
+							intersector = getRealIntersector( intersects );
+							if ( intersector ) {
+
+								setVoxelPosition( intersector );
+								rollOverMesh.position = voxelPosition;
+
+							}
+						}
+					}
+					
+					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
+					camera.position.z = zDistance * Math.cos( theta * Math.PI / 360 );
+					camera.position.y = yDistance;
+					
 					var now = new Date().getTime();
 					
 					if (gameOn == true) {

@@ -3,7 +3,7 @@ var Creep = Creep || {};
 Creep.initialize = function () {
 	this.pathLength = Map.xPathArray.length - 1
 	this.x = Map.xPathArray[this.pathLength];
-	this.y = Map.yPathArray[this.pathLength];
+	this.z = Map.zPathArray[this.pathLength];
 	this.creeps = [];
 	this.creepWaypoint = [];
 	this.currentWave = 0;
@@ -27,17 +27,40 @@ Creep.runLevel = function() {
 }
 
 Creep.create = function ( color, health, speed ) {
+	//Creep geometry
+	//Will be changed to include models soon
 	this.material = new THREE.MeshLambertMaterial ( { color: color } );
 	this.geometry = new THREE.SphereGeometry( 100, 20, 20 );
 	this.geometry.computeTangents();
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
-	this.mesh.position.set( this.x, this.y, 100 );
+	this.mesh.position.set( this.x, 100, this.z );
 	this.mesh.health = health;
 	this.mesh.speed = speed;
+	
+	// Sets move direction to prevent creep from moving backwards
+	// if it passes the waypoint
 	this.mesh.MOVE_N = false;
 	this.mesh.MOVE_S = false;
 	this.mesh.MOVE_E = false;
 	this.mesh.MOVE_W = false;
+	
+	// Creep poison properties
+	// Determines if it's poisoned, for how long and how much damage occurs
+	this.mesh.isPoisoned = false;
+	this.mesh.poisonDamage = 0;
+	this.mesh.poisonDuration = 0;
+	this.mesh.poisonMoves = 0;
+	
+	// Creep slow properties
+	// Will determine if the creep is slowed, for how many turns and by how much
+	
+	// Creep fire properties
+	// Determines if it's on fire, for how long and how much damage occurs
+	this.mesh.isOnFire = false;
+	this.mesh.fireDamage = 0;
+	this.mesh.fireDuration = 0;
+	this.mesh.fireMoves = 0;
+	
 	this.creeps.push ( this.mesh );
 	this.creepWaypoint.push ( this.pathLength - 1 );
 	
@@ -62,7 +85,7 @@ Creep.update = function() {
 			else
 			{
 				this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
-				this.creeps[i].position.y = Map.yPathArray[this.creepWaypoint[i]];
+				this.creeps[i].position.z = Map.zPathArray[this.creepWaypoint[i]];
 				this.creepWaypoint[i]--;
 				this.creeps[i].MOVE_N = false;
 				this.creeps[i].MOVE_S = false;
@@ -70,22 +93,22 @@ Creep.update = function() {
 				this.creeps[i].MOVE_W = false;
 			}
 		}
-		else if (this.creeps[i].position.y != Map.yPathArray[this.creepWaypoint[i]])
+		else if (this.creeps[i].position.z != Map.zPathArray[this.creepWaypoint[i]])
 		{
-			if (this.creeps[i].position.y > Map.yPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_N == false)
+			if (this.creeps[i].position.z > Map.zPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_N == false)
 			{
-				this.creeps[i].position.y -= this.creeps[i].speed;
+				this.creeps[i].position.z -= this.creeps[i].speed;
 				this.creeps[i].MOVE_S = true;
 			}					
-			else if (this.creeps[i].position.y < Map.yPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_S == false)
+			else if (this.creeps[i].position.z < Map.zPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_S == false)
 			{
-				this.creeps[i].position.y += this.creeps[i].speed;
+				this.creeps[i].position.z += this.creeps[i].speed;
 				this.creeps[i].MOVE_N = true;
 			}
 			else
 			{
 				this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
-				this.creeps[i].position.y = Map.yPathArray[this.creepWaypoint[i]];
+				this.creeps[i].position.z = Map.zPathArray[this.creepWaypoint[i]];
 				this.creepWaypoint[i]--;
 				this.creeps[i].MOVE_N = false;
 				this.creeps[i].MOVE_S = false;
@@ -96,15 +119,31 @@ Creep.update = function() {
 		else
 		{
 			this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
-			this.creeps[i].position.y = Map.yPathArray[this.creepWaypoint[i]];
+			this.creeps[i].position.z = Map.zPathArray[this.creepWaypoint[i]];
 			this.creepWaypoint[i]--;
 			this.creeps[i].MOVE_N = false;
 			this.creeps[i].MOVE_S = false;
 			this.creeps[i].MOVE_E = false;
 			this.creeps[i].MOVE_W = false;
 		}
-	
-		info.innerHTML = 'Total Creeps Remaining: ' + this.wave[this.currentWave].amount;
+		
+		if (this.creeps[i].isPoisoned == true) {
+			this.creeps[i].health -= this.creeps[i].poisonDamage;
+			this.creeps[i].poisonMoves += 1;
+			if (this.creeps[i].poisonDuration == this.creeps[i].poisonMoves) {
+				this.creeps[i].isPoisoned = false;
+				this.creeps[i].poisonMoves = 0;
+			}
+		}
+		else if (this.creeps[i].isOnFire == true) {
+			this.creeps[i].health -= this.creeps[i].fireDamage;
+			this.creeps[i].fireMoves += 1;
+			if (this.creeps[i].fireDuration == this.creeps[i].fireMoves) {
+				this.creeps[i].isOnFire = false;
+				this.creeps[i].fireMoves = 0;
+			}
+		}
+		
 		if (this.creeps[i].health <= 0)
 		{
 			Creep.isDead(i);
@@ -115,4 +154,7 @@ Creep.update = function() {
 Creep.isDead = function ( i ) {
 	scene.remove(this.creeps[i]);
 	this.creeps.splice(i, 1);
+	Score.setScore(true);
+	Score.towerCheck();
+	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
 }

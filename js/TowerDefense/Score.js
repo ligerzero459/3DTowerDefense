@@ -8,7 +8,6 @@ Score.initialize = function () {
 Score.setScore = function () {
     this.myScore += 10;
 	this.myCash += 100;
-	Score.towerCheck();
 }
   
 Score.getScore = function () {
@@ -20,32 +19,32 @@ Score.getCash = function () {
 }
   
 Score.towerCheck = function () {
-    switch(this.myScore)
+    switch(this.myscore)
 	{
-	case 10: // Pluto
+	case 800: //Mercury
+		Tower.activate("Ultimate");
+		break;
+	case 700: //Pluto
 		Tower.activate("Slow");
 		break;
-	case 20: // Neptune
+	case 600: //Neptune
 		Tower.activate("Laser");
 		break;
-	case 30: // Uranus
+	case 500: //Uranus
 		Tower.activate("Poison");
 		break;
-	case 40: //Saturn
+	case 400: //Saturn
 		Tower.activate("Sniper");
-		break;	
-	case 50: // Jupiter
+		break;
+	case 300: //Jupiter
 		Tower.activate("Splash");
 		break;
-	case 60: // Mars
+	case 200: //Mars
 		Tower.activate("Fire");
 		break;
-	case 70: // Venus
+	case 100: //Venus
 		Tower.activate("Rapid");
-		break;	
-	case 80: //Mercury
-		Tower.activate("Ultimate");
-		break;	
+		break;
 	default:  //Earth
 		break;
 	}

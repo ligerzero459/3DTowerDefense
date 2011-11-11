@@ -2,11 +2,11 @@ var Map = Map || {};
 
 Map.initialize = function (height, shw) {
 	this.xPathArray = [];
-	this.yPathArray = [];
+	this.zPathArray = [];
 	this.PLANE_HEIGHT = height;
 	this.PLANE_S_H_W = shw;
 	this.x = 100;
-	this.y = 100;
+	this.z = 100;
 }
 
 Map.generate = function () {
@@ -15,118 +15,126 @@ Map.generate = function () {
 		this.x += 200;
 		
 		this.xPathArray.push(this.x);
-		this.yPathArray.push(this.y);
+		this.zPathArray.push(this.z);
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
-		this.planeMesh.position.set( this.x, this.y, 0 );
+		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
+		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
 		scene.add( this.planeMesh );
 	}
 	
 	for (var i = 1; i <= 15; i++)
 	{
-		this.y += 200;
+		this.z += -200;
 		
 		this.xPathArray.push(this.x);
-		this.yPathArray.push(this.y);
+		this.zPathArray.push(this.z);
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
-		this.planeMesh.position.set( this.x, this.y, 0 );
+		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
+		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
 		scene.add( this.planeMesh );
 	}
 	
 	for (var i = 1; i <= 5	; i ++)
 	{
-		this.x -= 200;
+		this.x += -200;
 		
 		this.xPathArray.push(this.x);
-		this.yPathArray.push(this.y);
+		this.zPathArray.push(this.z);
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
-		this.planeMesh.position.set( this.x, this.y, 0 );
+		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
+		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
 		scene.add( this.planeMesh );
 	}
 	
 	for (var i = 1; i <= 30; i++)
 	{
-		this.y -= 200;
+		this.z += 200;
 		
 		this.xPathArray.push(this.x);
-		this.yPathArray.push(this.y);
+		this.zPathArray.push(this.z);
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
-		this.planeMesh.position.set( this.x, this.y, 0 );
+		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
+		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
 		scene.add( this.planeMesh );
 	}
 	
 	for (var i = 1; i <= 25	; i ++)
 	{
-		this.x -= 200;
+		this.x += -200;
 		
 		this.xPathArray.push(this.x);
-		this.yPathArray.push(this.y);
+		this.zPathArray.push(this.z);
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
-		this.planeMesh.position.set( this.x, this.y, 0 );
+		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
+		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
 		scene.add( this.planeMesh );
 	}
 	
 	for (var i = 1; i <= 25; i++)
 	{
-		this.y += 200;
+		this.z += -200;
 		
 		this.xPathArray.push(this.x);
-		this.yPathArray.push(this.y);
+		this.zPathArray.push(this.z);
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
-		this.planeMesh.position.set( this.x, this.y, 0 );
+		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
+		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
 		scene.add( this.planeMesh );
 	}
 	
 	for (var i = 1; i <= 10	; i ++)
 	{
-		this.x -= 200;
+		this.x += -200;
 		
 		this.xPathArray.push(this.x);
-		this.yPathArray.push(this.y);
+		this.zPathArray.push(this.z);
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
-		this.planeMesh.position.set( this.x, this.y, 0 );
+		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
+		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
 		scene.add( this.planeMesh );
 	}
 	
 	for (var i = 1; i <= 6; i++)
 	{
-		this.y -= 200;
+		this.z += 200;
 		
 		this.xPathArray.push(this.x);
-		this.yPathArray.push(this.y);
+		this.zPathArray.push(this.z);
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
-		this.planeMesh.position.set( this.x, this.y, 0 );
+		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
+		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
 		scene.add( this.planeMesh );
 	}
 	
@@ -135,28 +143,30 @@ Map.generate = function () {
 		this.x += 200;
 		
 		this.xPathArray.push(this.x);
-		this.yPathArray.push(this.y);
+		this.zPathArray.push(this.z);
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
-		this.planeMesh.position.set( this.x, this.y, 0 );
+		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
+		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
 		scene.add( this.planeMesh );
 	}
 	
-	for (var i = 1; i <= 20; i++)
+	for (var i = 1; i <= 21; i++)
 	{
-		this.y += 200;
+		this.z += -200;
 		
 		this.xPathArray.push(this.x);
-		this.yPathArray.push(this.y);
+		this.zPathArray.push(this.z);
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
-		this.planeMesh.position.set( this.x, this.y, 0 );
+		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
+		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
 		scene.add( this.planeMesh );
 	}
 };
