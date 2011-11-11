@@ -20,7 +20,7 @@ Score.getCash = function () {
 }
   
 Score.towerCheck = function () {
-    switch(this.myscore)
+    switch(this.myScore)
 	{
 	case 10: //Venus
 		Tower.activate("Rapid");
