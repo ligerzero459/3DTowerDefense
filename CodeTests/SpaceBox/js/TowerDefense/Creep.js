@@ -56,6 +56,10 @@ Creep.create = function ( color, health, speed ) {
 	
 	// Creep fire properties
 	// Determines if it's on fire, for how long and how much damage occurs
+	this.mesh.isOnFire = false;
+	this.mesh.fireDamage = 0;
+	this.mesh.fireDuration = 0;
+	this.mesh.fireMoves = 0;
 	
 	this.creeps.push ( this.mesh );
 	this.creepWaypoint.push ( this.pathLength - 1 );

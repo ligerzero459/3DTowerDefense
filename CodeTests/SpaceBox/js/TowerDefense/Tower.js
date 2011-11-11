@@ -117,6 +117,18 @@ Tower.hit = function(firingTower, target) {
 			target.poisonDuration = firingTower.poisonDuration;
 		}
 	}
+
+	if (firingTower.towerType == "Fire") {
+		if (target.isOnFire == false) {
+			target.isOnFire = true;
+			target.fireDamage = firingTower.fireDamage;
+			target.fireDuration = firingTower.fireDuration;
+		}
+		else if (target.isOnFire == true && target.fireDamage < firingTower.fireDamage) {
+			target.fireDamage = firingTower.fireDamage;
+			target.fireDuration = firingTower.fireDuration;
+		}
+	}
 }
 
 Tower.activate = function (towerName) {
