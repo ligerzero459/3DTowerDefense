@@ -22,26 +22,26 @@ Score.getCash = function () {
 Score.towerCheck = function () {
     switch(this.myScore)
 	{
-	case 10: //Venus
-		Tower.activate("Rapid");
+	case 10: // Pluto
+		Tower.activate("Slow");
 		break;
-	case 20: //Mars
-		Tower.activate("Fire");
+	case 20: // Neptune
+		Tower.activate("Laser");
 		break;
-	case 30: //Jupiter
-		Tower.activate("Splash");
+	case 30: // Uranus
+		Tower.activate("Poison");
 		break;
 	case 40: //Saturn
 		Tower.activate("Sniper");
 		break;	
-	case 50: //Uranus
-		Tower.activate("Poison");
+	case 50: // Jupiter
+		Tower.activate("Splash");
 		break;
-	case 60: //Neptune
-		Tower.activate("Laser");
+	case 60: // Mars
+		Tower.activate("Fire");
 		break;
-	case 70: //Pluto
-		Tower.activate("Slow");
+	case 70: // Venus
+		Tower.activate("Rapid");
 		break;	
 	case 80: //Mercury
 		Tower.activate("Ultimate");
