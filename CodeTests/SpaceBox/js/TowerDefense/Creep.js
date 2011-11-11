@@ -155,6 +155,5 @@ Creep.isDead = function ( i ) {
 	scene.remove(this.creeps[i]);
 	this.creeps.splice(i, 1);
 	Score.setScore(true);
-	Score.towerCheck();
 	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
 }
