@@ -87,6 +87,15 @@
 			isUpDown = false, isDownDown = false,
 			wDown = false, sDown = false,
 			aDown = false, dDown = false;;
+			
+		var projector, plane, cube;
+		var mouse2D, mouse3D, ray,
+			rollOveredFace, isShiftDown = false,
+			isCtrlDown = false;
+
+		var rollOverMesh, rollOverMaterial, voxelPosition = new THREE.Vector3(), tmpVec = new THREE.Vector3();
+		var cubeGeo, cubeMaterial;
+		var i, intersector;
 		
         $(document).ready(function() {
 			if ( ! Detector.webgl )
@@ -141,6 +150,23 @@
 					planeMesh.rotation.x = - 90 * Math.PI / 180;
 					scene.add( planeMesh );
 					
+					rollOverGeo = new THREE.CubeGeometry( 50, 50, 50 );
+					rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
+					rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
+					scene.add( rollOverMesh );
+					
+					// cubes
+
+					cubeGeo = new THREE.CubeGeometry( 50, 50, 50 );
+					cubeMaterial = new THREE.MeshLambertMaterial( { color: 0x00ff80, shading: THREE.FlatShading, map: THREE.ImageUtils.loadTexture( "textures/square-outline-textured.png" ) } );
+					cubeMaterial.color.setHSV( 0.1, 0.7, 1.0 );
+
+					// picking
+
+					projector = new THREE.Projector();
+					
+					mouse2D = new THREE.Vector3( 0, 10000, 0.5 );
+					
 					// Map Path Generation
 					Map.generate();
 					
@@ -161,8 +187,75 @@
 					Creep.initialize();
 					
 					window.addEventListener( 'resize', onWindowResize, false );
+					document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+					document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 					document.addEventListener( 'keydown', onDocumentKeyDown, false );
 					document.addEventListener( 'keyup', onDocumentKeyUp, false );					
+				}
+				
+				function getRealIntersector( intersects ) {
+
+				for( i = 0; i < intersects.length; i++ ) {
+
+					intersector = intersects[ i ];
+
+					if ( intersector.object != rollOverMesh ) {
+
+						return intersector;
+
+					}
+
+				}
+
+				return null;
+
+				}
+
+				function setVoxelPosition( intersector ) {
+
+					tmpVec.copy( intersector.face.normal );
+
+					voxelPosition.add( intersector.point, intersector.object.matrixRotationWorld.multiplyVector3( tmpVec ) );
+
+					voxelPosition.x = Math.floor( voxelPosition.x / 200 ) * 200 + 100;
+					voxelPosition.y = 200;
+					voxelPosition.z = Math.floor( voxelPosition.z / 200 ) * 200 + 100;
+
+				}
+
+				function onDocumentMouseMove( event ) {
+
+					event.preventDefault();
+
+					mouse2D.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+					mouse2D.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+				}
+
+				function onDocumentMouseDown( event ) {
+
+					event.preventDefault();
+
+					var intersects = ray.intersectScene( scene );
+
+					if ( intersects.length > 0 ) {
+
+						intersector = getRealIntersector( intersects );
+
+						// create cube
+
+					} else {
+
+						intersector = getRealIntersector( intersects );
+						setVoxelPosition( intersector );
+
+						var voxel = new THREE.Mesh( cubeGeo, cubeMaterial );
+						voxel.position.copy( voxelPosition );
+						voxel.matrixAutoUpdate = false;
+						voxel.updateMatrix();
+						scene.add( voxel );
+					}
+
 				}
 				
 				function onDocumentKeyDown( event ) {
@@ -372,6 +465,22 @@
 						if (yDistance > 200) {
 							yDistance -= 15;
 						}
+					}
+					
+					ray = projector.pickingRay( mouse2D.clone(), camera );
+
+					var intersects = ray.intersectScene( scene );
+
+					if ( intersects.length > 0 ) {
+
+						intersector = getRealIntersector( intersects );
+						if ( intersector ) {
+
+							setVoxelPosition( intersector );
+							rollOverMesh.position = voxelPosition;
+
+						}
+
 					}
 					
 					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
