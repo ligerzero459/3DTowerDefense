@@ -150,14 +150,14 @@
 					planeMesh.rotation.x = - 90 * Math.PI / 180;
 					scene.add( planeMesh );
 					
-					rollOverGeo = new THREE.CubeGeometry( 50, 50, 50 );
-					rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
+					rollOverGeo = new THREE.CubeGeometry( 200, 200, 200 );
+					rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.7, transparent: true } );
 					rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
 					scene.add( rollOverMesh );
 					
 					// cubes
 
-					cubeGeo = new THREE.CubeGeometry( 50, 50, 50 );
+					cubeGeo = new THREE.CubeGeometry( 200, 200, 200 );
 					cubeMaterial = new THREE.MeshLambertMaterial( { color: 0x00ff80, shading: THREE.FlatShading, map: THREE.ImageUtils.loadTexture( "textures/square-outline.png" ) } );
 					cubeMaterial.color.setHSV( 0.1, 0.7, 1.0 );
 
