@@ -6,7 +6,7 @@ Score.initialize = function () {
 }
   
 Score.setScore = function (score, cash) {
-	this.myCash +=;
+	this.myCash += cash;
     this.myScore += score;
 	Score.towerCheck();
 }
