@@ -1,15 +1,15 @@
 var Bullet = Bullet || {};
 
 Bullet.initialize = function () {
-	this.geometry = new THREE.SphereGeometry( 15, 15, 15 );
-	this.material = new THREE.MeshPhongMaterial( { color: 0xFF2400 } );
+	this.geometry = new THREE.SphereGeometry( 40, 15, 15 );
+	this.material = new THREE.MeshLambertMaterial( { color: 0xFF2400 } );
 	this.bulletArray = [];
 }
 
 Bullet.create = function (tower, target) {
 	var mesh = new THREE.Mesh(this.geometry, this.material);
 	mesh.position.copy(tower.position);
-	mesh.bulletSpeed = tower.bulletSpeed;
+	mesh.bulletSpeed = 5;
 	mesh.targetX = target.position.x;
 	mesh.targetZ = target.position.z;
 	mesh.MOVE_N = false;
