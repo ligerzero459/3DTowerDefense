@@ -12,7 +12,7 @@ Map.initialize = function (height, shw) {
 Map.generate = function () {
 	this.material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true, opacity: 0.1 } );
 	this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
-	this.baseMesh = new THREE.Mesh ( geometry, material );
+	this.baseMesh = new THREE.Mesh ( this.geometry, this.material );
 	this.baseMesh.position.set( 0, 0, 0 );
 	this.baseMesh.scale.set( 1, 1, 1 );
 	this.baseMesh.rotation.x = - 90 * Math.PI / 180;
