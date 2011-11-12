@@ -19,7 +19,7 @@ Map.generate = function () {
 	this.baseMesh.scale.set( 1, 1, 1 );
 	this.baseMesh.rotation.x = - 90 * Math.PI / 180;
 	
-	THREE.GeometryUtils.merge(mergedGeo, this.baseMesh);
+	scene.add(this.baseMesh);
 	
 	for (var i = 1; i <= 20	; i ++)
 	{
