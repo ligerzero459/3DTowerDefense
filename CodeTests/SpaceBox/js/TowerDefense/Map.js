@@ -189,6 +189,9 @@ Map.generate = function () {
 		//scene.add( this.planeMesh );
 		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
 	}
+	mergedGeo.computeFaceNormals();
 	this.mesh = new THREE.Mesh ( mergedGeo, new THREE.MeshFaceMaterial() );
+	this.mesh.matrixAutoUpdate = false;
+	this.mesh.updateMatrix();
 	scene.add( this.mesh );
 };
