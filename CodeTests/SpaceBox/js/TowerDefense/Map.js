@@ -50,7 +50,7 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		//scene.add( this.planeMesh );
+		
 		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
 	}
 	
@@ -67,7 +67,7 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		//scene.add( this.planeMesh );
+		
 		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
 	}
 	
@@ -84,7 +84,7 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		//scene.add( this.planeMesh );
+		
 		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
 	}
 	
@@ -101,7 +101,7 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		//scene.add( this.planeMesh );
+		
 		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
 	}
 	
@@ -118,7 +118,7 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		//scene.add( this.planeMesh );
+		
 		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
 	}
 	
@@ -135,7 +135,7 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		//scene.add( this.planeMesh );
+		
 		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
 	}
 	
@@ -152,7 +152,7 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		//scene.add( this.planeMesh );
+		
 		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
 	}
 	
@@ -169,7 +169,7 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		//scene.add( this.planeMesh );
+		
 		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
 	}
 	
@@ -186,11 +186,11 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		//scene.add( this.planeMesh );
+		
 		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
 	}
 	mergedGeo.computeFaceNormals();
-	this.mesh = new THREE.Mesh ( mergedGeo, new THREE.MeshLambertMaterial() );
+	this.mesh = new THREE.Mesh ( mergedGeo, new THREE.MeshLambertMaterial( { color: 0x999999 } ) );
 	this.mesh.matrixAutoUpdate = false;
 	this.mesh.updateMatrix();
 	scene.add( this.mesh );
