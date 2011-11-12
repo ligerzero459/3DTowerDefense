@@ -20,7 +20,6 @@ Score.getCash = function () {
 }
   
 Score.towerCheck = function () {
-		
 	
 	if (this.myScore >= 50) {
 		Tower.activate("Slow");
