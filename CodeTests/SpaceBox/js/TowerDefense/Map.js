@@ -28,7 +28,7 @@ Map.generate = function () {
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
 		
-		this.material = new THREE.MeshFaceMaterial ( { color: 0x999999, wireframe: false } );
+		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
 		this.planeMesh.position.set( this.x, 0, this.z );
@@ -44,7 +44,7 @@ Map.generate = function () {
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
 		
-		this.material = new THREE.MeshFaceMaterial ( { color: 0x999999, wireframe: false } );
+		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
 		this.planeMesh.position.set( this.x, 0, this.z );
@@ -61,7 +61,7 @@ Map.generate = function () {
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
 		
-		this.material = new THREE.MeshFaceMaterial ( { color: 0x999999, wireframe: false } );
+		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
 		this.planeMesh.position.set( this.x, 0, this.z );
@@ -78,7 +78,7 @@ Map.generate = function () {
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
 		
-		this.material = new THREE.MeshFaceMaterial ( { color: 0x999999, wireframe: false } );
+		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
 		this.planeMesh.position.set( this.x, 0, this.z );
@@ -95,7 +95,7 @@ Map.generate = function () {
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
 		
-		this.material = new THREE.MeshFaceMaterial ( { color: 0x999999, wireframe: false } );
+		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
 		this.planeMesh.position.set( this.x, 0, this.z );
@@ -112,7 +112,7 @@ Map.generate = function () {
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
 		
-		this.material = new THREE.MeshFaceMaterial ( { color: 0x999999, wireframe: false } );
+		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
 		this.planeMesh.position.set( this.x, 0, this.z );
@@ -129,7 +129,7 @@ Map.generate = function () {
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
 		
-		this.material = new THREE.MeshFaceMaterial ( { color: 0x999999, wireframe: false } );
+		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
 		this.planeMesh.position.set( this.x, 0, this.z );
@@ -146,7 +146,7 @@ Map.generate = function () {
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
 		
-		this.material = new THREE.MeshFaceMaterial ( { color: 0x999999, wireframe: false } );
+		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
 		this.planeMesh.position.set( this.x, 0, this.z );
@@ -163,7 +163,7 @@ Map.generate = function () {
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
 		
-		this.material = new THREE.MeshFaceMaterial ( { color: 0x999999, wireframe: false } );
+		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
 		this.planeMesh.position.set( this.x, 0, this.z );
@@ -180,7 +180,7 @@ Map.generate = function () {
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
 		
-		this.material = new THREE.MeshFaceMaterial ( { color: 0x999999, wireframe: false } );
+		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
 		this.planeMesh.position.set( this.x, 0, this.z );
@@ -190,7 +190,7 @@ Map.generate = function () {
 		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
 	}
 	mergedGeo.computeFaceNormals();
-	this.mesh = new THREE.Mesh ( mergedGeo, new THREE.MeshFaceMaterial() );
+	this.mesh = new THREE.Mesh ( mergedGeo, new THREE.MeshLambertMaterial() );
 	this.mesh.matrixAutoUpdate = false;
 	this.mesh.updateMatrix();
 	scene.add( this.mesh );
