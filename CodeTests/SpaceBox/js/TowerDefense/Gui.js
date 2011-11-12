@@ -38,7 +38,7 @@ Gui.initialize = function() {
 		this.createDiv("TL", towerInfo, 180, 40, 5, 60, towerID);
 		$("#" + towerInfo).css("color", "#ffffff");
 		
-		var towerHTML = "<div style='position: absolute; top: 0; left: 0;'>" + Tower.towerType[i].type + "<br>Power: " + Tower.towerType[i].damage + " Range: " + Tower.towerType[i].range + "</div>";
+		var towerHTML = "<div style='position: absolute; top: 0; left: 0;'>" + Tower.towerType[i].type + " Price: $" + Tower.towerType[i].price + "<br>Power: " + Tower.towerType[i].damage + " Range: " + Tower.towerType[i].range + "</div>";
 		$("#" + towerInfo).html(towerHTML);
 	}
 	

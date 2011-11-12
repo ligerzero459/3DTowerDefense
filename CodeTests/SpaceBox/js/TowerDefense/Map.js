@@ -10,6 +10,13 @@ Map.initialize = function (height, shw) {
 }
 
 Map.generate = function () {
+	material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true, opacity: 0.1 } );
+	geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
+	this.baseMesh = new THREE.Mesh ( geometry, material );
+	this.baseMesh.position.set( 0, 0, 0 );
+	this.baseMesh.scale.set( 1, 1, 1 );
+	this.baseMesh.rotation.x = - 90 * Math.PI / 180;
+	
 	for (var i = 1; i <= 20	; i ++)
 	{
 		this.x += 200;
@@ -23,7 +30,7 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		scene.add( this.planeMesh );
+		THREE.GeometryUtils.merge(this.baseMesh, this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 15; i++)
@@ -39,7 +46,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		scene.add( this.planeMesh );
+		//scene.add( this.planeMesh );
+		THREE.GeometryUtils.merge(this.baseMesh, this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 5	; i ++)
@@ -55,7 +63,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		scene.add( this.planeMesh );
+		//scene.add( this.planeMesh );
+		THREE.GeometryUtils.merge(this.baseMesh, this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 30; i++)
@@ -71,7 +80,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		scene.add( this.planeMesh );
+		//scene.add( this.planeMesh );
+		THREE.GeometryUtils.merge(this.baseMesh, this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 25	; i ++)
@@ -87,7 +97,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		scene.add( this.planeMesh );
+		//scene.add( this.planeMesh );
+		THREE.GeometryUtils.merge(this.baseMesh, this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 25; i++)
@@ -103,7 +114,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		scene.add( this.planeMesh );
+		//scene.add( this.planeMesh );
+		THREE.GeometryUtils.merge(this.baseMesh, this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 10	; i ++)
@@ -119,7 +131,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		scene.add( this.planeMesh );
+		//scene.add( this.planeMesh );
+		THREE.GeometryUtils.merge(this.baseMesh, this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 6; i++)
@@ -135,7 +148,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		scene.add( this.planeMesh );
+		//scene.add( this.planeMesh );
+		THREE.GeometryUtils.merge(this.baseMesh, this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 13	; i ++)
@@ -151,7 +165,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		scene.add( this.planeMesh );
+		//scene.add( this.planeMesh );
+		THREE.GeometryUtils.merge(this.baseMesh, this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 21; i++)
@@ -167,6 +182,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		scene.add( this.planeMesh );
+		//scene.add( this.planeMesh );
+		THREE.GeometryUtils.merge(this.baseMesh, this.planeMesh);
 	}
+	scene.add( this.baseMesh );
 };
