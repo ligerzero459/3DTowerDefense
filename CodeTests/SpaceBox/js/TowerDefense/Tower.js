@@ -60,6 +60,7 @@ Tower.update = function() {
 				{
 					var target = targets[j];
 					var firingTower = this.towers[i];
+					Bullet.hit(firingTower, target);
 					Tower.hit(firingTower, target);
 					this.towers[i].charging = true;
 				}
@@ -69,6 +70,7 @@ Tower.update = function() {
 				{
 					var target = targets[0];
 					var firingTower = this.towers[i];
+					Bullet.hit(firingTower, target);
 					Tower.hit(firingTower, target);
 					this.towers[i].charging = true;
 				}

@@ -1,15 +1,15 @@
 <html>
 	<head>
 		<title>JQuery Div Testing</title>
-		<script src="../../../build/Three.js"></script>
+		<script src="Three.js"></script>
 		<!--Make sure path in previous script points to the correct build directory-->
 		<!--You can copy the build directory into your project path or point it to-->
 		<!--the three.js directory-->
-		<script src="../../../examples/js/ShaderExtras.js"></script>
+		<script src="js/ShaderExtras.js"></script>
 
-		<script src="../../../examples/js/Detector.js"></script>
-		<script src="../../../examples/js/RequestAnimationFrame.js"></script>
-		<script src="../../../examples/js/Stats.js"></script>
+		<script src="js/Detector.js"></script>
+		<script src="js/RequestAnimationFrame.js"></script>
+		<script src="js/Stats.js"></script>
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
 		
@@ -18,6 +18,7 @@
 		<script src="js/TowerDefense/Tower.js"></script>
 		<script src="js/TowerDefense/Gui.js"></script>
 		<script src="js/TowerDefense/Score.js"></script>
+		<script src="js/TowerDefense/Bullet.js"></script>
 		
 		<style>
 			body {
@@ -123,6 +124,7 @@
 					Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
 					Tower.initialize();
 					Score.initialize();
+					Bullet.initialize();
 					setTimeout("Gui.initialize()", 3000);
 					
 					var ambientLight = new THREE.AmbientLight( 0xffffff );
