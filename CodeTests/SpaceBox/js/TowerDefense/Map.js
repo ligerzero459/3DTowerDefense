@@ -187,7 +187,6 @@ Map.generate = function () {
 		//scene.add( this.planeMesh );
 		THREE.GeometryUtils.merge(this.mergedGeo, this.planeMesh);
 	}
-	this.mergedGeo.computeFaceNormals();
 	this.material = new THREE.MeshNormalMaterial();
 	this.group = new THREE.Mesh ( this.mergedGeo, this.material );
 	scene.add( this.group );
