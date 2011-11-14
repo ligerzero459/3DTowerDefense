@@ -23,7 +23,7 @@ Bullet.create = function (tower, target) {
 		mesh.position.x = position.x;
 		mesh.position.z = position.z;
 	}
-	var tween = new TWEEN.Tween(position).to( moveTarget, 1000 ).onUpdate(update);
+	var tween = new TWEEN.Tween(position).to( moveTarget, 1000 ).onUpdate(update).easing(TWEEN.Easing.Linear).start();
 	
 	this.bulletArray.push( mesh );
 	scene.add( mesh );
