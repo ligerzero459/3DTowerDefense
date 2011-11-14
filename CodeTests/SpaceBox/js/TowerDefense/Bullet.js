@@ -44,6 +44,8 @@ Bullet.update = function () {
 			else
 			{
 				this.bulletArray[i].position.x = this.bulletArray[i].targetX;
+				MOVE_E = true;
+				MOVE_W = true;
 			}
 		}
 		if (this.bulletArray[i].position.z != this.bulletArray[i].targetZ)
@@ -61,6 +63,8 @@ Bullet.update = function () {
 			else
 			{
 				this.bulletArray[i].position.z = this.bulletArray[i].targetZ;
+				MOVE_N = true;
+				MOVE_S = true;
 			}
 		}
 		if (this.bulletArray[i].position.z == this.bulletArray[i].targetZ && this.bulletArray[i].position.x == this.bulletArray[i].targetX)
