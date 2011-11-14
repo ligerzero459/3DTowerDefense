@@ -150,7 +150,28 @@ Tower.placeTower = function (towerName) {
 	if (towerName == "Tower") {
 		this.towerIndex = 0;
 	}
-	else if (towerName == "Sniper") {
+	else if (towerName == "Slow") {
 		this.towerIndex = 1;
+	}
+	else if (towerName == "Laser") {
+		this.towerIndex = 2;
+	}
+	else if (towerName == "Poison") {
+		this.towerIndex = 3;
+	}
+	else if (towerName == "Sniper") {
+		this.towerIndex = 4;
+	}
+	else if (towerName == "Splash") {
+		this.towerIndex = 5;
+	}
+	else if (towerName == "Fire") {
+		this.towerIndex = 6;
+	}
+	else if (towerName == "Rapid") {
+		this.towerIndex = 7;
+	}
+	else if (towerName == "Ultimate") {
+		this.towerIndex = 8;
 	}
 }

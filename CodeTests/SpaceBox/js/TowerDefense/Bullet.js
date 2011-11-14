@@ -9,7 +9,7 @@ Bullet.initialize = function () {
 Bullet.create = function (tower, target) {
 	var mesh = new THREE.Mesh(this.geometry, this.material);
 	mesh.position.copy(tower.position);
-	mesh.bulletSpeed = 20;
+	mesh.bulletSpeed = 30;
 	mesh.targetX = Map.xPathArray[target.waypoint];
 	mesh.targetZ = Map.zPathArray[target.waypoint];
 	mesh.MOVE_N = false;

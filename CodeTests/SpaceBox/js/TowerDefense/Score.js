@@ -8,6 +8,7 @@ Score.initialize = function () {
 Score.setScore = function (score, cash) {
 	this.myCash += cash;
     this.myScore += score;
+	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
 	Score.towerCheck();
 }
   
@@ -47,6 +48,7 @@ Score.towerCheck = function () {
 		}
 }
 
-
-
-
+Score.buyTower = function(towerPrice) {
+	this.myCash -= towerPrice;
+	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
+}

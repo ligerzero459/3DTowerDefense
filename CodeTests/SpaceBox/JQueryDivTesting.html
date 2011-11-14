@@ -430,11 +430,11 @@
 						yDistance += 45;
 					}
 					else if (wDown) {
-						yDistance += 15;
+						yDistance += 45;
 					}
 					else if (sDown) {
 						if (yDistance > 200) {
-							yDistance -= 15;
+							yDistance -= 45;
 						}
 					}
 					
@@ -453,6 +453,10 @@
 
 							}
 						}
+					}
+					else if (towerMode == false)
+					{
+						rollOverMesh.position.set(100000,100000,100000);
 					}
 					
 					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );

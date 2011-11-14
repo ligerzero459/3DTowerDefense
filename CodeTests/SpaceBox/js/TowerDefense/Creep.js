@@ -158,5 +158,4 @@ Creep.isDead = function ( i ) {
 	Score.setScore(this.creeps[i].score, this.creeps[i].cash);
 	scene.remove(this.creeps[i]);
 	this.creeps.splice(i, 1);
-	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
 }
