@@ -55,7 +55,7 @@ Bullet.update = function () {
 				this.bulletArray[i].position.z -= this.bulletArray[i].bulletSpeed;
 				this.bulletArray[i].MOVE_S = true;
 			}
-			else if (this.bulletArray[i].position.x > this.bulletArray[i].targetZ && this.bulletArray[i].MOVE_S == false)
+			else if (this.bulletArray[i].position.z > this.bulletArray[i].targetZ && this.bulletArray[i].MOVE_S == false)
 			{
 				this.bulletArray[i].position.z += this.bulletArray[i].bulletSpeed;
 				this.bulletArray[i].MOVE_N = true;
