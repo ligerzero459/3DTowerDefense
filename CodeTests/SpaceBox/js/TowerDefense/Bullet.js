@@ -17,8 +17,13 @@ Bullet.create = function (tower, target) {
 	mesh.MOVE_E = false;
 	mesh.MOVE_W = false;
 	
-	new TWEEN.Tween(mesh.position)
-					.to( { x: mesh.targetX, z: mesh.targetZ }, 1000 );
+	var position = { x: mesh.position.x, z: mesh.position.z }
+	var moveTarget = { x: mesh.targetX, z: mesh.targetZ };
+	var update = function () {
+		mesh.position.x = position.x;
+		mesh.position.z = position.z;
+	}
+	var tween = new TWEEN.Tween(position).to( moveTarget, 1000 ).onUpdate(update);
 	
 	this.bulletArray.push( mesh );
 	scene.add( mesh );
