@@ -10,6 +10,7 @@
 		<script src="js/Detector.js"></script>
 		<script src="js/RequestAnimationFrame.js"></script>
 		<script src="js/Stats.js"></script>
+		<script src="js/Tween.js"></script>
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
 		
@@ -397,6 +398,8 @@
 					
 					requestAnimationFrame( animate );
 					
+					TWEEN.update();
+					
 					render();
 					
 				}
@@ -472,7 +475,7 @@
 						
 							Creep.update();
 							Tower.update();
-							Bullet.update();
+							//Bullet.update();
 							lastUpdate = now;
 							
 						}

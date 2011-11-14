@@ -17,6 +17,9 @@ Bullet.create = function (tower, target) {
 	mesh.MOVE_E = false;
 	mesh.MOVE_W = false;
 	
+	new TWEEN.Tween(mesh.position)
+					.to( { x: mesh.targetX z: mesh.targetZ }, 1000 );
+	
 	this.bulletArray.push( mesh );
 	scene.add( mesh );
 }
@@ -43,10 +46,7 @@ Bullet.update = function () {
 			}
 			else
 			{
-				this.bulletArray[i].position.x = this.bulletArray[i].targetX;
-				MOVE_E = true;
-				MOVE_W = true;
-			}
+				this.bulletArray[i].position.x = this.bulletArray[i].targetX;			}
 		}
 		if (this.bulletArray[i].position.z != this.bulletArray[i].targetZ)
 		{
@@ -63,8 +63,6 @@ Bullet.update = function () {
 			else
 			{
 				this.bulletArray[i].position.z = this.bulletArray[i].targetZ;
-				MOVE_N = true;
-				MOVE_S = true;
 			}
 		}
 		if (this.bulletArray[i].position.z == this.bulletArray[i].targetZ && this.bulletArray[i].position.x == this.bulletArray[i].targetX)
