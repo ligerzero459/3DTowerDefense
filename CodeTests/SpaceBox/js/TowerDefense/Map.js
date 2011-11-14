@@ -3,6 +3,7 @@ var Map = Map || {};
 Map.initialize = function (height, shw) {
 	this.xPathArray = [];
 	this.zPathArray = [];
+	this.PathArray = [];
 	this.PLANE_HEIGHT = height;
 	this.PLANE_S_H_W = shw;
 	this.x = 100;
@@ -27,6 +28,7 @@ Map.generate = function () {
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
+		this.PathArray.push(new THREE.Vector3(this.x, 0, this.z));
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
@@ -34,7 +36,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		//THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		scene.add(this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 15; i++)
@@ -43,6 +46,7 @@ Map.generate = function () {
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
+		this.PathArray.push(new THREE.Vector3(this.x, 0, this.z));
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
@@ -51,7 +55,8 @@ Map.generate = function () {
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
 		
-		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		//THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		scene.add(this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 5	; i ++)
@@ -60,6 +65,7 @@ Map.generate = function () {
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
+		this.PathArray.push(new THREE.Vector3(this.x, 0, this.z));
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
@@ -68,7 +74,8 @@ Map.generate = function () {
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
 		
-		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		//THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		scene.add(this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 30; i++)
@@ -77,6 +84,7 @@ Map.generate = function () {
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
+		this.PathArray.push(new THREE.Vector3(this.x, 0, this.z));
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
@@ -84,8 +92,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		
-		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		//THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		scene.add(this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 25	; i ++)
@@ -94,6 +102,7 @@ Map.generate = function () {
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
+		this.PathArray.push(new THREE.Vector3(this.x, 0, this.z));
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
@@ -101,8 +110,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		
-		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		//THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		scene.add(this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 25; i++)
@@ -111,6 +120,7 @@ Map.generate = function () {
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
+		this.PathArray.push(new THREE.Vector3(this.x, 0, this.z));
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
@@ -118,8 +128,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		
-		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		//THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		scene.add(this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 10	; i ++)
@@ -128,6 +138,7 @@ Map.generate = function () {
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
+		this.PathArray.push(new THREE.Vector3(this.x, 0, this.z));
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
@@ -135,8 +146,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		
-		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		//THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		scene.add(this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 6; i++)
@@ -145,6 +156,7 @@ Map.generate = function () {
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
+		this.PathArray.push(new THREE.Vector3(this.x, 0, this.z));
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
@@ -152,8 +164,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		
-		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		//THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		scene.add(this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 13	; i ++)
@@ -162,6 +174,7 @@ Map.generate = function () {
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
+		this.PathArray.push(new THREE.Vector3(this.x, 0, this.z));
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
@@ -169,8 +182,8 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		
-		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		//THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		scene.add(this.planeMesh);
 	}
 	
 	for (var i = 1; i <= 21; i++)
@@ -179,6 +192,7 @@ Map.generate = function () {
 		
 		this.xPathArray.push(this.x);
 		this.zPathArray.push(this.z);
+		this.PathArray.push(new THREE.Vector3(this.x, 0, this.z));
 		
 		this.material = new THREE.MeshLambertMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 20, 20 );
@@ -186,12 +200,13 @@ Map.generate = function () {
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
-		
-		THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		//THREE.GeometryUtils.merge(mergedGeo, this.planeMesh);
+		scene.add(this.planeMesh);
 	}
+	/*
 	mergedGeo.computeFaceNormals();
 	this.mesh = new THREE.Mesh ( mergedGeo, new THREE.MeshLambertMaterial( { color: 0x999999 } ) );
 	this.mesh.matrixAutoUpdate = false;
 	this.mesh.updateMatrix();
-	scene.add( this.mesh );
+	scene.add( this.mesh );*/
 };
