@@ -60,3 +60,8 @@ Score.buyTower = function(towerPrice) {
 	this.myCash -= towerPrice;
 	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
 }
+
+Score.restartGame = function () {
+	Score.initialize();
+	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
+}

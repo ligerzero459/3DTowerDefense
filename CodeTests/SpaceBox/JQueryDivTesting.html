@@ -12,7 +12,7 @@
 		<script src="js/Stats.js"></script>
 		<script src="js/Tween.js"></script>
 		
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+		<script src="jquery.min.js"></script>
 		
 		<script src="js/TowerDefense/Creep.js"></script>
 		<script src="js/TowerDefense/Map.js"></script>
@@ -118,6 +118,10 @@
 					$("#start").click(function(e) {
 						e.preventDefault(); // if desired...
 						startGame();
+					});
+					$("#restart").click(function(e) {
+						e.preventDefault(); // if desired...
+						restartGame();
 					});
 					
 					// Initialization
@@ -284,18 +288,43 @@
 					
 					gameOn = true;
 					firstStart = true;
+					$("#pauseBox").click(function(e) {
+						e.preventDefault();
+						pauseGame();
+					});
 				}
 				
 				function pauseGame() {
 					if (firstStart == true) {
 						gameOn = false;
+						$("#pauseBox").click(function(e) {
+							e.preventDefault();
+							unpauseGame();
+						});
+						$("#pauseText").text("Unpause");
 					}
 				}
 				
 				function unpauseGame() {
 					if (firstStart == true) {
 						gameOn = true;
+						setTimeout("Creep.runLevel()", 5000);
+						$("#pauseBox").click(function(e) {
+							e.preventDefault();
+							pauseGame();
+						});
+						$("#pauseText").text("Pause");
 					}
+				}
+				
+				function restartGame() {
+					gameOn = false;
+					firstStart = false;
+					
+					Tower.restartGame();
+					Bullet.restartGame();
+					Creep.restartGame();
+					Score.restartGame();
 				}
 				
 				function loadTexture( path ) {
@@ -495,9 +524,8 @@
 	<body>
 	<div id="TOPcontainer">
 	<table border=1 style="background-color: #00ffff;">
-	<tr><td><a id="start" href="#"><img name="jsplay" src="textures/Play.jpg" width="110" height="28" border="0" alt="javascript play"></a></td>
-		<td><img name="jsoption" src="textures/Options.jpg" width="110" height="28" border="0" alt="javascript option"></td>
-		<td><img name="jsbutton" src="textures/HighScore.jpg" width="110" height="28" border="0" alt="javascript high"></td>
+	<tr><td><a id="start" href="#"><img name="jsplay" src="textures/Play.jpg" width="110" height="28" border="0" alt="Play"></a></td>
+		<td><a id="restart" href="#"><img name="jsrestart" src="textures/Restart.jpg" width="110" height="28" border="0" alt="Restart"></a></td>
 		<td width=400% align=right></td>
 	</tr>
 	</table>

@@ -145,6 +145,13 @@ Tower.activate = function (towerName) {
 	});
 }
 
+Tower.deactivate = function (towerName) {
+	$("#" + towerName).css("opacity", "0.4");
+	$("#" + towerName).click(function(e) {
+		e.preventDefault();
+	});
+}
+
 Tower.placeTower = function (towerName) {
 	towerMode = true;
 	if (towerName == "Tower") {
@@ -174,4 +181,21 @@ Tower.placeTower = function (towerName) {
 	else if (towerName == "Ultimate") {
 		this.towerIndex = 8;
 	}
+}
+
+Tower.restartGame = function () {
+	for (var i in this.towers)
+	{
+		scene.remove(this.towers[i]);
+	}
+	Tower.deactivate("Ultimate");
+	Tower.deactivate("Rapid");
+	Tower.deactivate("Fire");
+	Tower.deactivate("Splash");
+	Tower.deactivate("Sniper");
+	Tower.deactivate("Poison");
+	Tower.deactivate("Laser");
+	Tower.deactivate("Slow");
+	Tower.deactivate("Tower");
+	Tower.initialize();
 }

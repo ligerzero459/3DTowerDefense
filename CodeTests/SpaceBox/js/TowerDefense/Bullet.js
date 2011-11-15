@@ -77,3 +77,12 @@ Bullet.update = function () {
 		}
 	}
 }
+
+Bullet.restartGame = function () {
+	for (var i in this.bulletArray)
+	{
+		scene.remove( this.bulletArray[i] );	
+	}
+	
+	Bullet.initialize();
+}

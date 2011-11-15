@@ -5,27 +5,28 @@ Creep.initialize = function () {
 	this.x = Map.xPathArray[this.pathLength];
 	this.z = Map.zPathArray[this.pathLength];
 	this.creeps = [];
-	this.creepWaypoint = [];
 	this.currentWave = 0;
 	this.wave = [	{"color": 0x00FFFF, "health": 75, "amount": 10, "speed": 7, "score": 100, "cash": 15, "spawnwait": 5000, "nextwave": 5000},
-			{"color": 0xFF0000, "health": 400, "amount": 6, "speed": 5, "score": 200, "cash": 25, "spawnwait": 7500, "nextwave": 5000}, 
-		     	{"color": 0xFF6600, "health": 120, "amount": 25, "speed": 22, "score": 75, "cash": 10, "spawnwait": 500, "nextwave": 5000}, 
-		     	{"color": 0xFFFFFF, "health": 85000, "amount": 1, "speed": 200, "score": 150000, "cash": 666, "spawnwait": 500, "nextwave": 10000}
-		    ];
+					{"color": 0xFF0000, "health": 400, "amount": 6, "speed": 5, "score": 200, "cash": 25, "spawnwait": 7500, "nextwave": 5000}, 
+					{"color": 0xFF6600, "health": 120, "amount": 25, "speed": 22, "score": 75, "cash": 10, "spawnwait": 1000, "nextwave": 10000}, 
+					{"color": 0xFFFFFF, "health": 85000, "amount": 1, "speed": 200, "score": 150000, "cash": 666, "spawnwait": 2000, "nextwave": 10000}
+				];
 	
 }
 
 Creep.runLevel = function() {
-	if (this.currentWave < ( this.wave.length )) {
-		if (this.wave[this.currentWave].amount > 0)
-		{
-			Creep.create(this.wave[this.currentWave].color, this.wave[this.currentWave].health, this.wave[this.currentWave].speed, this.wave[this.currentWave].score, this.wave[this.currentWave].cash);
-			this.wave[this.currentWave].amount -= 1;
-			setTimeout("Creep.runLevel()", this.wave[this.currentWave].spawnwait);
-		}
-		else {
-			setTimeout("Creep.runLevel()", this.wave[this.currentWave].nextwave);
-			this.currentWave += 1;
+	if (gameOn == true) {
+		if (this.currentWave < ( this.wave.length )) {
+			if (this.wave[this.currentWave].amount > 0)
+			{
+				Creep.create(this.wave[this.currentWave].color, this.wave[this.currentWave].health, this.wave[this.currentWave].speed, this.wave[this.currentWave].score, this.wave[this.currentWave].cash);
+				this.wave[this.currentWave].amount -= 1;
+				setTimeout("Creep.runLevel()", this.wave[this.currentWave].spawnwait);
+			}
+			else {
+				setTimeout("Creep.runLevel()", this.wave[this.currentWave].nextwave);
+				this.currentWave += 1;
+			}
 		}
 	}
 }
@@ -69,7 +70,6 @@ Creep.create = function ( color, health, speed, score, cash ) {
 	this.mesh.fireMoves = 0;
 	
 	this.creeps.push ( this.mesh );
-	this.creepWaypoint.push ( this.pathLength - 1 );
 	
 	scene.add( this.mesh );
 }
@@ -162,4 +162,17 @@ Creep.isDead = function ( i ) {
 	Score.setScore(this.creeps[i].score, this.creeps[i].cash);
 	scene.remove(this.creeps[i]);
 	this.creeps.splice(i, 1);
+}
+
+Creep.restartGame = function () {
+	for (var i in this.creeps)
+	{
+		scene.remove(this.creeps[i]);
+	}
+	this.currentWave = 0;
+	this.wave = [	{"color": 0x00FFFF, "health": 75, "amount": 10, "speed": 7, "score": 100, "cash": 15, "spawnwait": 5000, "nextwave": 5000},
+					{"color": 0xFF0000, "health": 400, "amount": 6, "speed": 5, "score": 200, "cash": 25, "spawnwait": 7500, "nextwave": 5000}, 
+					{"color": 0xFF6600, "health": 120, "amount": 25, "speed": 22, "score": 75, "cash": 10, "spawnwait": 1000, "nextwave": 10000}, 
+					{"color": 0xFFFFFF, "health": 85000, "amount": 1, "speed": 200, "score": 150000, "cash": 666, "spawnwait": 2000, "nextwave": 10000}
+				];
 }

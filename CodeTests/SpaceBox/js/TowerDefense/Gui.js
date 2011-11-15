@@ -2,7 +2,7 @@ var Gui = Gui || {};
 
 Gui.initialize = function() {
 	// Create Score/Cash Box
-	this.createDiv("TL", "score", 170, 32, 10, 10, "gui"); //Background to score box
+	this.createDiv("TL", "score", 170, 32, 10, 10, "gui"); // Background to score box
 	$("#score").css("background-color", "#000000");
 	$("#score").css("border-radius", "3px");
 	$("#score").css("border", "2px solid white");
@@ -11,6 +11,17 @@ Gui.initialize = function() {
 	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $0");
 	$("#scoreDisplay").css("text-align", "center");
 	$("#scoreDisplay").css("font-size", "16px");
+	
+	// Pause/Unpause
+	this.createDiv("BL", "pauseBox", 60, 25, 60, 15, "gui");	// Background for pause box
+	$("#pauseBox").css("background-color", "#000000");
+	$("#pauseBox").css("border-radius", "3px");
+	$("#pauseBox").css("border", "2px solid white");
+	
+	this.createDiv("TL", "pauseText", 60, 25, 0, 0, "pauseBox");
+	$("#pauseText").text("Pause");
+	$("#pauseText").css("text-align", "center");
+	$("#pauseText").css("font-size", "16px");
 	
 	// Create Tower Selection Box
 	this.createDiv("TR", "towerBox", 270, 524, 10, 10, "gui");
@@ -78,4 +89,5 @@ Gui.createDiv = function(type, id, width, height, p1, p2, appendTo) {
 Gui.display = function() {
 	$("#score").css("display", "block");
 	$("#towerBox").css("display", "block");
+	$("#pauseBox").css("display", "block");
 }
