@@ -5,9 +5,10 @@ Score.initialize = function () {
 	this.myCash = 0;
 }
   
-Score.setScore = function () {
-    this.myScore += 10;
-	this.myCash += 100;
+Score.setScore = function (score, cash) {
+	this.myCash += cash;
+    this.myScore += score;
+	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
 	Score.towerCheck();
 }
   
@@ -20,37 +21,34 @@ Score.getCash = function () {
 }
   
 Score.towerCheck = function () {
-    switch(this.myScore)
-	{
-	case 10: // Pluto
+	
+	if (this.myScore >= 50) {
 		Tower.activate("Slow");
-		break;
-	case 20: // Neptune
-		Tower.activate("Laser");
-		break;
-	case 30: // Uranus
-		Tower.activate("Poison");
-		break;
-	case 40: //Saturn
-		Tower.activate("Sniper");
-		break;	
-	case 50: // Jupiter
-		Tower.activate("Splash");
-		break;
-	case 60: // Mars
-		Tower.activate("Fire");
-		break;
-	case 70: // Venus
-		Tower.activate("Rapid");
-		break;	
-	case 80: //Mercury
-		Tower.activate("Ultimate");
-		break;	
-	default:  //Earth
-		break;
 	}
+	else if (this.myScore >= 100) {
+		Tower.activate("Laser");
+	}
+	else if (this.myScore >= 150) {
+		Tower.activate("Poison");
+	}
+	else if (this.myScore >= 200) {
+		Tower.activate("Sniper");
+		}
+	else if (this.myScore >= 250) {
+		Tower.activate("Splash");
+		}
+	else if (this.myScore >= 300) {
+		Tower.activate("Fire");
+		}
+	else if (this.myScore >= 400) {
+		Tower.activate("Rapid");
+		}
+	else if (this.myScore >= 500) {
+		Tower.activate("Ultimate");
+		}
 }
 
-
-
-
+Score.buyTower = function(towerPrice) {
+	this.myCash -= towerPrice;
+	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
+}

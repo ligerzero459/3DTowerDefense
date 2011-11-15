@@ -1,15 +1,16 @@
 <html>
 	<head>
 		<title>JQuery Div Testing</title>
-		<script src="../../../build/Three.js"></script>
+		<script src="Three.js"></script>
 		<!--Make sure path in previous script points to the correct build directory-->
 		<!--You can copy the build directory into your project path or point it to-->
 		<!--the three.js directory-->
-		<script src="../../../examples/js/ShaderExtras.js"></script>
+		<script src="js/ShaderExtras.js"></script>
 
-		<script src="../../../examples/js/Detector.js"></script>
-		<script src="../../../examples/js/RequestAnimationFrame.js"></script>
-		<script src="../../../examples/js/Stats.js"></script>
+		<script src="js/Detector.js"></script>
+		<script src="js/RequestAnimationFrame.js"></script>
+		<script src="js/Stats.js"></script>
+		<script src="js/Tween.js"></script>
 		
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
 		
@@ -18,6 +19,7 @@
 		<script src="js/TowerDefense/Tower.js"></script>
 		<script src="js/TowerDefense/Gui.js"></script>
 		<script src="js/TowerDefense/Score.js"></script>
+		<script src="js/TowerDefense/Bullet.js"></script>
 		
 		<style>
 			body {
@@ -62,7 +64,7 @@
 		<script type="text/javascript">
 		var camera, renderer;
 		var container, stats, dt;
-		var meshPlanet, planeMesh, mesh, geometry, model;
+		var meshPlanet, mesh, geometry, model;
 		var lastUpdate = new Date().getTime();
 		var firstStart = false, gameOn = false;
 		var speed = .01;		//Lower = faster
@@ -123,6 +125,7 @@
 					Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
 					Tower.initialize();
 					Score.initialize();
+					Bullet.initialize();
 					setTimeout("Gui.initialize()", 3000);
 					
 					var ambientLight = new THREE.AmbientLight( 0xffffff );
@@ -141,14 +144,6 @@
 					
 					// Drawing the planet in the center
 					drawSun();
-					
-					material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true, opacity: 0.1 } );
-					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
-					planeMesh = new THREE.Mesh ( geometry, material );
-					planeMesh.position.set( 0, 0, 0 );
-					planeMesh.scale.set( 1, 1, 1 );
-					planeMesh.rotation.x = - 90 * Math.PI / 180;
-					scene.add( planeMesh );
 					
 					rollOverGeo = new THREE.CubeGeometry( 200, 200, 200 );
 					rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.7, transparent: true } );
@@ -403,6 +398,8 @@
 					
 					requestAnimationFrame( animate );
 					
+					TWEEN.update();
+					
 					render();
 					
 				}
@@ -436,11 +433,11 @@
 						yDistance += 45;
 					}
 					else if (wDown) {
-						yDistance += 15;
+						yDistance += 45;
 					}
 					else if (sDown) {
 						if (yDistance > 200) {
-							yDistance -= 15;
+							yDistance -= 45;
 						}
 					}
 					
@@ -460,6 +457,10 @@
 							}
 						}
 					}
+					else if (towerMode == false)
+					{
+						rollOverMesh.position.set(100000,100000,100000);
+					}
 					
 					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
 					camera.position.z = zDistance * Math.cos( theta * Math.PI / 360 );
@@ -474,6 +475,7 @@
 						
 							Creep.update();
 							Tower.update();
+							Bullet.update();
 							lastUpdate = now;
 							
 						}

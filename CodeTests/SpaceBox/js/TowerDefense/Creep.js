@@ -7,7 +7,7 @@ Creep.initialize = function () {
 	this.creeps = [];
 	this.creepWaypoint = [];
 	this.currentWave = 0;
-	this.wave = [{"color": 0x00FFFF, "health": 100, "amount": 10, "speed": 3.7, "spawnwait": 5000, "nextwave": 10000}, {"color": 0xFF0000, "health": 150, "amount": 10, "speed": 5, "spawnwait": 8000, "nextwave": 10000}];
+	this.wave = [{"color": 0x00FFFF, "health": 100, "amount": 10, "speed": 3.7, "score": 10, "cash": 100, "spawnwait": 5000, "nextwave": 10000}, {"color": 0xFF0000, "health": 150, "amount": 10, "speed": 5, "score": 15, "cash": 125, "spawnwait": 8000, "nextwave": 10000}];
 	
 }
 
@@ -15,7 +15,7 @@ Creep.runLevel = function() {
 	if (this.currentWave < ( this.wave.length )) {
 		if (this.wave[this.currentWave].amount > 0)
 		{
-			Creep.create(this.wave[this.currentWave].color, this.wave[this.currentWave].health, this.wave[this.currentWave].speed);
+			Creep.create(this.wave[this.currentWave].color, this.wave[this.currentWave].health, this.wave[this.currentWave].speed, this.wave[this.currentWave].score, this.wave[this.currentWave].cash);
 			this.wave[this.currentWave].amount -= 1;
 			setTimeout("Creep.runLevel()", this.wave[this.currentWave].spawnwait);
 		}
@@ -26,7 +26,7 @@ Creep.runLevel = function() {
 	}
 }
 
-Creep.create = function ( color, health, speed ) {
+Creep.create = function ( color, health, speed, score, cash ) {
 	//Creep geometry
 	//Will be changed to include models soon
 	this.material = new THREE.MeshLambertMaterial ( { color: color } );
@@ -37,6 +37,8 @@ Creep.create = function ( color, health, speed ) {
 	this.mesh.waypoint = this.pathLength - 1;
 	this.mesh.health = health;
 	this.mesh.speed = speed;
+	this.mesh.score = score;
+	this.mesh.cash = cash;
 	
 	// Sets move direction to prevent creep from moving backwards
 	// if it passes the waypoint
@@ -153,8 +155,7 @@ Creep.update = function() {
 }
 
 Creep.isDead = function ( i ) {
+	Score.setScore(this.creeps[i].score, this.creeps[i].cash);
 	scene.remove(this.creeps[i]);
 	this.creeps.splice(i, 1);
-	Score.setScore(true);
-	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
 }
