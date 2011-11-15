@@ -1,0 +1,358 @@
+<html>
+	<head>
+		<title>JQuery Div Testing</title>
+		<script src="../../../build/Three.js"></script>
+		<!--Make sure path in previous script points to the correct build directory-->
+		<!--You can copy the build directory into your project path or point it to-->
+		<!--the three.js directory-->
+		<script src="../../../examples/js/ShaderExtras.js"></script>
+
+		<script src="../../../examples/js/Detector.js"></script>
+		<script src="../../../examples/js/RequestAnimationFrame.js"></script>
+		<script src="../../../examples/js/Stats.js"></script>
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+		
+		<script src="js/TowerDefense/Creep.js"></script>
+		<script src="js/TowerDefense/Map.js"></script>
+		<script src="js/TowerDefense/Tower.js"></script>
+		<script src="js/TowerDefense/Gui.js"></script>
+		<script src="js/TowerDefense/Score.js"></script>
+		
+		<style>
+			body {
+				background-color: rgb(0,0,0);
+				margin: 0px;
+				overflow: hidden;
+			}
+			
+			#info {
+				position: absolute;
+				top: 0px; width: 100%;
+				color: #ffffff;
+				padding: 5px;
+				font-family:Monospace;
+				font-size:13px;
+				font-weight: bold;
+				text-align:center;
+			}
+			
+			#gui {
+				position: absolute;
+				top: 45px;
+				left: 0px;
+				width: 100%;
+				height: 100%;
+				color: #ffffff;
+				z-index: 2;
+			}
+			
+			#TOPcontainer{
+				padding: 2.5px 0px 2.5px 0px;
+				position: absolute;
+				border: 1px solid #000;
+				width: 100%;
+				height: 45px;
+			}
+			
+			a {
+				color: #ffffff;
+			}
+		</style>
+		<script type="text/javascript">
+		var camera, renderer;
+		var container, stats, dt;
+		var meshPlanet, planeMesh, mesh, geometry, model;
+		var lastUpdate = new Date().getTime();
+		var firstStart = false, gameOn = false;
+		var speed = .01;		//Lower = faster
+				
+		var	texture_placeholder;
+				
+		var SCREEN_HEIGHT = window.innerHeight;
+		var SCREEN_WIDTH  = window.innerWidth;
+		var MARGIN = 0;
+				
+		var PLANE_HEIGHT = 10000, PLANE_WIDTH = 10000,
+			PLANE_S_H_W = 50;
+				
+		var target = new THREE.Vector3();
+		var scene = new THREE.Scene();
+				
+		var x = 0, y = 0, counter = 1;
+				
+		var xPathArray = new Array();
+		var yPathArray = new Array();
+		
+        $(document).ready(function() {
+			if ( ! Detector.webgl )
+                Detector.addGetWebGLMessage();
+            else {
+
+				init();
+				animate();
+
+				function init() {
+					container = document.createElement( 'div' );
+					container.setAttribute('id', "renderWindow");
+					container.style.width = "100%";
+					container.style.height = "100%";
+					container.style.top = "45px";
+					container.style.left ="0px";
+					document.body.appendChild( container );
+					
+					$("#start").click(function(e) {
+						e.preventDefault(); // if desired...
+						startGame();
+					});
+					
+					// Initialization
+					addCamera();
+					addControls();
+					Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
+					Tower.initialize();
+					Score.initialize();
+					setTimeout("Gui.initialize()", 3000);
+					
+					var ambientLight = new THREE.AmbientLight( 0xffffff );
+					scene.add( ambientLight );
+
+					texture_placeholder = document.createElement( 'canvas' );
+					texture_placeholder.width = 8000;
+					texture_placeholder.height = 8000;
+
+					var context = texture_placeholder.getContext( '2d' );
+					context.fillStyle = 'rgb( 200, 200, 200 )';
+					context.fillRect( 0, 0, texture_placeholder.width, texture_placeholder.height );
+					
+					// Drawing Space Box
+					drawBox();
+					
+					// Drawing the planet in the center
+					drawSun();
+					
+					material = new THREE.MeshBasicMaterial ( { color: 0xffffff, wireframe: true } );
+					geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
+					planeMesh = new THREE.Mesh ( geometry, material );
+					planeMesh.position.set( 0, 0, 0 );
+					planeMesh.scale.set( 1, 1, 1 );
+					scene.add( planeMesh );
+					
+					// Map Path Generation
+					Map.generate();
+					
+					renderer = new THREE.WebGLRenderer();
+					renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+					renderer.sortObjects = false;
+					renderer.autoClear = false;
+
+					container.appendChild( renderer.domElement );
+					
+					stats = new Stats();
+					stats.domElement.style.position = 'absolute';
+					stats.domElement.style.bottom = '0px';
+					stats.domElement.style.right = '0px';
+					container.appendChild( stats.domElement );
+					
+					// Delay to prevent game start before rendering is complete
+					Creep.initialize();
+					
+					window.addEventListener( 'resize', onWindowResize, false );				
+				}
+				
+				function startGame() {
+					setTimeout("Creep.runLevel()", 10000);
+					Tower.create( -1500, 4300, 0 );
+					Tower.create( -1100, 2300, 1 );
+					gameOn = true;
+					firstStart = true;
+				}
+				
+				function pauseGame() {
+					if (firstStart == true) {
+						gameOn = false;
+					}
+				}
+				
+				function unpauseGame() {
+					if (firstStart == true) {
+						gameOn = true;
+					}
+				}
+				
+				function loadTexture( path ) {
+
+					var texture = new THREE.Texture( texture_placeholder );
+					var material = new THREE.MeshBasicMaterial( { map: texture } );
+					
+					var image = new Image();
+					image.onload = function () {
+
+						texture.needsUpdate = true;
+						material.map.image = this;
+						
+						render();
+
+					};
+					image.src = path;
+
+					return material;
+
+				}
+				
+				function onWindowResize( event ) {
+
+					SCREEN_HEIGHT = window.innerHeight;
+					SCREEN_WIDTH  = window.innerWidth;
+
+					renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
+
+					camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+					camera.updateProjectionMatrix();
+					
+					//controls.screen.width = SCREEN_WIDTH;
+					//controls.screen.height = SCREEN_HEIGHT;
+					
+					camera.radius = ( SCREEN_WIDTH + SCREEN_HEIGHT ) / 4;  
+				}
+				
+				function addCamera() {
+				
+					camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
+					camera.position.z = 7600;
+					
+					target.x = 0;
+					target.y = 0;
+					target.z = 0;
+					
+					camera.lookAt ( target );
+					
+					camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
+					camera.updateProjectionMatrix();
+					
+				}
+				
+				function addControls() {
+				
+					controls = new THREE.FlyControls( camera );
+
+					controls.movementSpeed = 1500;
+					controls.domElement = container;
+					controls.rollSpeed = Math.PI / 5;
+					controls.autoForward = false;
+					controls.dragToLook = true;
+					
+				}
+				
+				function drawBox() {
+					
+					// Textures modified to provide space-type backgrounds
+					// Can be modified later
+					var materials = [
+
+						loadTexture( 'textures/test1/new.jpg' ), // right
+						loadTexture( 'textures/test1/new.jpg' ), // left
+						loadTexture( 'textures/test1/new.jpg' ), // top
+						loadTexture( 'textures/test1/new.jpg' ), // bottom
+						loadTexture( 'textures/test1/new.jpg' ), // back
+						loadTexture( 'textures/test1/new.jpg' )  // front
+
+					];
+				
+					mesh = new THREE.Mesh( new THREE.CubeGeometry( 50000, 50000, 50000, 7, 7, 7, materials ), new THREE.MeshFaceMaterial() );
+					mesh.scale.x = - 1;
+					mesh.overdraw = true;
+					scene.add( mesh );
+					
+				}
+				
+				function drawSun() {
+				
+					var parameters = {
+						map: THREE.ImageUtils.loadTexture( 'textures/sunmap.jpg' )
+					};
+					
+					geometry = new THREE.SphereGeometry( 400, 40, 40 );
+					geometry.computeTangents();
+					
+					var material = new THREE.MeshLambertMaterial ( parameters );
+					
+					meshPlanet = new THREE.Mesh( geometry, material ) ;
+					meshPlanet.position.set ( 0, 0, 200 );
+					scene.add( meshPlanet );
+					
+				}
+				
+				function addModels(m, x, z, rx, ry, rz, s) {
+				
+					var material = new THREE.MeshBasicMaterial( { color: 0x555555 } );
+					
+					var loader = new THREE.JSONLoader();
+					var callbackAfterLoading = function ( geometry ) { 
+						geometry.computeTangents();
+						
+						mesh = new THREE.Mesh ( geometry, material );
+						mesh.position.x = x;
+						mesh.position.z = z;
+						mesh.scale.x = mesh.scale.y = mesh.scale.z = s;
+						mesh.rotation.x = rx;
+						mesh.rotation.y = ry;
+						mesh.rotation.z = rz;
+						mesh.overdraw = true;
+						mesh.matrixAutoUpdate = false;
+						mesh.updateMatrix();
+					}
+					loader.load( { model: m, callback: callbackAfterLoading } ); 
+
+				}
+				
+				function animate() {
+					
+					requestAnimationFrame( animate );
+					
+					render();
+					
+				}
+
+				function render() {
+				
+					stats.update();
+					controls.update();
+					var now = new Date().getTime();
+					
+					if (gameOn == true) {
+						dt = (now - lastUpdate) / 1000;		//Limits game speed
+						if (dt > speed)
+						{
+						
+							Creep.update();
+							Tower.update();
+							lastUpdate = now;
+							
+						}
+					}
+					
+					renderer.clear();
+					renderer.render( scene, camera );
+
+				}
+			}
+		});
+
+		</script>
+		
+	</head>
+	
+	<body>
+	<div id="TOPcontainer">
+	<table border=1 style="background-color: #00ffff;">
+	<tr><td><a id="start" href="#"><img name="jsplay" src="textures/Play.jpg" width="110" height="28" border="0" alt="javascript play"></a></td>
+		<td><img name="jsoption" src="textures/Options.jpg" width="110" height="28" border="0" alt="javascript option"></td>
+		<td><img name="jsbutton" src="textures/HighScore.jpg" width="110" height="28" border="0" alt="javascript high"></td>
+		<td width=400% align=right></td>
+	</tr>
+	</table>
+	</div>
+	<div id="gui"></div>
+	</body>
+</html>
