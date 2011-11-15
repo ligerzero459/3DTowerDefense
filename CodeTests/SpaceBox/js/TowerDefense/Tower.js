@@ -3,7 +3,7 @@ var Tower = Tower || {};
 Tower.initialize = function () {
 	this.towers = [];
 	this.towerType = [
-	{"type": "Tower", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 5, "fireSpeed": 2, "range": 3, "shotPower": 100, "price": 50},  // Earth
+	{"type": "Tower", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 5, "fireSpeed": 2, "range": 3, "shotPower": 100, "price": 50, "texture":},  // Earth
 	{"type": "Slow", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 5, "range": 3, "shotPower": 100, "price": 50},   // Pluto
 	{"type": "Laser", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0.5, "fireSpeed": 10, "range": 3, "shotPower": 100, "price": 50},  // Neptune
 	{"type": "Poison", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 2, "fireSpeed": 3, "range": 3.5, "shotPower": 100, "poisonDamage": 3, "poisonDuration": 5, "price": 50},  // Uranus
