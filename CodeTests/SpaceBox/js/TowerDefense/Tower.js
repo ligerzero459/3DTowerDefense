@@ -3,9 +3,9 @@ var Tower = Tower || {};
 Tower.initialize = function () {
 	this.towers = [];
 	this.towerType = [
-	{"type": "Tower", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 5, "fireSpeed": 2, "range": 3, "shotPower": 100, "price": 50, "texture":},  // Earth
-	{"type": "Slow", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 5, "range": 3, "shotPower": 100, "price": 50},   // Pluto
-	{"type": "Laser", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0.5, "fireSpeed": 10, "range": 3, "shotPower": 100, "price": 50},  // Neptune
+	{"type": "Tower", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 15, "fireSpeed": 4, "range": 3, "shotPower": 100, "price": 75},  // Earth
+	{"type": "Slow", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 5, "range": 4, "shotPower": 100, "price": 125},   // Pluto
+	{"type": "Laser", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 5, "fireSpeed": 20, "range": 2, "shotPower": 100, "price": 150},  // Neptune
 	{"type": "Poison", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 2, "fireSpeed": 3, "range": 3.5, "shotPower": 100, "poisonDamage": 3, "poisonDuration": 5, "price": 50},  // Uranus
 	{"type": "Sniper", "color": 0x00CC00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 15, "fireSpeed": 0.5, "range": 10, "shotPower": 200, "price": 50},  // Saturn
 	{"type": "Splash", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 10, "fireSpeed": 1, "range": 7, "shotPower": 200, "price": 50},  // Jupiter
