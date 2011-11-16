@@ -4,7 +4,7 @@ Tower.initialize = function () {
 	this.towers = [];
 	this.towerType = [
 		{"type": "Tower", "color": 0x0000FF, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 15, "fireSpeed": 4, "range": 5, "shotPower": 100, "price": 75, "texture": THREE.ImageUtils.loadTexture( 'textures/earthmap1k.jpg' )},  // Earth
-		{"type": "Slow", "color": 0x7F7F7F, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 5, "range": 4, "shotPower": 100, "price": 125, "texture": THREE.ImageUtils.loadTexture( 'textures/plutomap2k.jpg' )},   // Pluto
+		{"type": "Slow", "color": 0x7F7F7F, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 5, "range": 4, "shotPower": 100, "price": 125, "slowAmount": 0.5, "slowDuration": 10, "texture": THREE.ImageUtils.loadTexture( 'textures/plutomap2k.jpg' )},   // Pluto
 		{"type": "Laser", "color": 0x0198E1, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 5, "fireSpeed": 20, "range": 3, "shotPower": 100, "price": 150, "texture": THREE.ImageUtils.loadTexture( 'textures/neptunemap.jpg' )},  // Neptune
 		{"type": "Poison", "color": 0x778899, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 1, "range": 4, "shotPower": 100, "poisonDamage": 0.1, "poisonDuration": 2000, "price": 200, "texture": THREE.ImageUtils.loadTexture( 'textures/uranusmap.jpg' )},  // Uranus
 		{"type": "Sniper", "color": 0xFFA500, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 500, "fireSpeed": 0.15, "range": 15, "shotPower": 100, "price": 50, "texture": THREE.ImageUtils.loadTexture( 'textures/saturnmap.jpg' )},  // Saturn
@@ -39,6 +39,11 @@ Tower.create = function( x, z, type ) {
 		this.mesh.fireDuration = this.towerType[type].fireDuration;
 		this.towers.push( this.mesh );
 	}
+	else if (this.mesh.towerType == "Slow") {
+		this.mesh.slowAmount = this.towerType[type].slowAmount;
+		this.mesh.slowDuration = this.towerType[type].slowDuration;
+		this.towers.push( this.mesh );
+	} 
 	else {
 	this.towers.push( this.mesh );
 	}
@@ -64,6 +69,18 @@ Tower.update = function() {
 					Bullet.create(firingTower, target);
 					Tower.hit(firingTower, target);
 					this.towers[i].charging = true;
+				}
+			}
+			else if (this.towers[i].towerType == "Slow") {
+				for (var j in targets)
+				{
+					var target = targets[j];
+					var firingTower = this.towers[i];
+					if (target.isSlowed == false) {
+						Bullet.create(firingTower, target);
+						Tower.hit(firingTower, target);
+						this.towers[i].charging = true;
+					}
 				}
 			}
 			else {
@@ -135,6 +152,19 @@ Tower.hit = function(firingTower, target) {
 		else if (target.isOnFire == true && target.fireDamage < firingTower.fireDamage) {
 			target.fireDamage = firingTower.fireDamage;
 			target.fireDuration = firingTower.fireDuration;
+		}
+	}
+	else if (firingTower.towerType == "Slow") {
+		if (target.isSlowed == false) {
+			target.isSlowed = true;
+			target.slowAmount = firingTower.slowAmount;
+			target.slowDuration = firingTower.slowDuration;
+			target.speed *= target.slowAmount;
+		}
+		else if (target.isSlowed == true && target.slowAmount < firingTower.slowAmount) {
+			target.slowAmount = firingTower.slowAmount;
+			target.slowDuration = firingTower.slowDuration;
+			target.speed *= target.slowAmount;
 		}
 	}
 }

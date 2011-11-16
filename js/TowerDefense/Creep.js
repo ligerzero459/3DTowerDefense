@@ -37,7 +37,7 @@ Creep.runLevel = function() {
 			}
 		}
 		else {
-			this.runThrough = this.runThrough * 2.5;
+			this.runThrough = this.runThrough * 1.5;
 			this.currentWave = 0;
 			this.wave = [
 				{"color": 0x003366, "health": 75, "amount": 10, "speed": 7, "score": 100, "cash": 15, "spawnwait": 5000, "nextwave": 5000},
@@ -82,6 +82,10 @@ Creep.create = function ( color, health, speed, score, cash ) {
 	
 	// Creep slow properties
 	// Will determine if the creep is slowed, for how many turns and by how much
+	this.mesh.isSlowed = false;
+	this.mesh.slowAmount = 0;
+	this.mesh.slowDuration = 0;
+	this.mesh.slowMoves = 0;
 	
 	// Creep fire properties
 	// Determines if it's on fire, for how long and how much damage occurs
@@ -98,6 +102,15 @@ Creep.create = function ( color, health, speed, score, cash ) {
 Creep.update = function() {
 	for (var i in this.creeps)
 	{
+		if (this.creeps[i].isSlowed == true) {
+			this.creeps[i].slowMoves += 1;
+			if (this.creeps[i].slowDuration == this.creeps[i].slowMoves) {
+				this.creeps[i].isSlowed = false;
+				this.creeps[i].slowMoves = 0;
+				this.creeps[i].speed /= this.creeps[i].slowAmount;
+			}
+		}
+		
 		if (this.creeps[i].position.x != Map.xPathArray[this.creeps[i].waypoint])
 		{
 			if (this.creeps[i].position.x > Map.xPathArray[this.creeps[i].waypoint] && this.creeps[i].MOVE_E == false)
@@ -206,6 +219,8 @@ Creep.restartGame = function () {
 		scene.remove(this.creeps[i]);
 	}
 	this.currentWave = 0;
+	this.runThrough = 1;
+	this.waveCounter = 1;
 	this.wave = [
 			{"color": 0x003366, "health": 75, "amount": 10, "speed": 7, "score": 100, "cash": 15, "spawnwait": 5000, "nextwave": 5000},
 			{"color": 0xFF0000, "health": 400, "amount": 6, "speed": 5, "score": 200, "cash": 25, "spawnwait": 7500, "nextwave": 5000}, 
