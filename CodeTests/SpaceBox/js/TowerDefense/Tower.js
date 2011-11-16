@@ -1,17 +1,19 @@
+//Towers completed but need playtesting
+
 var Tower = Tower || {};
 
 Tower.initialize = function () {
 	this.towers = [];
 	this.towerType = [
-	{"type": "Tower", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 15, "fireSpeed": 4, "range": 3, "shotPower": 100, "price": 75},  // Earth
+	{"type": "Tower", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 15, "fireSpeed": 4, "range": 5, "shotPower": 100, "price": 75},  // Earth
 	{"type": "Slow", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 5, "range": 4, "shotPower": 100, "price": 125},   // Pluto
-	{"type": "Laser", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 5, "fireSpeed": 20, "range": 2, "shotPower": 100, "price": 150},  // Neptune
-	{"type": "Poison", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 2, "fireSpeed": 3, "range": 3.5, "shotPower": 100, "poisonDamage": 3, "poisonDuration": 5, "price": 50},  // Uranus
-	{"type": "Sniper", "color": 0x00CC00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 15, "fireSpeed": 0.5, "range": 10, "shotPower": 200, "price": 50},  // Saturn
-	{"type": "Splash", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 10, "fireSpeed": 1, "range": 7, "shotPower": 200, "price": 50},  // Jupiter
-	{"type": "Fire", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 2, "fireSpeed": 3, "range": 3.5, "shotPower": 100, "fireDamage": 0.5, "fireDuration": 8, "price": 50},  // Mars
-	{"type": "Rapid", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 1, "fireSpeed": 15, "range": 4, "shotPower": 100, "price": 50},  // Venus
-	{"type": "Ultimate", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 100, "fireSpeed": 0.1, "range": 5, "shotPower": 150, "price": 50},  // Mercury	
+	{"type": "Laser", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 5, "fireSpeed": 20, "range": 3, "shotPower": 100, "price": 150},  // Neptune
+	{"type": "Poison", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 1, "range": 4, "shotPower": 100, "poisonDamage": 0.1, "poisonDuration": 2000, "price": 200},  // Uranus
+	{"type": "Sniper", "color": 0x00CC00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 500, "fireSpeed": 0.3, "range": 15, "shotPower": 100, "price": 250},  // Saturn
+	{"type": "Splash", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 15, "fireSpeed": 2, "range": 4, "shotPower": 100, "price": 250},  // Jupiter - Stronger once it splashes
+	{"type": "Fire", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 1, "range": 4, "shotPower": 100, "fireDamage": 0.1, "fireDuration": 2000, "price": 200},  // Mars
+	{"type": "Rapid", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 6, "fireSpeed": 40, "range": 2, "shotPower": 100, "price": 500},  // Venus
+	{"type": "Ultimate", "color": 0xFFFF00, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 150, "fireSpeed": 10, "range": 20, "shotPower": 100, "price": 2000},  // Mercury	
 	 ];
 	 this.towerIndex = 0;
 }
