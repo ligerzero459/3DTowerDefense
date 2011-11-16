@@ -44,6 +44,7 @@ Tower.create = function( x, z, type ) {
 	}
 	
 	scene.add( this.mesh );
+	Score.buyTower(this.mesh.price);
 }
 
 Tower.update = function() {
@@ -198,4 +199,8 @@ Tower.restartGame = function () {
 	Tower.deactivate("Slow");
 	Tower.deactivate("Tower");
 	Tower.initialize();
+}
+
+Tower.getPrice = function (type) {
+	return this.towerType[type].price;
 }

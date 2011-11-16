@@ -2,7 +2,7 @@ var Score = Score || {};
 
 Score.initialize = function () {
     this.myScore = 0;
-	this.myCash = 0;
+	this.myCash = 150;
 	this.sunHealth = 200000;
 }
   
@@ -36,39 +36,39 @@ Score.setHealth = function () {
 }
   
 Score.towerCheck = function () {
-	Tower.activate("Ultimate");
+	/*Tower.activate("Ultimate");
 	Tower.activate("Rapid");
 	Tower.activate("Fire");
 	Tower.activate("Splash");
 	Tower.activate("Sniper");
 	Tower.activate("Poison");
 	Tower.activate("Laser");
-	Tower.activate("Slow");
+	Tower.activate("Slow");*/
 	
-	/*if (this.myScore >= 500) {
+	if (this.myScore >= 1800) {
 		Tower.activate("Ultimate");
 	}
-	else if (this.myScore >= 400) {
+	else if (this.myScore >= 1600) {
 		Tower.activate("Rapid");
 	}
-	else if (this.myScore >= 300) {
+	else if (this.myScore >= 1400) {
 		Tower.activate("Fire");
 	}
-	else if (this.myScore >= 250) {
+	else if (this.myScore >= 1200) {
 		Tower.activate("Splash");
 		}
-	else if (this.myScore >= 200) {
+	else if (this.myScore >= 900) {
 		Tower.activate("Sniper");
 		}
-	else if (this.myScore >= 150) {
+	else if (this.myScore >= 600) {
 		Tower.activate("Poison");
 		}
-	else if (this.myScore >= 100) {
+	else if (this.myScore >= 400) {
 		Tower.activate("Laser");
 		}
-	else if (this.myScore >= 50) {
+	else if (this.myScore >= 200) {
 		Tower.activate("Slow");
-		}*/
+		}
 }
 
 Score.buyTower = function(towerPrice) {
@@ -82,5 +82,5 @@ Score.restartGame = function () {
 }
 
 Score.updateDiv = function () {
-	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "<br>Time to deep freeze: " + Score.getHealth() + "</div>");
+	$("#scoreDisplay").html("<div>Wave: " + Creep.getWave() + " Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "<br>Time to deep freeze: " + Score.getHealth() + "</div>");
 }

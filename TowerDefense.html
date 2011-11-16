@@ -231,8 +231,13 @@
 						intersector = getRealIntersector( intersects );
 						setVoxelPosition( intersector );
 						
-						Tower.create( voxelPosition.x, voxelPosition.z, Tower.towerIndex );
-						towerMode = false;
+						if (Score.getCash() - Tower.getPrice(Tower.towerIndex) < 0) {
+							towerMode = false;
+						}
+						else {
+							Tower.create( voxelPosition.x, voxelPosition.z, Tower.towerIndex );
+							towerMode = false;
+						}
 					}
 					
 				}
@@ -285,6 +290,7 @@
 				function startGame() {
 					if (firstStart == false) {
 						Gui.display();
+						Score.updateDiv();
 						setTimeout("Creep.runLevel()", 10000);
 						
 						Tower.activate("Tower");

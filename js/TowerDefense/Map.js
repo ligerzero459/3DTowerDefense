@@ -17,7 +17,7 @@ Map.initialize = function (height, shw) {
 Map.generate = function () {
 	var mergedGeo = new THREE.Geometry();
 	
-	this.material = new THREE.MeshLambertMaterial ( { color: 0xffffff, wireframe: true, opacity: 0.1, } );
+	this.material = new THREE.MeshLambertMaterial ( { color: 0xffffff, wireframe: true, opacity: 0.3, } );
 	this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
 	this.baseMesh = new THREE.Mesh ( this.geometry, this.material );
 	this.baseMesh.position.set( 0, 0, 0 );
