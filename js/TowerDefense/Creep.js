@@ -5,28 +5,39 @@ Creep.initialize = function () {
 	this.x = Map.xPathArray[this.pathLength];
 	this.z = Map.zPathArray[this.pathLength];
 	this.creeps = [];
-	this.creepWaypoint = [];
 	this.currentWave = 0;
-	this.wave = [{"color": 0x00FFFF, "health": 100, "amount": 10, "speed": 3.7, "spawnwait": 5000, "nextwave": 10000}, {"color": 0xFF0000, "health": 150, "amount": 10, "speed": 5, "spawnwait": 8000, "nextwave": 10000}];
+	this.wave = [
+			{"color": 0x003366, "health": 75, "amount": 10, "speed": 7, "score": 100, "cash": 15, "spawnwait": 5000, "nextwave": 5000}, // 10, 7, 5000
+			{"color": 0xFF0000, "health": 400, "amount": 6, "speed": 5, "score": 200, "cash": 25, "spawnwait": 7500, "nextwave": 5000}, 
+			{"color": 0xFF6600, "health": 120, "amount": 25, "speed": 22, "score": 75, "cash": 10, "spawnwait": 1000, "nextwave": 10000}, 
+			{"color": 0xFAFAD2, "health": 150, "amount": 15, "speed": 7, "score": 100, "cash": 12, "spawnwait": 500, "nextwave": 10000}, 
+			{"color": 0x000000, "health": 1000, "amount": 1, "speed": 6, "score": 2500, "cash": 450, "spawnwait": 7500, "nextwave": 10000},
+			{"color": 0xFFFFFF, "health": 85000, "amount": 1, "speed": 200, "score": 150000, "cash": 666, "spawnwait": 2000, "nextwave": 10000}
+		];
+		//10 base, 6 armor, 25 speed, 15 swarm, 1 boss,
+		//15 base, 9 armor, 35 speed, 25 swarm, 1 boss,
+		//25 base, 15 armor, 50 speed, 50 swarm, 2 bosses, nyan (jk)
 	
 }
 
 Creep.runLevel = function() {
-	if (this.currentWave < ( this.wave.length )) {
-		if (this.wave[this.currentWave].amount > 0)
-		{
-			Creep.create(this.wave[this.currentWave].color, this.wave[this.currentWave].health, this.wave[this.currentWave].speed);
-			this.wave[this.currentWave].amount -= 1;
-			setTimeout("Creep.runLevel()", this.wave[this.currentWave].spawnwait);
-		}
-		else {
-			setTimeout("Creep.runLevel()", this.wave[this.currentWave].nextwave);
-			this.currentWave += 1;
+	if (gameOn == true) {
+		if (this.currentWave < ( this.wave.length )) {
+			if (this.wave[this.currentWave].amount > 0)
+			{
+				Creep.create(this.wave[this.currentWave].color, this.wave[this.currentWave].health, this.wave[this.currentWave].speed, this.wave[this.currentWave].score, this.wave[this.currentWave].cash);
+				this.wave[this.currentWave].amount -= 1;
+				setTimeout("Creep.runLevel()", this.wave[this.currentWave].spawnwait);
+			}
+			else {
+				setTimeout("Creep.runLevel()", this.wave[this.currentWave].nextwave);
+				this.currentWave += 1;
+			}
 		}
 	}
 }
 
-Creep.create = function ( color, health, speed ) {
+Creep.create = function ( color, health, speed, score, cash ) {
 	//Creep geometry
 	//Will be changed to include models soon
 	this.material = new THREE.MeshLambertMaterial ( { color: color } );
@@ -34,8 +45,11 @@ Creep.create = function ( color, health, speed ) {
 	this.geometry.computeTangents();
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
 	this.mesh.position.set( this.x, 100, this.z );
+	this.mesh.waypoint = this.pathLength - 1;
 	this.mesh.health = health;
 	this.mesh.speed = speed;
+	this.mesh.score = score;
+	this.mesh.cash = cash;
 	
 	// Sets move direction to prevent creep from moving backwards
 	// if it passes the waypoint
@@ -62,7 +76,6 @@ Creep.create = function ( color, health, speed ) {
 	this.mesh.fireMoves = 0;
 	
 	this.creeps.push ( this.mesh );
-	this.creepWaypoint.push ( this.pathLength - 1 );
 	
 	scene.add( this.mesh );
 }
@@ -70,61 +83,76 @@ Creep.create = function ( color, health, speed ) {
 Creep.update = function() {
 	for (var i in this.creeps)
 	{
-		if (this.creeps[i].position.x != Map.xPathArray[this.creepWaypoint[i]])
+		if (this.creeps[i].position.x != Map.xPathArray[this.creeps[i].waypoint])
 		{
-			if (this.creeps[i].position.x > Map.xPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_E == false)
+			if (this.creeps[i].position.x > Map.xPathArray[this.creeps[i].waypoint] && this.creeps[i].MOVE_E == false)
 			{
 				this.creeps[i].position.x -= this.creeps[i].speed;
 				this.creeps[i].MOVE_W = true;
 			}
-			else if (this.creeps[i].position.x < Map.xPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_W == false)
+			else if (this.creeps[i].position.x < Map.xPathArray[this.creeps[i].waypoint] && this.creeps[i].MOVE_W == false)
 			{
 				this.creeps[i].position.x += this.creeps[i].speed;
 				this.creeps[i].MOVE_E = true;
 			}
 			else
 			{
-				this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
-				this.creeps[i].position.z = Map.zPathArray[this.creepWaypoint[i]];
-				this.creepWaypoint[i]--;
+				this.creeps[i].position.x = Map.xPathArray[this.creeps[i].waypoint];
+				this.creeps[i].position.z = Map.zPathArray[this.creeps[i].waypoint];
+				this.creeps[i].waypoint--;
 				this.creeps[i].MOVE_N = false;
 				this.creeps[i].MOVE_S = false;
 				this.creeps[i].MOVE_E = false;
 				this.creeps[i].MOVE_W = false;
+				if (this.creeps[i].waypoint < 0) {
+					scene.remove(this.creeps[i]);
+					this.creeps.splice(i, 1);
+					Score.setHealth();
+				}
 			}
 		}
-		else if (this.creeps[i].position.z != Map.zPathArray[this.creepWaypoint[i]])
+		else if (this.creeps[i].position.z != Map.zPathArray[this.creeps[i].waypoint])
 		{
-			if (this.creeps[i].position.z > Map.zPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_N == false)
+			if (this.creeps[i].position.z > Map.zPathArray[this.creeps[i].waypoint] && this.creeps[i].MOVE_N == false)
 			{
 				this.creeps[i].position.z -= this.creeps[i].speed;
 				this.creeps[i].MOVE_S = true;
 			}					
-			else if (this.creeps[i].position.z < Map.zPathArray[this.creepWaypoint[i]] && this.creeps[i].MOVE_S == false)
+			else if (this.creeps[i].position.z < Map.zPathArray[this.creeps[i].waypoint] && this.creeps[i].MOVE_S == false)
 			{
 				this.creeps[i].position.z += this.creeps[i].speed;
 				this.creeps[i].MOVE_N = true;
 			}
 			else
 			{
-				this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
-				this.creeps[i].position.z = Map.zPathArray[this.creepWaypoint[i]];
-				this.creepWaypoint[i]--;
+				this.creeps[i].position.x = Map.xPathArray[this.creeps[i].waypoint];
+				this.creeps[i].position.z = Map.zPathArray[this.creeps[i].waypoint];
+				this.creeps[i].waypoint--;
 				this.creeps[i].MOVE_N = false;
 				this.creeps[i].MOVE_S = false;
 				this.creeps[i].MOVE_E = false;
 				this.creeps[i].MOVE_W = false;
+				if (this.creeps[i].waypoint < 0) {
+					scene.remove(this.creeps[i]);
+					this.creeps.splice(i, 1);
+					Score.setHealth();
+				}
 			}
 		}
 		else
 		{
-			this.creeps[i].position.x = Map.xPathArray[this.creepWaypoint[i]];
-			this.creeps[i].position.z = Map.zPathArray[this.creepWaypoint[i]];
-			this.creepWaypoint[i]--;
+			this.creeps[i].position.x = Map.xPathArray[this.creeps[i].waypoint];
+			this.creeps[i].position.z = Map.zPathArray[this.creeps[i].waypoint];
+			this.creeps[i].waypoint--;
 			this.creeps[i].MOVE_N = false;
 			this.creeps[i].MOVE_S = false;
 			this.creeps[i].MOVE_E = false;
 			this.creeps[i].MOVE_W = false;
+			if (this.creeps[i].waypoint < 0) {
+				scene.remove(this.creeps[i]);
+				this.creeps.splice(i, 1);
+				Score.setHealth();
+			}
 		}
 		
 		if (this.creeps[i].isPoisoned == true) {
@@ -152,9 +180,23 @@ Creep.update = function() {
 }
 
 Creep.isDead = function ( i ) {
+	Score.setScore(this.creeps[i].score, this.creeps[i].cash);
 	scene.remove(this.creeps[i]);
 	this.creeps.splice(i, 1);
-	Score.setScore(true);
-	Score.towerCheck();
-	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
+}
+
+Creep.restartGame = function () {
+	for (var i in this.creeps)
+	{
+		scene.remove(this.creeps[i]);
+	}
+	this.currentWave = 0;
+	this.wave = [
+			{"color": 0x003366, "health": 75, "amount": 10, "speed": 7, "score": 100, "cash": 15, "spawnwait": 5000, "nextwave": 5000},
+			{"color": 0xFF0000, "health": 400, "amount": 6, "speed": 5, "score": 200, "cash": 25, "spawnwait": 7500, "nextwave": 5000}, 
+			{"color": 0xFF6600, "health": 120, "amount": 25, "speed": 22, "score": 75, "cash": 10, "spawnwait": 1000, "nextwave": 10000}, 
+			{"color": 0xFAFAD2, "health": 150, "amount": 15, "speed": 7, "score": 100, "cash": 12, "spawnwait": 500, "nextwave": 10000}, 
+			{"color": 0x000000, "health": 1000, "amount": 1, "speed": 6, "score": 2500, "cash": 450, "spawnwait": 7500, "nextwave": 10000},
+			{"color": 0xFFFFFF, "health": 85000, "amount": 1, "speed": 200, "score": 150000, "cash": 666, "spawnwait": 2000, "nextwave": 10000}
+		];
 }

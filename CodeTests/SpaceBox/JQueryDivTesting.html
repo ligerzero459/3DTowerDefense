@@ -20,6 +20,7 @@
 		<script src="js/TowerDefense/Gui.js"></script>
 		<script src="js/TowerDefense/Score.js"></script>
 		<script src="js/TowerDefense/Bullet.js"></script>
+		<script src="js/TowerDefense/Lighting.js"></script>
 		
 		<style>
 			body {
@@ -115,15 +116,6 @@
 					container.style.left = 0;
 					document.body.appendChild( container );
 					
-					$("#start").click(function(e) {
-						e.preventDefault(); // if desired...
-						startGame();
-					});
-					$("#restart").click(function(e) {
-						e.preventDefault(); // if desired...
-						restartGame();
-					});
-					
 					// Initialization
 					addCamera();
 					Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
@@ -131,14 +123,22 @@
 					Score.initialize();
 					Bullet.initialize();
 					setTimeout("Gui.initialize()", 3000);
+					Lighting.initialize();
 					
-					var ambientLight = new THREE.AmbientLight( 0xffffff );
-					scene.add( ambientLight );
-
+					$("#start").click(function(e) {
+						e.preventDefault();
+						startGame();
+					});
+					
+					$("#restart").click(function(e) {
+						e.preventDefault();
+						restartGame();
+					});
+					
 					texture_placeholder = document.createElement( 'canvas' );
 					texture_placeholder.width = 8000;
 					texture_placeholder.height = 8000;
-
+					
 					var context = texture_placeholder.getContext( '2d' );
 					context.fillStyle = 'rgb( 200, 200, 200 )';
 					context.fillRect( 0, 0, texture_placeholder.width, texture_placeholder.height );
@@ -183,50 +183,51 @@
 					document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 					document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 					document.addEventListener( 'keydown', onDocumentKeyDown, false );
-					document.addEventListener( 'keyup', onDocumentKeyUp, false );					
+					document.addEventListener( 'keyup', onDocumentKeyUp, false );
+					
 				}
 				
 				function getRealIntersector( intersects ) {
 
 				for( i = 0; i < intersects.length; i++ ) {
-
+					
 					intersector = intersects[ i ];
-
+					
 					if ( intersector.object != rollOverMesh ) {
-
+					
 						return intersector;
-
+					
 					}
-
+				
 				}
-
+				
 				return null;
-
+				
 				}
-
+				
 				function setVoxelPosition( intersector ) {
-
+					
 					tmpVec.copy( intersector.face.normal );
-
+					
 					voxelPosition.add( intersector.point, intersector.object.matrixRotationWorld.multiplyVector3( tmpVec ) );
-
+					
 					voxelPosition.x = Math.floor( voxelPosition.x / 200 ) * 200 + 100;
 					voxelPosition.y = Math.floor( voxelPosition.y / 200 ) * 200 + 100;
 					voxelPosition.z = Math.floor( voxelPosition.z / 200 ) * 200 + 100;
-
+					
 				}
-
+				
 				function onDocumentMouseMove( event ) {
-
+					
 					mouse2D.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 					mouse2D.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
+					
 				}
-
+				
 				function onDocumentMouseDown( event ) {
 					if (towerMode == true) {
 						var intersects = ray.intersectScene( scene );
-
+						
 						intersector = getRealIntersector( intersects );
 						setVoxelPosition( intersector );
 						
@@ -237,24 +238,24 @@
 				}
 				
 				function onDocumentKeyDown( event ) {
-
+					
 					switch( event.keyCode ) {
-
+					
 					case 37: isLeftDown = true; break;
 					case 38: isUpDown = true; break;
 					case 39: isRightDown = true; break;
 					case 40: isDownDown = true; break;
 					case 83: sDown = true; break;		// s
 					case 87: wDown = true; break;		// w
-
+					
 					}
 					
 				}
-
+				
 				function onDocumentKeyUp( event ) {
-
+					
 					switch( event.keyCode ) {
-
+					
 					case 37: isLeftDown = false; break;
 					case 38: isUpDown = false; break;
 					case 39: isRightDown = false; break;
@@ -266,12 +267,12 @@
 				}
 					
 				function onWindowResize( event ) {
-
+					
 					SCREEN_HEIGHT = window.innerHeight;
 					SCREEN_WIDTH  = window.innerWidth;
-
+					
 					renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
-
+					
 					camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
 					camera.updateProjectionMatrix();
 					
@@ -282,16 +283,19 @@
 				}
 				
 				function startGame() {
-					setTimeout("Creep.runLevel()", 10000);
-					
-					Tower.activate("Tower");
-					
-					gameOn = true;
-					firstStart = true;
-					$("#pauseBox").click(function(e) {
-						e.preventDefault();
-						pauseGame();
-					});
+					if (firstStart == false) {
+						Gui.display();
+						setTimeout("Creep.runLevel()", 10000);
+						
+						Tower.activate("Tower");
+						
+						gameOn = true;
+						firstStart = true;
+						$("#pauseBox").click(function(e) {
+							e.preventDefault();
+							pauseGame();
+						});
+					}
 				}
 				
 				function pauseGame() {
@@ -318,17 +322,20 @@
 				}
 				
 				function restartGame() {
-					gameOn = false;
-					firstStart = false;
-					
-					Tower.restartGame();
-					Bullet.restartGame();
-					Creep.restartGame();
-					Score.restartGame();
+					if (firstStart == true) {
+						Gui.hide();
+						gameOn = false;
+						firstStart = false;
+						
+						Tower.restartGame();
+						Bullet.restartGame();
+						Creep.restartGame();
+						Score.restartGame();
+					}
 				}
 				
 				function loadTexture( path ) {
-
+					
 					var texture = new THREE.Texture( texture_placeholder );
 					var material = new THREE.MeshBasicMaterial( { map: texture } );
 					
@@ -367,12 +374,12 @@
 					// Can be modified later
 					var materials = [
 
-						loadTexture( 'textures/test1/new.jpg' ), // right
-						loadTexture( 'textures/test1/new.jpg' ), // left
-						loadTexture( 'textures/test1/new.jpg' ), // top
-						loadTexture( 'textures/test1/new.jpg' ), // bottom
-						loadTexture( 'textures/test1/new.jpg' ), // back
-						loadTexture( 'textures/test1/new.jpg' )  // front
+						loadTexture( 'textures/box.jpg' ), // right
+						loadTexture( 'textures/box.jpg' ), // left
+						loadTexture( 'textures/box.jpg' ), // top
+						loadTexture( 'textures/box.jpg' ), // bottom
+						loadTexture( 'textures/box.jpg' ), // back
+						loadTexture( 'textures/box.jpg' )  // front
 
 					];
 				

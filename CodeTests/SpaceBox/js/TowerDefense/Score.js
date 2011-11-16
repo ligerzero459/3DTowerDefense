@@ -3,12 +3,13 @@ var Score = Score || {};
 Score.initialize = function () {
     this.myScore = 0;
 	this.myCash = 0;
+	this.sunHealth = 200000;
 }
   
 Score.setScore = function (score, cash) {
 	this.myCash += cash;
     this.myScore += score;
-	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
+	Score.updateDiv();
 	Score.towerCheck();
 }
   
@@ -18,6 +19,20 @@ Score.getScore = function () {
 
 Score.getCash = function () {
 	return this.myCash;
+}
+
+Score.getHealth = function () {
+	return this.sunHealth;
+}
+
+Score.setHealth = function () {
+	this.sunHealth -= 10000;
+	Score.updateDiv();
+	if (this.sunHealth == 0)
+	{
+		gameOn = false;
+		$("#GameOver").css("display", "block");
+	}
 }
   
 Score.towerCheck = function () {
@@ -58,10 +73,14 @@ Score.towerCheck = function () {
 
 Score.buyTower = function(towerPrice) {
 	this.myCash -= towerPrice;
-	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
+	Score.updateDiv();
 }
 
 Score.restartGame = function () {
 	Score.initialize();
-	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "</div>");
+	Score.updateDiv();
+}
+
+Score.updateDiv = function () {
+	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "<br>Time to deep freeze: " + Score.getHealth() + "</div>");
 }
