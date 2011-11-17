@@ -1,17 +1,21 @@
+//Last Changes
+//"Corrected" tower names
+//Fixed Sniper and Splash price
+
 var Tower = Tower || {};
 
 Tower.initialize = function () {
 	this.towers = [];
 	this.towerType = [
-		{"type": "Tower", "color": 0x0000FF, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 15, "fireSpeed": 4, "range": 5, "shotPower": 100, "price": 75, "texture": THREE.ImageUtils.loadTexture( 'textures/earthmap1k.jpg' )},  // Earth
-		{"type": "Slow", "color": 0x7F7F7F, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 5, "range": 4, "shotPower": 100, "price": 125, "texture": THREE.ImageUtils.loadTexture( 'textures/plutomap2k.jpg' )},   // Pluto
-		{"type": "Laser", "color": 0x0198E1, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 5, "fireSpeed": 20, "range": 3, "shotPower": 100, "price": 150, "texture": THREE.ImageUtils.loadTexture( 'textures/neptunemap.jpg' )},  // Neptune
-		{"type": "Poison", "color": 0x778899, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 1, "range": 4, "shotPower": 100, "poisonDamage": 0.1, "poisonDuration": 2000, "price": 200, "texture": THREE.ImageUtils.loadTexture( 'textures/uranusmap.jpg' )},  // Uranus
-		{"type": "Sniper", "color": 0xFFA500, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 500, "fireSpeed": 0.15, "range": 15, "shotPower": 100, "price": 50, "texture": THREE.ImageUtils.loadTexture( 'textures/saturnmap.jpg' )},  // Saturn
-		{"type": "Splash", "color": 0xFF2400, "geometry": new THREE.SphereGeometry(90, 10, 10),"damage": 15, "fireSpeed": 0.5, "range": 4, "shotPower": 100, "price": 50, "texture": THREE.ImageUtils.loadTexture( 'textures/jupitermap.jpg' )},  // Jupiter
-		{"type": "Fire", "color": 0xFF0000, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 1, "range": 4, "shotPower": 100, "fireDamage": 0.1, "fireDuration": 2000, "price": 200, "texture": THREE.ImageUtils.loadTexture( 'textures/mars_1k_color.jpg' )},  // Mars
-		{"type": "Rapid", "color": 0xFFB90F, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 6, "fireSpeed": 40, "range": 2, "shotPower": 100, "price": 500, "texture": THREE.ImageUtils.loadTexture( 'textures/venusmap.jpg' )},  // Venus
-		{"type": "Ultimate", "color": 0xD2691E, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 150, "fireSpeed": 10, "range": 20, "shotPower": 100, "price": 2000, "texture": THREE.ImageUtils.loadTexture( 'textures/mercurymap.jpg' )},  // Mercury	
+		{"type": "Earth", "color": 0x0000FF, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 15, "fireSpeed": 4, "range": 5, "shotPower": 100, "price": 75, "texture": THREE.ImageUtils.loadTexture( 'textures/earthmap1k.jpg' )},  // Base
+		{"type": "Pluto", "color": 0x7F7F7F, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 5, "range": 4, "shotPower": 100, "price": 125, "texture": THREE.ImageUtils.loadTexture( 'textures/plutomap2k.jpg' )},   // Slow
+		{"type": "Neptune", "color": 0x0198E1, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 5, "fireSpeed": 20, "range": 3, "shotPower": 100, "price": 150, "texture": THREE.ImageUtils.loadTexture( 'textures/neptunemap.jpg' )},  // Laser
+		{"type": "Uranus", "color": 0x778899, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 1, "range": 4, "shotPower": 100, "poisonDamage": 0.1, "poisonDuration": 2000, "price": 200, "texture": THREE.ImageUtils.loadTexture( 'textures/uranusmap.jpg' )},  // Poison
+		{"type": "Saturn", "color": 0xFFA500, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 500, "fireSpeed": 0.15, "range": 15, "shotPower": 100, "price": 250, "texture": THREE.ImageUtils.loadTexture( 'textures/saturnmap.jpg' )},  // Sniper
+		{"type": "Jupiter", "color": 0xFF2400, "geometry": new THREE.SphereGeometry(90, 10, 10),"damage": 15, "fireSpeed": 0.5, "range": 4, "shotPower": 100, "price": 250, "texture": THREE.ImageUtils.loadTexture( 'textures/jupitermap.jpg' )},  // Splash
+		{"type": "Mars", "color": 0xFF0000, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 1, "range": 4, "shotPower": 100, "fireDamage": 0.1, "fireDuration": 2000, "price": 200, "texture": THREE.ImageUtils.loadTexture( 'textures/mars_1k_color.jpg' )},  // Fire
+		{"type": "Venus", "color": 0xFFB90F, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 6, "fireSpeed": 40, "range": 2, "shotPower": 100, "price": 500, "texture": THREE.ImageUtils.loadTexture( 'textures/venusmap.jpg' )},  // Rapid
+		{"type": "Mercury", "color": 0xD2691E, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 150, "fireSpeed": 10, "range": 20, "shotPower": 100, "price": 2000, "texture": THREE.ImageUtils.loadTexture( 'textures/mercurymap.jpg' )},  // Ultimate	
 	 ];
 	 this.towerIndex = 0;
 }

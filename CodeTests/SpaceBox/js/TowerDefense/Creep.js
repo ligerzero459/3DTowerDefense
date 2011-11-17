@@ -3,6 +3,9 @@ var Creep = Creep || {};
 Creep.initialize = function () {
 	this.pathLength = Map.xPathArray.length - 1
 	this.runThrough = 1;
+	this.runThroughSpeed = 1;
+	this.runThroughScore = 1;
+	this.runThroughCash = 1;
 	this.x = Map.xPathArray[this.pathLength];
 	this.z = Map.zPathArray[this.pathLength];
 	this.creeps = [];
@@ -12,7 +15,7 @@ Creep.initialize = function () {
 			{"color": 0xFF0000, "health": 400, "amount": 6, "speed": 5, "score": 200, "cash": 25, "spawnwait": 7500, "nextwave": 5000}, 
 			{"color": 0xFF6600, "health": 120, "amount": 25, "speed": 22, "score": 75, "cash": 10, "spawnwait": 1000, "nextwave": 10000}, 
 			{"color": 0xFAFAD2, "health": 150, "amount": 15, "speed": 7, "score": 100, "cash": 12, "spawnwait": 500, "nextwave": 10000}, 
-			{"color": 0x000000, "health": 1000, "amount": 1, "speed": 6, "score": 2500, "cash": 450, "spawnwait": 7500, "nextwave": 10000},
+			{"color": 0x000000, "health": 1000, "amount": 1, "speed": 6, "score": 2500, "cash": 500, "spawnwait": 7500, "nextwave": 10000},
 			/*{"color": 0xFFFFFF, "health": 85000, "amount": 1, "speed": 200, "score": 150000, "cash": 666, "spawnwait": 2000, "nextwave": 10000}*/
 	];
 		//10 base, 6 armor, 25 speed, 15 swarm, 1 boss,
@@ -26,7 +29,7 @@ Creep.runLevel = function() {
 		if (this.currentWave < ( this.wave.length )) {
 			if (this.wave[this.currentWave].amount > 0)
 			{
-				Creep.create(this.wave[this.currentWave].color, (this.wave[this.currentWave].health * this.runThrough), (this.wave[this.currentWave].speed * this.runThrough), (this.wave[this.currentWave].score * this.runThrough), (this.wave[this.currentWave].cash * this.runThrough));
+				Creep.create(this.wave[this.currentWave].color, (this.wave[this.currentWave].health * this.runThroughHealth), (this.wave[this.currentWave].speed * this.runThroughSpeed), (this.wave[this.currentWave].score * this.runThroughScore), (this.wave[this.currentWave].cash * this.runThroughCash));
 				this.wave[this.currentWave].amount -= 1;
 				setTimeout("Creep.runLevel()", this.wave[this.currentWave].spawnwait);
 			}
@@ -37,7 +40,10 @@ Creep.runLevel = function() {
 			}
 		}
 		else {
-			this.runThrough = this.runThrough * 2.5;
+			this.runThroughHealth = this.runThroughHealth * 1.45;
+			this.runThroughSpeed = this.runThroughSpeed * 1.15;
+			this.runThroughScore = this.runThroughScore * 1.3;
+			this.runThroughCash = this.runThroughCash * 1.2;
 			this.currentWave = 0;
 			this.wave = [
 				{"color": 0x003366, "health": 75, "amount": 10, "speed": 7, "score": 100, "cash": 15, "spawnwait": 5000, "nextwave": 5000},
