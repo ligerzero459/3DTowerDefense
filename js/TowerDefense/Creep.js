@@ -55,11 +55,15 @@ Creep.runLevel = function() {
 Creep.create = function ( color, health, speed, score, cash ) {
 	//Creep geometry
 	//Will be changed to include models soon
+	
+	
 	this.material = new THREE.MeshLambertMaterial ( { color: color } );
 	this.geometry = new THREE.SphereGeometry( 100, 20, 20 );
 	this.geometry.computeTangents();
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
 	this.mesh.position.set( this.x, 100, this.z );
+	this.mesh.scale.set( 1, 1, 1 );
+	//this.mesh.overdraw = true;
 	this.mesh.waypoint = this.pathLength - 1;
 	this.mesh.health = Math.floor(health);
 	this.mesh.speed = Math.floor(speed);
