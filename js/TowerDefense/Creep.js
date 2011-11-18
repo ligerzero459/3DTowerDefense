@@ -19,6 +19,13 @@ Creep.initialize = function () {
 		//15 base, 9 armor, 35 speed, 25 swarm, 1 boss,
 		//25 base, 15 armor, 50 speed, 50 swarm, 2 bosses, nyan (jk)
 	this.waveCounter = 1;
+	
+	this.load();
+}
+
+Creep.load = function () {
+	//	Loader.loadModel("viper", "obj/viper/viperThree.js");
+	Loader.loadModel("arwing", "obj/Arwing/Arwing.js");
 }
 
 Creep.runLevel = function() {
@@ -57,13 +64,14 @@ Creep.create = function ( color, health, speed, score, cash ) {
 	//Will be changed to include models soon
 	
 	
-	this.material = new THREE.MeshLambertMaterial ( { color: color } );
-	this.geometry = new THREE.SphereGeometry( 100, 20, 20 );
-	this.geometry.computeTangents();
-	this.mesh = new THREE.Mesh ( this.geometry, this.material );
+	this.material = new THREE.MeshFaceMaterial ();
+	//this.geometry = new THREE.SphereGeometry( 100, 20, 20 );
+	//this.geometry.computeTangents();
+	this.mesh = new THREE.Mesh ( Loader.getModel("arwing"), this.material );
 	this.mesh.position.set( this.x, 100, this.z );
-	this.mesh.scale.set( 1, 1, 1 );
-	//this.mesh.overdraw = true;
+	this.mesh.scale.set( 80, 80, 80 );
+	this.mesh.rotation.y = - 180 * Math.PI / 180;
+	this.mesh.overdraw = true;
 	this.mesh.waypoint = this.pathLength - 1;
 	this.mesh.health = Math.floor(health);
 	this.mesh.speed = Math.floor(speed);
@@ -98,6 +106,8 @@ Creep.create = function ( color, health, speed, score, cash ) {
 	this.mesh.fireDuration = 0;
 	this.mesh.fireMoves = 0;
 	
+	this.mesh.updateMatrix();
+	
 	this.creeps.push ( this.mesh );
 	
 	scene.add( this.mesh );
@@ -119,11 +129,13 @@ Creep.update = function() {
 		{
 			if (this.creeps[i].position.x > Map.xPathArray[this.creeps[i].waypoint] && this.creeps[i].MOVE_E == false)
 			{
+				this.creeps[i].rotation.y = 90 * Math.PI / 180;
 				this.creeps[i].position.x -= this.creeps[i].speed;
 				this.creeps[i].MOVE_W = true;
 			}
 			else if (this.creeps[i].position.x < Map.xPathArray[this.creeps[i].waypoint] && this.creeps[i].MOVE_W == false)
 			{
+				this.creeps[i].rotation.y = 270 * Math.PI / 180;
 				this.creeps[i].position.x += this.creeps[i].speed;
 				this.creeps[i].MOVE_E = true;
 			}
@@ -147,11 +159,13 @@ Creep.update = function() {
 		{
 			if (this.creeps[i].position.z > Map.zPathArray[this.creeps[i].waypoint] && this.creeps[i].MOVE_N == false)
 			{
+				this.creeps[i].rotation.y = 0 * Math.PI / 180;
 				this.creeps[i].position.z -= this.creeps[i].speed;
 				this.creeps[i].MOVE_S = true;
 			}					
 			else if (this.creeps[i].position.z < Map.zPathArray[this.creeps[i].waypoint] && this.creeps[i].MOVE_S == false)
 			{
+				this.creeps[i].rotation.y = 180 * Math.PI / 180;
 				this.creeps[i].position.z += this.creeps[i].speed;
 				this.creeps[i].MOVE_N = true;
 			}

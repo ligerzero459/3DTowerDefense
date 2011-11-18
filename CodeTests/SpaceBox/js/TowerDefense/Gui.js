@@ -2,12 +2,12 @@ var Gui = Gui || {};
 
 Gui.initialize = function() {
 	// Create Score/Cash Box
-	this.createDiv("TL", "score", 250, 50, 10, 10, "gui"); // Background to score box
+	this.createDiv("TL", "score", 325, 50, 10, 10, "gui"); // Background to score box
 	$("#score").css("background-color", "#000000");
 	$("#score").css("border-radius", "3px");
 	$("#score").css("border", "2px solid white");
 	
-	this.createDiv("TL", "scoreDisplay", 250, 50, 4, 0, "score");
+	this.createDiv("TL", "scoreDisplay", 325, 50, 4, 0, "score");
 	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "<br>Time to deep freeze: " + Score.getHealth() + "</div>");
 	$("#scoreDisplay").css("text-align", "center");
 	$("#scoreDisplay").css("font-size", "16px");

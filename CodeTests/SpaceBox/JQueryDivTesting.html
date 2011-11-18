@@ -21,6 +21,7 @@
 		<script src="js/TowerDefense/Score.js"></script>
 		<script src="js/TowerDefense/Bullet.js"></script>
 		<script src="js/TowerDefense/Lighting.js"></script>
+		<script src="js/TowerDefense/Loader.js"></script>
 		
 		<style>
 			body {
@@ -118,6 +119,7 @@
 					
 					// Initialization
 					addCamera();
+					Loader.init();
 					Map.initialize( PLANE_HEIGHT, PLANE_S_H_W );
 					Tower.initialize();
 					Score.initialize();
@@ -150,7 +152,7 @@
 					drawSun();
 					
 					rollOverGeo = new THREE.CubeGeometry( 200, 200, 200 );
-					rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.7, transparent: true } );
+					rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.4, transparent: true } );
 					rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
 					scene.add( rollOverMesh );
 
@@ -176,7 +178,6 @@
 					stats.domElement.style.right = '0px';
 					container.appendChild( stats.domElement );
 					
-					// Delay to prevent game start before rendering is complete
 					Creep.initialize();
 					
 					window.addEventListener( 'resize', onWindowResize, false );
@@ -231,8 +232,13 @@
 						intersector = getRealIntersector( intersects );
 						setVoxelPosition( intersector );
 						
-						Tower.create( voxelPosition.x, voxelPosition.z, Tower.towerIndex );
-						towerMode = false;
+						if (Score.getCash() - Tower.getPrice(Tower.towerIndex) < 0) {
+							towerMode = false;
+						}
+						else {
+							Tower.create( voxelPosition.x, voxelPosition.z, Tower.towerIndex );
+							towerMode = false;
+						}
 					}
 					
 				}
@@ -285,6 +291,7 @@
 				function startGame() {
 					if (firstStart == false) {
 						Gui.display();
+						Score.updateDiv();
 						setTimeout("Creep.runLevel()", 10000);
 						
 						Tower.activate("Tower");
@@ -396,7 +403,7 @@
 						map: THREE.ImageUtils.loadTexture( 'textures/sunmap.jpg' )
 					};
 					
-					geometry = new THREE.SphereGeometry( 400, 40, 40 );
+					geometry = new THREE.SphereGeometry( 400, 30, 30 );
 					geometry.computeTangents();
 					
 					var material = new THREE.MeshLambertMaterial ( parameters );
@@ -405,29 +412,6 @@
 					meshPlanet.position.set ( 0, 0, 200 );
 					scene.add( meshPlanet );
 					
-				}
-				
-				function addModels(m, x, z, rx, ry, rz, s) {
-				
-					var material = new THREE.MeshBasicMaterial( { color: 0x555555 } );
-					
-					var loader = new THREE.JSONLoader();
-					var callbackAfterLoading = function ( geometry ) { 
-						geometry.computeTangents();
-						
-						mesh = new THREE.Mesh ( geometry, material );
-						mesh.position.x = x;
-						mesh.position.z = z;
-						mesh.scale.x = mesh.scale.y = mesh.scale.z = s;
-						mesh.rotation.x = rx;
-						mesh.rotation.y = ry;
-						mesh.rotation.z = rz;
-						mesh.overdraw = true;
-						mesh.matrixAutoUpdate = false;
-						mesh.updateMatrix();
-					}
-					loader.load( { model: m, callback: callbackAfterLoading } ); 
-
 				}
 				
 				function animate() {
