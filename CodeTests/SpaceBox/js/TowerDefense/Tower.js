@@ -4,7 +4,7 @@ Tower.initialize = function () {
 	this.towers = [];
 	this.towerType = [
 		{"type": "Earth", "color": 0x0000FF, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 15, "fireSpeed": 4, "range": 5, "shotPower": 100, "price": 75, "texture": THREE.ImageUtils.loadTexture( 'textures/earthmap1k.jpg' )},  // Tower
-		{"type": "Pluto", "color": 0x7F7F7F, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 5, "range": 4, "shotPower": 100, "price": 125, "texture": THREE.ImageUtils.loadTexture( 'textures/plutomap2k.jpg' )},   // Slow
+		{"type": "Pluto", "color": 0x7F7F7F, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 5, "range": 4, "shotPower": 100, "price": 125, "slowAmount": 0.5, "slowDuration": 1000, "texture": THREE.ImageUtils.loadTexture( 'textures/plutomap2k.jpg' )},   // Slow
 		{"type": "Neptune", "color": 0x0198E1, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 5, "fireSpeed": 20, "range": 3, "shotPower": 100, "price": 150, "texture": THREE.ImageUtils.loadTexture( 'textures/neptunemap.jpg' )},  // Laser
 		{"type": "Uranus", "color": 0x778899, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 1, "range": 4, "shotPower": 100, "poisonDamage": 0.1, "poisonDuration": 2000, "price": 200, "texture": THREE.ImageUtils.loadTexture( 'textures/uranusmap.jpg' )},  // Poison
 		{"type": "Saturn", "color": 0xFFA500, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 500, "fireSpeed": 0.15, "range": 15, "shotPower": 100, "price": 250, "texture": THREE.ImageUtils.loadTexture( 'textures/saturnmap.jpg' )},  // Sniper
@@ -242,7 +242,9 @@ Tower.restartGame = function () {
 	Tower.deactivate("Neptune");
 	Tower.deactivate("Pluto");
 	Tower.deactivate("Earth");
-	Tower.initialize();
+	
+	this.towers = new Array();
+	this.towerIndex = 0;
 }
 
 Tower.getPrice = function (type) {
