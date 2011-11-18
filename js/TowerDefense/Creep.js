@@ -3,6 +3,10 @@ var Creep = Creep || {};
 Creep.initialize = function () {
 	this.pathLength = Map.xPathArray.length - 1
 	this.runThrough = 1;
+	this.runThroughHealth = 1;
+	this.runThroughSpeed = 1;
+	this.runThroughScore = 1;
+	this.runThroughCash = 1;
 	this.x = Map.xPathArray[this.pathLength];
 	this.z = Map.zPathArray[this.pathLength];
 	this.creeps = [];
@@ -33,7 +37,7 @@ Creep.runLevel = function() {
 		if (this.currentWave < ( this.wave.length )) {
 			if (this.wave[this.currentWave].amount > 0)
 			{
-				Creep.create(this.wave[this.currentWave].color, (this.wave[this.currentWave].health * this.runThrough), (this.wave[this.currentWave].speed * this.runThrough), (this.wave[this.currentWave].score * this.runThrough), (this.wave[this.currentWave].cash * this.runThrough));
+				Creep.create(this.wave[this.currentWave].color, (this.wave[this.currentWave].health * this.runThroughHealth), (this.wave[this.currentWave].speed * this.runThroughSpeed), (this.wave[this.currentWave].score * this.runThroughScore), (this.wave[this.currentWave].cash * this.runThroughCash));
 				this.wave[this.currentWave].amount -= 1;
 				setTimeout("Creep.runLevel()", this.wave[this.currentWave].spawnwait);
 			}
@@ -44,7 +48,10 @@ Creep.runLevel = function() {
 			}
 		}
 		else {
-			this.runThrough = this.runThrough * 1.5;
+			this.runThroughHealth = this.runThroughHealth * 1.45;
+			this.runThroughSpeed = this.runThroughSpeed * 1.15;
+			this.runThroughScore = this.runThroughScore * 1.3;
+			this.runThroughCash = this.runThroughCash * 1.2;
 			this.currentWave = 0;
 			this.wave = [
 				{"color": 0x003366, "health": 75, "amount": 10, "speed": 7, "score": 100, "cash": 15, "spawnwait": 5000, "nextwave": 5000},
@@ -238,6 +245,10 @@ Creep.restartGame = function () {
 	}
 	this.currentWave = 0;
 	this.runThrough = 1;
+	this.runThroughHealth = 1;
+	this.runThroughSpeed = 1;
+	this.runThroughScore = 1;
+	this.runThroughCash = 1;
 	this.waveCounter = 1;
 	this.wave = [
 			{"color": 0x003366, "health": 75, "amount": 10, "speed": 7, "score": 100, "cash": 15, "spawnwait": 5000, "nextwave": 5000},

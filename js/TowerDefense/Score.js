@@ -46,28 +46,28 @@ Score.towerCheck = function () {
 	Tower.activate("Slow");*/
 	
 	if (this.myScore >= 1800) {
-		Tower.activate("Ultimate");
+		Tower.activate("Mercury");
 	}
 	else if (this.myScore >= 1600) {
-		Tower.activate("Rapid");
+		Tower.activate("Venus");
 	}
 	else if (this.myScore >= 1400) {
-		Tower.activate("Fire");
+		Tower.activate("Mars");
 	}
 	else if (this.myScore >= 1200) {
-		Tower.activate("Splash");
+		Tower.activate("Jupiter");
 		}
 	else if (this.myScore >= 900) {
-		Tower.activate("Sniper");
+		Tower.activate("Saturn");
 		}
 	else if (this.myScore >= 600) {
-		Tower.activate("Poison");
+		Tower.activate("Uranus");
 		}
 	else if (this.myScore >= 400) {
-		Tower.activate("Laser");
+		Tower.activate("Neptune");
 		}
 	else if (this.myScore >= 200) {
-		Tower.activate("Slow");
+		Tower.activate("Pluto");
 		}
 }
 
