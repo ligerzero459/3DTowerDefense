@@ -1,13 +1,9 @@
-//Last Changes
-//"Corrected" tower names
-//Fixed Sniper and Splash price
-
 var Tower = Tower || {};
 
 Tower.initialize = function () {
 	this.towers = [];
 	this.towerType = [
-		{"type": "Earth", "color": 0x0000FF, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 15, "fireSpeed": 4, "range": 5, "shotPower": 100, "price": 75, "texture": THREE.ImageUtils.loadTexture( 'textures/earthmap1k.jpg' )},  // Base
+		{"type": "Earth", "color": 0x0000FF, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 15, "fireSpeed": 4, "range": 5, "shotPower": 100, "price": 75, "texture": THREE.ImageUtils.loadTexture( 'textures/earthmap1k.jpg' )},  // Tower
 		{"type": "Pluto", "color": 0x7F7F7F, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 5, "range": 4, "shotPower": 100, "price": 125, "texture": THREE.ImageUtils.loadTexture( 'textures/plutomap2k.jpg' )},   // Slow
 		{"type": "Neptune", "color": 0x0198E1, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 5, "fireSpeed": 20, "range": 3, "shotPower": 100, "price": 150, "texture": THREE.ImageUtils.loadTexture( 'textures/neptunemap.jpg' )},  // Laser
 		{"type": "Uranus", "color": 0x778899, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 0, "fireSpeed": 1, "range": 4, "shotPower": 100, "poisonDamage": 0.1, "poisonDuration": 2000, "price": 200, "texture": THREE.ImageUtils.loadTexture( 'textures/uranusmap.jpg' )},  // Poison
@@ -18,10 +14,24 @@ Tower.initialize = function () {
 		{"type": "Mercury", "color": 0xD2691E, "geometry": new THREE.SphereGeometry(90, 10, 10), "damage": 150, "fireSpeed": 10, "range": 20, "shotPower": 100, "price": 2000, "texture": THREE.ImageUtils.loadTexture( 'textures/mercurymap.jpg' )},  // Ultimate	
 	 ];
 	 this.towerIndex = 0;
+	 
+	 this.load();
 }
 
-Tower.create = function( x, z, type ) {
-	this.material = new THREE.MeshLambertMaterial ( { map: this.towerType[type].texture } );
+Tower.load = function () {
+	Loader.loadTexture("Earth", "textures/earthmap1k.jpg");
+	Loader.loadTexture("Pluto", "textures/plutomap2k.jpg");
+	Loader.loadTexture("Neptune", "textures/neptunemap.jpg");
+	Loader.loadTexture("Uranus", "textures/uranusmap.jpg");
+	Loader.loadTexture("Saturn", "textures/saturnmap.jpg");
+	Loader.loadTexture("Jupiter", "textures/jupitermap.jpg");
+	Loader.loadTexture("Mars", "textures/mars_1k_color.jpg");
+	Loader.loadTexture("Venus", "textures/venusmap.jpg");
+	Loader.loadTexture("Mercury", "textures/mercurymap.jpg");
+}
+
+Tower.create = function ( x, z, type ) {
+	this.material = new THREE.MeshLambertMaterial ( { map: Loader.getTexture(this.towerType[type].type) } );
 	this.geometry = this.towerType[type].geometry;
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
 	this.mesh.position.set( x, 100, z );
@@ -33,16 +43,21 @@ Tower.create = function( x, z, type ) {
 	this.mesh.charging = false;
 	this.mesh.towerType = this.towerType[type].type;
 	this.mesh.price = this.towerType[type].price;
-	if (this.mesh.towerType == "Poison") {
+	if (this.mesh.towerType == "Uranus") {
 		this.mesh.poisonDamage = this.towerType[type].poisonDamage;
 		this.mesh.poisonDuration = this.towerType[type].poisonDuration;
 		this.towers.push( this.mesh );
 	}
-	else if (this.mesh.towerType == "Fire") {
+	else if (this.mesh.towerType == "Mars") {
 		this.mesh.fireDamage = this.towerType[type].fireDamage;
 		this.mesh.fireDuration = this.towerType[type].fireDuration;
 		this.towers.push( this.mesh );
 	}
+	else if (this.mesh.towerType == "Pluto") {
+		this.mesh.slowAmount = this.towerType[type].slowAmount;
+		this.mesh.slowDuration = this.towerType[type].slowDuration;
+		this.towers.push( this.mesh );
+	} 
 	else {
 	this.towers.push( this.mesh );
 	}
@@ -60,7 +75,7 @@ Tower.update = function() {
 			var targets = Tower.creepsInRange(i);
 			
 			// If there are targets in range, select the one furthest along the track
-			if (this.towers[i].towerType == "Splash") {
+			if (this.towers[i].towerType == "Jupiter") {
 				for (var j in targets)
 				{
 					var target = targets[j];
@@ -68,6 +83,18 @@ Tower.update = function() {
 					Bullet.create(firingTower, target);
 					Tower.hit(firingTower, target);
 					this.towers[i].charging = true;
+				}
+			}
+			else if (this.towers[i].towerType == "Pluto") {
+				for (var j in targets)
+				{
+					var target = targets[j];
+					var firingTower = this.towers[i];
+					if (target.isSlowed == false) {
+						Bullet.create(firingTower, target);
+						Tower.hit(firingTower, target);
+						this.towers[i].charging = true;
+					}
 				}
 			}
 			else {
@@ -119,7 +146,7 @@ Tower.creepsInRange = function(i) {
 Tower.hit = function(firingTower, target) {
 	target.health -= firingTower.damage;
 	firingTower.charge -= firingTower.shotPower;
-	if (firingTower.towerType == "Poison") {
+	if (firingTower.towerType == "Uranus") {
 		if (target.isPoisoned == false) {
 			target.isPoisoned = true;
 			target.poisonDamage = firingTower.poisonDamage;
@@ -130,7 +157,7 @@ Tower.hit = function(firingTower, target) {
 			target.poisonDuration = firingTower.poisonDuration;
 		}
 	}
-	else if (firingTower.towerType == "Fire") {
+	else if (firingTower.towerType == "Mars") {
 		if (target.isOnFire == false) {
 			target.isOnFire = true;
 			target.fireDamage = firingTower.fireDamage;
@@ -139,6 +166,19 @@ Tower.hit = function(firingTower, target) {
 		else if (target.isOnFire == true && target.fireDamage < firingTower.fireDamage) {
 			target.fireDamage = firingTower.fireDamage;
 			target.fireDuration = firingTower.fireDuration;
+		}
+	}
+	else if (firingTower.towerType == "Pluto") {
+		if (target.isSlowed == false) {
+			target.isSlowed = true;
+			target.slowAmount = firingTower.slowAmount;
+			target.slowDuration = firingTower.slowDuration;
+			target.speed *= target.slowAmount;
+		}
+		else if (target.isSlowed == true && target.slowAmount < firingTower.slowAmount) {
+			target.slowAmount = firingTower.slowAmount;
+			target.slowDuration = firingTower.slowDuration;
+			target.speed *= target.slowAmount;
 		}
 	}
 }
@@ -159,31 +199,31 @@ Tower.deactivate = function (towerName) {
 
 Tower.placeTower = function (towerName) {
 	towerMode = true;
-	if (towerName == "Tower") {
+	if (towerName == "Earth") {
 		this.towerIndex = 0;
 	}
-	else if (towerName == "Slow") {
+	else if (towerName == "Pluto") {
 		this.towerIndex = 1;
 	}
-	else if (towerName == "Laser") {
+	else if (towerName == "Neptune") {
 		this.towerIndex = 2;
 	}
-	else if (towerName == "Poison") {
+	else if (towerName == "Uranus") {
 		this.towerIndex = 3;
 	}
-	else if (towerName == "Sniper") {
+	else if (towerName == "Saturn") {
 		this.towerIndex = 4;
 	}
-	else if (towerName == "Splash") {
+	else if (towerName == "Jupiter") {
 		this.towerIndex = 5;
 	}
-	else if (towerName == "Fire") {
+	else if (towerName == "Mars") {
 		this.towerIndex = 6;
 	}
-	else if (towerName == "Rapid") {
+	else if (towerName == "Venus") {
 		this.towerIndex = 7;
 	}
-	else if (towerName == "Ultimate") {
+	else if (towerName == "Mercury") {
 		this.towerIndex = 8;
 	}
 }
@@ -193,15 +233,15 @@ Tower.restartGame = function () {
 	{
 		scene.remove(this.towers[i]);
 	}
-	Tower.deactivate("Ultimate");
-	Tower.deactivate("Rapid");
-	Tower.deactivate("Fire");
-	Tower.deactivate("Splash");
-	Tower.deactivate("Sniper");
-	Tower.deactivate("Poison");
-	Tower.deactivate("Laser");
-	Tower.deactivate("Slow");
-	Tower.deactivate("Tower");
+	Tower.deactivate("Mercury");
+	Tower.deactivate("Venus");
+	Tower.deactivate("Mars");
+	Tower.deactivate("Jupiter");
+	Tower.deactivate("Saturn");
+	Tower.deactivate("Uranus");
+	Tower.deactivate("Neptune");
+	Tower.deactivate("Pluto");
+	Tower.deactivate("Earth");
 	Tower.initialize();
 }
 
