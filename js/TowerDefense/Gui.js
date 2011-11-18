@@ -45,6 +45,7 @@ Gui.initialize = function() {
 		
 		this.createDiv("TL", towerPic, 40, 40, 5, 10, towerID);
 		$("#" + towerPic).css("background-image", "url:('textures/" + towerID + "thumbnail.jpg')");
+		$("#" + towerPic).css("background-color", "#ffffff");
 		
 		this.createDiv("TL", towerInfo, 180, 40, 5, 60, towerID);
 		$("#" + towerInfo).css("color", "#ffffff");
