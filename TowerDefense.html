@@ -1,3 +1,22 @@
+<!--
+
+Copyright © 2011 by Ryan Mottley, Johnathon Wilkes, Kristin Krist, Garrick Aubé, & Chris Truitt
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
 <html>
 	<head>
 		<title>3D Tower Defense</title>
@@ -227,18 +246,25 @@
 				
 				function onDocumentMouseDown( event ) {
 					if (towerMode == true) {
-						var intersects = ray.intersectScene( scene );
+						var onPath = Map.checkPath(voxelPosition.x, voxelPosition.z);
+						var onTower = Tower.checkTower(voxelPosition.x, voxelPosition.z);
 						
-						intersector = getRealIntersector( intersects );
-						setVoxelPosition( intersector );
-						
-						if (Score.getCash() - Tower.getPrice(Tower.towerIndex) < 0) {
-							towerMode = false;
+						if (onPath || onTower) {
+							var intersects = ray.intersectScene( scene );
+							
+							intersector = getRealIntersector( intersects );
+							setVoxelPosition( intersector );
 						}
 						else {
+							var intersects = ray.intersectScene( scene );
+							
+							intersector = getRealIntersector( intersects );
+							setVoxelPosition( intersector );
+							
 							Tower.create( voxelPosition.x, voxelPosition.z, Tower.towerIndex );
 							towerMode = false;
 						}
+						
 					}
 					
 				}
@@ -247,6 +273,7 @@
 					
 					switch( event.keyCode ) {
 					
+					case 27: towerMode = false; break;
 					case 37: isLeftDown = true; break;
 					case 38: isUpDown = true; break;
 					case 39: isRightDown = true; break;

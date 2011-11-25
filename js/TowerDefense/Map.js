@@ -1,3 +1,22 @@
+/*
+
+Copyright © 2011 by Ryan Mottley, Johnathon Wilkes, Kristin Krist, Garrick Aubé, & Chris Truitt
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
 var Map = Map || {};
 
 Map.initialize = function (height, shw) {
@@ -20,6 +39,7 @@ Map.generate = function () {
 	this.material = new THREE.MeshLambertMaterial ( { color: 0xffffff, wireframe: true, opacity: 0.3, } );
 	this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT, PLANE_WIDTH, PLANE_S_H_W, PLANE_S_H_W );
 	this.baseMesh = new THREE.Mesh ( this.geometry, this.material );
+	this.baseMesh.meshType = "Map";
 	this.baseMesh.position.set( 0, 0, 0 );
 	this.baseMesh.scale.set( 1, 1, 1 );
 	this.baseMesh.rotation.x = - 90 * Math.PI / 180;
@@ -37,6 +57,7 @@ Map.generate = function () {
 		this.material = new THREE.MeshBasicMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 5, 5 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
+		this.planeMesh.meshType = "Map";
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
@@ -55,6 +76,7 @@ Map.generate = function () {
 		this.material = new THREE.MeshBasicMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 5, 5 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
+		this.planeMesh.meshType = "Map";
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
@@ -74,6 +96,7 @@ Map.generate = function () {
 		this.material = new THREE.MeshBasicMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 5, 5 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
+		this.planeMesh.meshType = "Map";
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
@@ -93,6 +116,7 @@ Map.generate = function () {
 		this.material = new THREE.MeshBasicMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 5, 5 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
+		this.planeMesh.meshType = "Map";
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
@@ -111,6 +135,7 @@ Map.generate = function () {
 		this.material = new THREE.MeshBasicMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 5, 5 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
+		this.planeMesh.meshType = "Map";
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
@@ -129,6 +154,7 @@ Map.generate = function () {
 		this.material = new THREE.MeshBasicMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 5, 5 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
+		this.planeMesh.meshType = "Map";
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
@@ -147,6 +173,7 @@ Map.generate = function () {
 		this.material = new THREE.MeshBasicMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 5, 5 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
+		this.planeMesh.meshType = "Map";
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
@@ -165,6 +192,7 @@ Map.generate = function () {
 		this.material = new THREE.MeshBasicMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 5, 5 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
+		this.planeMesh.meshType = "Map";
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
@@ -183,6 +211,7 @@ Map.generate = function () {
 		this.material = new THREE.MeshBasicMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 5, 5 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
+		this.planeMesh.meshType = "Map";
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
@@ -201,6 +230,7 @@ Map.generate = function () {
 		this.material = new THREE.MeshBasicMaterial ( { color: 0x999999, wireframe: false } );
 		this.geometry = new THREE.PlaneGeometry ( PLANE_HEIGHT/PLANE_S_H_W, PLANE_HEIGHT/PLANE_S_H_W, 5, 5 );
 		this.planeMesh = new THREE.Mesh ( this.geometry, this.material );
+		this.planeMesh.meshType = "Map";
 		this.planeMesh.position.set( this.x, 0, this.z );
 		this.planeMesh.scale.set( 1, 1, 1 );
 		this.planeMesh.rotation.x = - 90 * Math.PI / 180;
@@ -213,4 +243,15 @@ Map.generate = function () {
 	this.mesh.matrixAutoUpdate = false;
 	this.mesh.updateMatrix();
 	scene.add( this.mesh );*/
-};
+}
+
+Map.checkPath = function (x, z) {
+	for (var i in this.PathArray)
+	{
+		if (this.PathArray[i].x == x && this.PathArray[i].z == z)
+		{
+			return true;
+		}
+	}
+	return false;
+}

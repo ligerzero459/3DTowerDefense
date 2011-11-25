@@ -1,13 +1,32 @@
+/*
+
+Copyright © 2011 by Ryan Mottley, Johnathon Wilkes, Kristin Krist, Garrick Aubé, & Chris Truitt
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
 var Gui = Gui || {};
 
 Gui.initialize = function() {
 	// Create Score/Cash Box
-	this.createDiv("TL", "score", 325, 50, 10, 10, "gui"); // Background to score box
+	this.createDiv("TL", "score", 350, 50, 10, 10, "gui"); // Background to score box
 	$("#score").css("background-color", "#000000");
 	$("#score").css("border-radius", "3px");
 	$("#score").css("border", "2px solid white");
 	
-	this.createDiv("TL", "scoreDisplay", 325, 50, 4, 0, "score");
+	this.createDiv("TL", "scoreDisplay", 350, 48, 2, 0, "score");
 	$("#scoreDisplay").html("<div>Score: " + Score.getScore() + " Cash: $" + Score.getCash() + "<br>Time to deep freeze: " + Score.getHealth() + "</div>");
 	$("#scoreDisplay").css("text-align", "center");
 	$("#scoreDisplay").css("font-size", "16px");
@@ -89,6 +108,52 @@ Gui.initialize = function() {
 		Gui.gameOver();
 	});
 	
+	// Attempt to create a tower upgrade DIV
+	this.createDiv("TL", "upgradeBox", 270, 150, 10, 550, "gui");
+	$("#upgradeBox").css("background-color", "#7A7A7A");
+	$("#upgradeBox").css("border-radius", "3px");
+	$("#upgradeBox").css("border", "2px solid white");
+	
+	this.createDiv("TL", "upgradeName", 270, 32, 5, 0, "upgradeBox");
+	$("#upgradeName").html("<div>Earth 1</div>");
+	$("#upgradeName").css("text-align", "center");
+	$("#upgradeName").css("font-size", "15px");
+	
+	this.createDiv("TL", "upgradeInfo", 250, 100, 40, 10, "upgradeBox");
+	$("#upgradeInfo").html("<div>Power: 15<br>Range: 5</div>");
+	$("#upgradeInfo").css("text-align", "left");
+	$("#upgradeInfo").css("font-size", "15px");
+	
+	// Upgrade Button
+	this.createDiv("BL", "upgradeButtonShadow", 100, 50, 11, 18, "upgradeBox");
+	$("#upgradeButtonShadow").css("background-color", "#000000");
+	$("#upgradeButtonShadow").css("border-radius", "3px");
+	
+	this.createDiv("BL", "upgradeButton", 100, 50, 15, 10, "upgradeBox");
+	$("#upgradeButton").css("background-color", "#7A7A7A");
+	$("#upgradeButton").css("border-radius", "3px");
+	$("#upgradeButton").css("border", "2px solid white");
+	
+	this.createDiv("TL", "upgradeButtonInfo", 100, 32, 17, 0, "upgradeButton");
+	$("#upgradeButtonInfo").text("Upgrade");
+	$("#upgradeButtonInfo").css("text-align", "center");
+	$("#upgradeButtonInfo").css("font-size", "15px");
+	
+	// Tower Delete Button
+	this.createDiv("BR", "deleteButtonShadow", 100, 50, 11, 6, "upgradeBox");
+	$("#deleteButtonShadow").css("background-color", "#000000");
+	$("#deleteButtonShadow").css("border-radius", "3px");
+	
+	this.createDiv("BR", "DeleteButton", 100, 50, 15, 10, "upgradeBox");
+	$("#DeleteButton").css("background-color", "#7A7A7A");
+	$("#DeleteButton").css("border-radius", "3px");
+	$("#DeleteButton").css("border", "2px solid white");
+	
+	this.createDiv("TL", "upgradeDeleteInfo", 100, 32, 17, 0, "DeleteButton");
+	$("#upgradeDeleteInfo").text("Sell");
+	$("#upgradeDeleteInfo").css("text-align", "center");
+	$("#upgradeDeleteInfo").css("font-size", "15px");
+	
 	Gui.hide();
 	
 }
@@ -134,6 +199,7 @@ Gui.hide = function() {
 	$("#towerBox").css("display", "none");
 	$("#pauseBox").css("display", "none");
 	$("#GameOver").css("display", "none");
+	$("#upgradeBox").css("display", "none");
 }
 
 Gui.gameOver = function() {

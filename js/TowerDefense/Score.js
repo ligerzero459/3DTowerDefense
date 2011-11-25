@@ -1,10 +1,44 @@
+/*
+
+Copyright © 2011 by Ryan Mottley, Johnathon Wilkes, Kristin Krist, Garrick Aubé, & Chris Truitt
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
+/**
+*	@class Score
+*	@author Ryan Mottley, Chris Truitt
+**/
 var Score = Score || {};
+
+/**
+*	@constructor
+**/
 
 Score.initialize = function () {
     this.myScore = 0;
 	this.myCash = 150;
 	this.sunHealth = 200000;
 }
+
+/**
+*	@method setScore - sets Score and Cash
+*	@static
+*	@param score {Integer} score given from enemy
+*	@param cash {Integer} cash given from enemy
+**/
   
 Score.setScore = function (score, cash) {
 	this.myCash += cash;
@@ -12,18 +46,38 @@ Score.setScore = function (score, cash) {
 	Score.updateDiv();
 	Score.towerCheck();
 }
+
+/**
+*	@method getScore - returns Score
+*	@static
+**/
   
 Score.getScore = function () {
     return this.myScore;
 }
 
+/**
+*	@method getCash - returns Cash
+*	@static
+**/
+
 Score.getCash = function () {
 	return this.myCash;
 }
 
+/**
+*	@method getHealth - returns level Health
+*	@static
+**/
+
 Score.getHealth = function () {
 	return this.sunHealth;
 }
+
+/**
+*	@method setHealth - set's level health at the beginning of the game
+*	@static
+**/
 
 Score.setHealth = function () {
 	this.sunHealth -= 10000;

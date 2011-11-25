@@ -1,3 +1,22 @@
+/*
+
+Copyright © 2011 by Ryan Mottley, Johnathon Wilkes, Kristin Krist, Garrick Aubé, & Chris Truitt
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
 var Bullet = Bullet || {};
 
 Bullet.initialize = function () {
@@ -10,6 +29,7 @@ Bullet.create = function (tower, target) {
 	var mesh = new THREE.Mesh(this.geometry, this.material);
 	mesh.position.copy(tower.position);
 	mesh.bulletSpeed = 30;
+	mesh.meshType = "Bullet";
 	mesh.targetX = Map.xPathArray[target.waypoint];
 	mesh.targetZ = Map.zPathArray[target.waypoint];
 	mesh.MOVE_N = false;
@@ -83,6 +103,5 @@ Bullet.restartGame = function () {
 	{
 		scene.remove( this.bulletArray[i] );	
 	}
-	
-	Bullet.initialize();
+	this.bulletArray = new Array();
 }

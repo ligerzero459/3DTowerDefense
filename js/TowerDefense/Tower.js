@@ -1,3 +1,22 @@
+/*
+
+Copyright © 2011 by Ryan Mottley, Johnathon Wilkes, Kristin Krist, Garrick Aubé, & Chris Truitt
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
+
 var Tower = Tower || {};
 
 Tower.initialize = function () {
@@ -35,6 +54,7 @@ Tower.create = function ( x, z, type ) {
 	this.geometry = this.towerType[type].geometry;
 	this.mesh = new THREE.Mesh ( this.geometry, this.material );
 	this.mesh.position.set( x, 100, z );
+	this.mesh.meshType = "Tower";
 	this.mesh.shotPower = this.towerType[type].shotPower;
 	this.mesh.charge = 100;
 	this.mesh.fireSpeed = this.towerType[type].fireSpeed;
@@ -124,8 +144,8 @@ Tower.creepsInRange = function(i) {
 	var creepCounter = 0;
 	
 	for (var j in Creep.creeps) {
-		var xDistance = Creep.creeps[j].position.x - this.towers[i].position.x;
-		var yDistance = Creep.creeps[j].position.z - this.towers[i].position.z;
+		var xDistance = Math.abs(Creep.creeps[j].position.x - this.towers[i].position.x);
+		var yDistance = Math.abs(Creep.creeps[j].position.z - this.towers[i].position.z);
 		var Distance = Math.sqrt(Math.pow( xDistance, 2 ) + Math.pow( yDistance, 2 ));
 		
 		if ( Distance <= ( 200 * this.towers[i].range ) )
@@ -198,7 +218,6 @@ Tower.deactivate = function (towerName) {
 }
 
 Tower.placeTower = function (towerName) {
-	towerMode = true;
 	if (towerName == "Earth") {
 		this.towerIndex = 0;
 	}
@@ -226,6 +245,10 @@ Tower.placeTower = function (towerName) {
 	else if (towerName == "Mercury") {
 		this.towerIndex = 8;
 	}
+	
+	if (Score.getCash() >= Tower.getPrice(Tower.towerIndex)) {
+		towerMode = true;
+	}
 }
 
 Tower.restartGame = function () {
@@ -249,4 +272,15 @@ Tower.restartGame = function () {
 
 Tower.getPrice = function (type) {
 	return this.towerType[type].price;
+}
+
+Tower.checkTower = function (x, z) {
+	for (var i in this.towers)
+	{
+		if (this.towers[i].position.x == x && this.towers[i].position.z == z) {
+			return true;
+		}
+	}
+	
+	return false;
 }
