@@ -35,6 +35,7 @@ Tower.initialize = function () {
 	 this.towerIndex = 0;
 	 
 	 this.load();
+	 Gui.initialize();
 }
 
 Tower.load = function () {
