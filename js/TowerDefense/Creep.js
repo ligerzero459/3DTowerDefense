@@ -32,11 +32,10 @@ Creep.initialize = function () {
 	this.currentWave = 0;
 	this.wave = [
 			{"color": 0x003366, "health": 75, "amount": 10, "speed": 7, "score": 100, "cash": 15, "spawnwait": 5000, "nextwave": 5000, "model": "Arwing"},			
-			{"color": 0xFF0000, "health": 400, "amount": 6, "speed": 5, "score": 200, "cash": 25, "spawnwait": 7500, "nextwave": 5000, "model": "ArwingRed"}, 
-			{"color": 0xFF6600, "health": 120, "amount": 25, "speed": 22, "score": 75, "cash": 10, "spawnwait": 1000, "nextwave": 10000, "model": "ArwingDarkGreen"}, 
+			{"color": 0xFF0000, "health": 400, "amount": 6, "speed": 5, "score": 200, "cash": 25, "spawnwait": 7500, "nextwave": 5000, "model": "ArwingDarkGreen"}, 
+			{"color": 0xFF6600, "health": 120, "amount": 25, "speed": 22, "score": 75, "cash": 10, "spawnwait": 1000, "nextwave": 10000, "model": "ArwingRed"}, 
 			{"color": 0xFAFAD2, "health": 150, "amount": 15, "speed": 7, "score": 100, "cash": 12, "spawnwait": 500, "nextwave": 10000, "model": "ArwingDarkGreen"}, 
-			{"color": 0x000000, "health": 1000, "amount": 1, "speed": 6, "score": 2500, "cash": 450, "spawnwait": 7500, "nextwave": 10000, "model": "ArwingBlack"},
-			/*{"color": 0xFFFFFF, "health": 85000, "amount": 1, "speed": 200, "score": 150000, "cash": 666, "spawnwait": 2000, "nextwave": 10000}*/
+			{"color": 0x000000, "health": 1000, "amount": 1, "speed": 6, "score": 2500, "cash": 450, "spawnwait": 7500, "nextwave": 10000, "model": "ArwingBlack"}
 	];
 		//10 base, 6 armor, 25 speed, 15 swarm, 1 boss,
 		//15 base, 9 armor, 35 speed, 25 swarm, 1 boss,
@@ -78,11 +77,10 @@ Creep.runLevel = function() {
 			this.currentWave = 0;
 			this.wave = [
 				{"color": 0x003366, "health": 75, "amount": 10, "speed": 7, "score": 100, "cash": 15, "spawnwait": 5000, "nextwave": 5000, "model": "Arwing"},			
-				{"color": 0xFF0000, "health": 400, "amount": 6, "speed": 5, "score": 200, "cash": 25, "spawnwait": 7500, "nextwave": 5000, "model": "ArwingRed"}, 
-				{"color": 0xFF6600, "health": 120, "amount": 25, "speed": 22, "score": 75, "cash": 10, "spawnwait": 1000, "nextwave": 10000, "model": "ArwingDarkGreen"}, 
+				{"color": 0xFF0000, "health": 400, "amount": 6, "speed": 5, "score": 200, "cash": 25, "spawnwait": 7500, "nextwave": 5000, "model": "ArwingDarkGreen"}, 
+				{"color": 0xFF6600, "health": 120, "amount": 25, "speed": 22, "score": 75, "cash": 10, "spawnwait": 1000, "nextwave": 10000, "model": "ArwingRed"}, 
 				{"color": 0xFAFAD2, "health": 150, "amount": 15, "speed": 7, "score": 100, "cash": 12, "spawnwait": 500, "nextwave": 10000, "model": "ArwingDarkGreen"}, 
-				{"color": 0x000000, "health": 1000, "amount": 1, "speed": 6, "score": 2500, "cash": 450, "spawnwait": 7500, "nextwave": 10000, "model": "ArwingBlack"},
-				/*{"color": 0xFFFFFF, "health": 85000, "amount": 1, "speed": 200, "score": 150000, "cash": 666, "spawnwait": 2000, "nextwave": 10000}*/
+				{"color": 0x000000, "health": 1000, "amount": 1, "speed": 6, "score": 2500, "cash": 450, "spawnwait": 7500, "nextwave": 10000, "model": "ArwingBlack"}
 			];
 			setTimeout("Creep.runLevel()", 10000);
 		}
@@ -105,6 +103,7 @@ Creep.create = function ( health, speed, score, cash, model) {
 	this.mesh.overdraw = true;
 	this.mesh.waypoint = this.pathLength - 1;
 	this.mesh.health = Math.floor(health);
+	this.mesh.startingHealth = Math.floor(health);
 	this.mesh.speed = Math.floor(speed);
 	this.mesh.score = Math.floor(score);
 	this.mesh.cash = Math.floor(cash);
@@ -139,14 +138,23 @@ Creep.create = function ( health, speed, score, cash, model) {
 	
 	this.mesh.updateMatrix();
 	
+	var healthGeo = new THREE.CubeGeometry (350, 50, 50);
+	var healthMaterial = new THREE.MeshBasicMaterial( { color: 0xFF0000 } );
+	this.mesh.healthMesh = new THREE.Mesh( healthGeo, healthMaterial );
+	this.mesh.healthMesh.position.set ( this.x, 250, this.z );
+	this.mesh.healthMesh.scale.set ( 1, 1, 1 );
+	this.mesh.healthMesh.rotation.y = theta * Math.PI / 360;
+	
 	this.creeps.push ( this.mesh );
 	
 	scene.add( this.mesh );
+	scene.add( this.mesh.healthMesh );
 }
 
 Creep.update = function() {
 	for (var i in this.creeps)
 	{
+		this.creeps[i].healthMesh.rotation.y = theta * Math.PI / 360;
 		if (this.creeps[i].isSlowed == true) {
 			this.creeps[i].slowMoves += 1;
 			if (this.creeps[i].slowDuration == this.creeps[i].slowMoves) {
@@ -162,18 +170,22 @@ Creep.update = function() {
 			{
 				this.creeps[i].rotation.y = 90 * Math.PI / 180;
 				this.creeps[i].position.x -= this.creeps[i].speed;
+				this.creeps[i].healthMesh.position.x -= this.creeps[i].speed;
 				this.creeps[i].MOVE_W = true;
 			}
 			else if (this.creeps[i].position.x < Map.PathArray[this.creeps[i].waypoint].x && this.creeps[i].MOVE_W == false)
 			{
 				this.creeps[i].rotation.y = 270 * Math.PI / 180;
 				this.creeps[i].position.x += this.creeps[i].speed;
+				this.creeps[i].healthMesh.position.x += this.creeps[i].speed;
 				this.creeps[i].MOVE_E = true;
 			}
 			else
 			{
 				this.creeps[i].position.x = Map.PathArray[this.creeps[i].waypoint].x;
+				this.creeps[i].healthMesh.position.x = Map.PathArray[this.creeps[i].waypoint].x;
 				this.creeps[i].position.z = Map.PathArray[this.creeps[i].waypoint].z;
+				this.creeps[i].healthMesh.position.z = Map.PathArray[this.creeps[i].waypoint].z;
 				this.creeps[i].waypoint--;
 				this.creeps[i].MOVE_N = false;
 				this.creeps[i].MOVE_S = false;
@@ -192,18 +204,22 @@ Creep.update = function() {
 			{
 				this.creeps[i].rotation.y = 0 * Math.PI / 180;
 				this.creeps[i].position.z -= this.creeps[i].speed;
+				this.creeps[i].healthMesh.position.z -= this.creeps[i].speed;
 				this.creeps[i].MOVE_S = true;
 			}					
 			else if (this.creeps[i].position.z < Map.PathArray[this.creeps[i].waypoint].z && this.creeps[i].MOVE_S == false)
 			{
 				this.creeps[i].rotation.y = 180 * Math.PI / 180;
 				this.creeps[i].position.z += this.creeps[i].speed;
+				this.creeps[i].healthMesh.position.z += this.creeps[i].speed;
 				this.creeps[i].MOVE_N = true;
 			}
 			else
 			{
 				this.creeps[i].position.x = Map.PathArray[this.creeps[i].waypoint].x;
+				this.creeps[i].healthMesh.position.x = Map.PathArray[this.creeps[i].waypoint].x;
 				this.creeps[i].position.z = Map.PathArray[this.creeps[i].waypoint].z;
+				this.creeps[i].healthMesh.position.z = Map.PathArray[this.creeps[i].waypoint].z;
 				this.creeps[i].waypoint--;
 				this.creeps[i].MOVE_N = false;
 				this.creeps[i].MOVE_S = false;
@@ -211,6 +227,7 @@ Creep.update = function() {
 				this.creeps[i].MOVE_W = false;
 				if (this.creeps[i].waypoint < 0) {
 					scene.remove(this.creeps[i]);
+					scene.remove(this.creeps[i].healthMesh);
 					this.creeps.splice(i, 1);
 					Score.setHealth();
 				}
@@ -219,7 +236,9 @@ Creep.update = function() {
 		else
 		{
 			this.creeps[i].position.x = Map.PathArray[this.creeps[i].waypoint].x;
+			this.creeps[i].healthMesh.position.x = Map.PathArray[this.creeps[i].waypoint].x;
 			this.creeps[i].position.z = Map.PathArray[this.creeps[i].waypoint].z;
+			this.creeps[i].healthMesh.position.z = Map.PathArray[this.creeps[i].waypoint].z;
 			this.creeps[i].waypoint--;
 			this.creeps[i].MOVE_N = false;
 			this.creeps[i].MOVE_S = false;
@@ -227,12 +246,14 @@ Creep.update = function() {
 			this.creeps[i].MOVE_W = false;
 			if (this.creeps[i].waypoint < 0) {
 				scene.remove(this.creeps[i]);
+				scene.remove(this.creeps[i].healthMesh);
 				this.creeps.splice(i, 1);
 				Score.setHealth();
 			}
 		}
 		
 		if (this.creeps[i].isPoisoned == true) {
+			this.creeps[i].healthMesh.scale.x -= this.creeps[i].poisonDamage/this.creeps[i].startingHealth;
 			this.creeps[i].health -= this.creeps[i].poisonDamage;
 			this.creeps[i].poisonMoves += 1;
 			if (this.creeps[i].poisonDuration == this.creeps[i].poisonMoves) {
@@ -241,12 +262,17 @@ Creep.update = function() {
 			}
 		}
 		else if (this.creeps[i].isOnFire == true) {
+			this.creeps[i].healthMesh.scale.x -= this.creeps[i].fireDamage/this.creeps[i].startingHealth;
 			this.creeps[i].health -= this.creeps[i].fireDamage;
 			this.creeps[i].fireMoves += 1;
 			if (this.creeps[i].fireDuration == this.creeps[i].fireMoves) {
 				this.creeps[i].isOnFire = false;
 				this.creeps[i].fireMoves = 0;
 			}
+		}
+		
+		if (this.creeps[i].healthMesh.scale.x < 0) {
+			this.creeps[i].healthMesh.scale.x = 0;
 		}
 		
 		if (this.creeps[i].health <= 0)
@@ -259,12 +285,14 @@ Creep.update = function() {
 Creep.isDead = function ( i ) {
 	Score.setScore(this.creeps[i].score, this.creeps[i].cash);
 	scene.remove(this.creeps[i]);
+	scene.remove(this.creeps[i].healthMesh);
 	this.creeps.splice(i, 1);
 }
 
 Creep.restartGame = function () {
 	for (var i in this.creeps)
 	{
+		scene.remove(this.creeps[i].healthMesh);
 		scene.remove(this.creeps[i]);
 	}
 	this.currentWave = 0;
@@ -276,11 +304,10 @@ Creep.restartGame = function () {
 	this.waveCounter = 1;
 	this.wave = [
 			{"color": 0x003366, "health": 75, "amount": 10, "speed": 7, "score": 100, "cash": 15, "spawnwait": 5000, "nextwave": 5000, "model": "Arwing"},			
-			{"color": 0xFF0000, "health": 400, "amount": 6, "speed": 5, "score": 200, "cash": 25, "spawnwait": 7500, "nextwave": 5000, "model": "ArwingRed"}, 
-			{"color": 0xFF6600, "health": 120, "amount": 25, "speed": 22, "score": 75, "cash": 10, "spawnwait": 1000, "nextwave": 10000, "model": "ArwingDarkGreen"}, 
+			{"color": 0xFF0000, "health": 400, "amount": 6, "speed": 5, "score": 200, "cash": 25, "spawnwait": 7500, "nextwave": 5000, "model": "ArwingDarkGreen"}, 
+			{"color": 0xFF6600, "health": 120, "amount": 25, "speed": 22, "score": 75, "cash": 10, "spawnwait": 1000, "nextwave": 10000, "model": "ArwingRed"}, 
 			{"color": 0xFAFAD2, "health": 150, "amount": 15, "speed": 7, "score": 100, "cash": 12, "spawnwait": 500, "nextwave": 10000, "model": "ArwingDarkGreen"}, 
-			{"color": 0x000000, "health": 1000, "amount": 1, "speed": 6, "score": 2500, "cash": 450, "spawnwait": 7500, "nextwave": 10000, "model": "ArwingBlack"},
-			/*{"color": 0xFFFFFF, "health": 85000, "amount": 1, "speed": 200, "score": 150000, "cash": 666, "spawnwait": 2000, "nextwave": 10000}*/
+			{"color": 0x000000, "health": 1000, "amount": 1, "speed": 6, "score": 2500, "cash": 450, "spawnwait": 7500, "nextwave": 10000, "model": "ArwingBlack"}
 		];
 	this.creeps = new Array();
 }

@@ -44,9 +44,9 @@ Gui.initialize = function() {
 	
 	// Create Tower Selection Box
 	this.createDiv("TR", "towerBox", 270, 524, 10, 10, "gui");
-	$("#towerBox").css("background-color", "#ffffff");
-	$("#towerBox").css("border-radius", "3px");
-	$("#towerBox").css("border", "2px solid black");
+	$("#towerBox").css("background-color", "#000000");
+	$("#towerBox").css("border-radius", "4px");
+	$("#towerBox").css("border", "3px solid white");
 	
 	for (var i in Tower.towerType)
 	{
@@ -58,8 +58,8 @@ Gui.initialize = function() {
 		var towerInfo = towerID + "Info";
 		
 		$("#" + towerID).css("background-color", "#7A7A7A");
-		$("#" + towerID).css("border-radius", "2px");
-		$("#" + towerID).css("border", "1px solid black");
+		$("#" + towerID).css("border-radius", "3px");
+		$("#" + towerID).css("border", "1px solid white");
 		$("#" + towerID).css("opacity", "0.4");
 		
 		this.createDiv("TL", towerPic, 40, 40, 5, 10, towerID);

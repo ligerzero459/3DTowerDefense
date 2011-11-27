@@ -165,6 +165,12 @@ Tower.creepsInRange = function(i) {
 }
 
 Tower.hit = function(firingTower, target) {
+	target.healthMesh.scale.x -= firingTower.damage/target.startingHealth;
+	
+	if (target.healthMesh.scale.x < 0) {
+			target.healthMesh.scale.x = 0;
+	}
+		
 	target.health -= firingTower.damage;
 	firingTower.charge -= firingTower.shotPower;
 	if (firingTower.towerType == "Uranus") {
