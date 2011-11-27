@@ -218,36 +218,38 @@ Tower.deactivate = function (towerName) {
 }
 
 Tower.placeTower = function (towerName) {
-	if (towerName == "Earth") {
-		this.towerIndex = 0;
-	}
-	else if (towerName == "Pluto") {
-		this.towerIndex = 1;
-	}
-	else if (towerName == "Neptune") {
-		this.towerIndex = 2;
-	}
-	else if (towerName == "Uranus") {
-		this.towerIndex = 3;
-	}
-	else if (towerName == "Saturn") {
-		this.towerIndex = 4;
-	}
-	else if (towerName == "Jupiter") {
-		this.towerIndex = 5;
-	}
-	else if (towerName == "Mars") {
-		this.towerIndex = 6;
-	}
-	else if (towerName == "Venus") {
-		this.towerIndex = 7;
-	}
-	else if (towerName == "Mercury") {
-		this.towerIndex = 8;
-	}
-	
-	if (Score.getCash() >= Tower.getPrice(Tower.towerIndex)) {
-		towerMode = true;
+	if (gameOn == true) {
+		if (towerName == "Earth") {
+			this.towerIndex = 0;
+		}
+		else if (towerName == "Pluto") {
+			this.towerIndex = 1;
+		}
+		else if (towerName == "Neptune") {
+			this.towerIndex = 2;
+		}
+		else if (towerName == "Uranus") {
+			this.towerIndex = 3;
+		}
+		else if (towerName == "Saturn") {
+			this.towerIndex = 4;
+		}
+		else if (towerName == "Jupiter") {
+			this.towerIndex = 5;
+		}
+		else if (towerName == "Mars") {
+			this.towerIndex = 6;
+		}
+		else if (towerName == "Venus") {
+			this.towerIndex = 7;
+		}
+		else if (towerName == "Mercury") {
+			this.towerIndex = 8;
+		}
+		
+		if (Score.getCash() >= Tower.getPrice(Tower.towerIndex)) {
+			towerMode = true;
+		}
 	}
 }
 

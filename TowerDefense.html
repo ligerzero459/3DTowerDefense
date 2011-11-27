@@ -273,13 +273,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					
 					switch( event.keyCode ) {
 					
-					case 27: towerMode = false; break;
-					case 37: isLeftDown = true; break;
-					case 38: isUpDown = true; break;
-					case 39: isRightDown = true; break;
-					case 40: isDownDown = true; break;
-					case 83: sDown = true; break;		// s
-					case 87: wDown = true; break;		// w
+					case 27: towerMode = false; break;			// Esc
+					case 37: isLeftDown = true; break;			// Left Arrow
+					case 38: isUpDown = true; break;			// Up Arrow
+					case 39: isRightDown = true; break;			// Right Arrow
+					case 40: isDownDown = true; break;			// Down Arrow
+					
+					case 49: Tower.placeTower("Earth"); break;	// 1
+					case 50: Tower.placeTower("Pluto"); break;	// 2
+					case 51: Tower.placeTower("Neptune"); break;	// 3
+					case 52: Tower.placeTower("Uranus"); break;	// 4
+					case 53: Tower.placeTower("Saturn"); break;	// 5
+					case 54: Tower.placeTower("Jupiter"); break;	// 6
+					case 55: Tower.placeTower("Mars"); break;	// 7
+					case 56: Tower.placeTower("Venus"); break;	// 8
+					case 57: Tower.placeTower("Mercury"); break;	// 9
+					
+					case 83: sDown = true; break;				// s
+					case 87: wDown = true; break;				// w
 					
 					}
 					
@@ -391,8 +402,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				function addCamera() {
 				
 					camera = new THREE.PerspectiveCamera( 75, SCREEN_WIDTH / SCREEN_HEIGHT, 1, 60000 );
-					camera.position.x = xDistance * Math.sin( theta * Math.PI / 360 );
-					camera.position.z = zDistance * Math.cos( theta * Math.PI / 360 );
+					camera.position.x = xDistance * theta * Math.PI / 180;
+					camera.position.z = zDistance * theta * Math.PI / 180;
 					camera.position.y = yDistance;
 					
 					target = new THREE.Vector3( 0, 0, 0 );
