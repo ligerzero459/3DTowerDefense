@@ -68,12 +68,12 @@ Creep.runLevel = function() {
 			}
 		}
 		else {
-			this.runThroughHealth = this.runThroughHealth * 1.45;
-			if (this.runThroughSpeed * 1.15 < 18.13) {
-				this.runThroughSpeed = this.runThroughSpeed * 1.15;
+			this.runThroughHealth = this.runThroughHealth * 1.48;
+			if (this.runThroughSpeed * 1.27 < 18.13) {
+				this.runThroughSpeed = this.runThroughSpeed * 1.27;
 			}
 			this.runThroughScore = this.runThroughScore * 1.3;
-			this.runThroughCash = this.runThroughCash * 1.2;
+			this.runThroughCash = this.runThroughCash * 1.17;
 			this.currentWave = 0;
 			this.wave = [
 				{"color": 0x003366, "health": 75, "amount": 10, "speed": 7, "score": 100, "cash": 15, "spawnwait": 5000, "nextwave": 5000, "model": "Arwing"},			
