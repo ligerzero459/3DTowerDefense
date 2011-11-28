@@ -20,14 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 var Creep = Creep || {};
 
 Creep.initialize = function () {
-	this.pathLength = Map.xPathArray.length - 1
+	this.pathLength = Map.PathArray.length - 1
 	this.runThrough = 1;
 	this.runThroughHealth = 1;
 	this.runThroughSpeed = 1;
 	this.runThroughScore = 1;
 	this.runThroughCash = 1;
-	this.x = Map.xPathArray[this.pathLength];
-	this.z = Map.zPathArray[this.pathLength];
+	this.x = Map.PathArray[this.pathLength].x;
+	this.z = Map.PathArray[this.pathLength].z;
 	this.creeps = [];
 	this.currentWave = 0;
 	this.wave = [
@@ -59,10 +59,10 @@ Creep.runLevel = function() {
 			{
 				Creep.create((this.wave[this.currentWave].health * this.runThroughHealth), (this.wave[this.currentWave].speed * this.runThroughSpeed), (this.wave[this.currentWave].score * this.runThroughScore), (this.wave[this.currentWave].cash * this.runThroughCash), this.wave[this.currentWave].model);
 				this.wave[this.currentWave].amount -= 1;
-				setTimeout("Creep.runLevel()", this.wave[this.currentWave].spawnwait);
+				setTimeout("Creep.runLevel()", (this.wave[this.currentWave].spawnwait / speedModifier));
 			}
 			else {
-				setTimeout("Creep.runLevel()", this.wave[this.currentWave].nextwave);
+				setTimeout("Creep.runLevel()", (this.wave[this.currentWave].nextwave / speedModifier));
 				this.currentWave += 1;
 				this.waveCounter += 1;
 			}
@@ -169,15 +169,15 @@ Creep.update = function() {
 			if (this.creeps[i].position.x > Map.PathArray[this.creeps[i].waypoint].x && this.creeps[i].MOVE_E == false)
 			{
 				this.creeps[i].rotation.y = 90 * Math.PI / 180;
-				this.creeps[i].position.x -= this.creeps[i].speed;
-				this.creeps[i].healthMesh.position.x -= this.creeps[i].speed;
+				this.creeps[i].position.x -= this.creeps[i].speed * speedModifier;
+				this.creeps[i].healthMesh.position.x -= this.creeps[i].speed * speedModifier;
 				this.creeps[i].MOVE_W = true;
 			}
 			else if (this.creeps[i].position.x < Map.PathArray[this.creeps[i].waypoint].x && this.creeps[i].MOVE_W == false)
 			{
 				this.creeps[i].rotation.y = 270 * Math.PI / 180;
-				this.creeps[i].position.x += this.creeps[i].speed;
-				this.creeps[i].healthMesh.position.x += this.creeps[i].speed;
+				this.creeps[i].position.x += this.creeps[i].speed * speedModifier;
+				this.creeps[i].healthMesh.position.x += this.creeps[i].speed * speedModifier;
 				this.creeps[i].MOVE_E = true;
 			}
 			else
@@ -203,15 +203,15 @@ Creep.update = function() {
 			if (this.creeps[i].position.z > Map.PathArray[this.creeps[i].waypoint].z && this.creeps[i].MOVE_N == false)
 			{
 				this.creeps[i].rotation.y = 0 * Math.PI / 180;
-				this.creeps[i].position.z -= this.creeps[i].speed;
-				this.creeps[i].healthMesh.position.z -= this.creeps[i].speed;
+				this.creeps[i].position.z -= this.creeps[i].speed * speedModifier;
+				this.creeps[i].healthMesh.position.z -= this.creeps[i].speed * speedModifier;
 				this.creeps[i].MOVE_S = true;
 			}					
 			else if (this.creeps[i].position.z < Map.PathArray[this.creeps[i].waypoint].z && this.creeps[i].MOVE_S == false)
 			{
 				this.creeps[i].rotation.y = 180 * Math.PI / 180;
-				this.creeps[i].position.z += this.creeps[i].speed;
-				this.creeps[i].healthMesh.position.z += this.creeps[i].speed;
+				this.creeps[i].position.z += this.creeps[i].speed * speedModifier;
+				this.creeps[i].healthMesh.position.z += this.creeps[i].speed * speedModifier;
 				this.creeps[i].MOVE_N = true;
 			}
 			else

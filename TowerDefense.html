@@ -83,26 +83,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			}
 		</style>
 		<script type="text/javascript">
-		var camera, renderer;
-		var container, stats, dt;
+		var camera, renderer, container, stats, dt;
 		var meshPlanet, mesh, geometry, model;
-		var lastUpdate = new Date().getTime();
-		var firstStart = false, gameOn = false;
+		var lastUpdate = new Date().getTime(), firstStart = false, gameOn = false;
 		var speed = .01;		//Lower = faster
+		var speedModifier = 1;
 				
 		var	texture_placeholder;
 				
-		var SCREEN_HEIGHT = window.innerHeight;
-		var SCREEN_WIDTH  = window.innerWidth;
-		var MARGIN = 0;
+		var SCREEN_HEIGHT = window.innerHeight, SCREEN_WIDTH  = window.innerWidth, MARGIN = 0;
 				
 		var PLANE_HEIGHT = 10000, PLANE_WIDTH = 10000,
 			PLANE_S_H_W = 50;
 				
 		var scene = new THREE.Scene();
-				
-		var xPathArray = new Array();
-		var zPathArray = new Array();
 		
 		var target, theta = 45;
 		var xDistance = 9000, zDistance = 9000, yDistance = 9000;
@@ -430,6 +424,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					mesh = new THREE.Mesh( new THREE.CubeGeometry( 50000, 50000, 50000, 7, 7, 7, materials ), new THREE.MeshFaceMaterial() );
 					mesh.scale.x = - 1;
 					mesh.overdraw = true;
+					mesh.matrixAutoUpdate = false;
+					mesh.updateMatrix();
 					scene.add( mesh );
 					
 				}
@@ -447,6 +443,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					
 					meshPlanet = new THREE.Mesh( geometry, material ) ;
 					meshPlanet.position.set ( 0, 0, 200 );
+					meshPlanet.matrixAutoUpdate = false;
+					meshPlanet.updateMatrix();
 					scene.add( meshPlanet );
 					
 				}

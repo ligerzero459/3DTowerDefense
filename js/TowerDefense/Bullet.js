@@ -28,10 +28,10 @@ Bullet.initialize = function () {
 Bullet.create = function (tower, target) {
 	var mesh = new THREE.Mesh(this.geometry, this.material);
 	mesh.position.copy(tower.position);
-	mesh.bulletSpeed = 30;
+	mesh.bulletSpeed = 50;
 	mesh.meshType = "Bullet";
-	mesh.targetX = Map.xPathArray[target.waypoint];
-	mesh.targetZ = Map.zPathArray[target.waypoint];
+	mesh.targetX = Map.PathArray[target.waypoint].x;
+	mesh.targetZ = Map.PathArray[target.waypoint].z;
 	mesh.MOVE_N = false;
 	mesh.MOVE_S = false;
 	mesh.MOVE_E = false;
@@ -62,12 +62,12 @@ Bullet.update = function () {
 		{
 			if (this.bulletArray[i].position.x > this.bulletArray[i].targetX && this.bulletArray[i].MOVE_E == false)
 			{
-				this.bulletArray[i].position.x -= this.bulletArray[i].bulletSpeed;
+				this.bulletArray[i].position.x -= this.bulletArray[i].bulletSpeed * speedModifier;
 				this.bulletArray[i].MOVE_W = true;
 			}
 			else if (this.bulletArray[i].position.x > this.bulletArray[i].targetX && this.bulletArray[i].MOVE_W == false)
 			{
-				this.bulletArray[i].position.x += this.bulletArray[i].bulletSpeed;
+				this.bulletArray[i].position.x += this.bulletArray[i].bulletSpeed * speedModifier;
 				this.bulletArray[i].MOVE_E = true;
 			}
 			else
@@ -78,12 +78,12 @@ Bullet.update = function () {
 		{
 			if (this.bulletArray[i].position.z > this.bulletArray[i].targetZ && this.bulletArray[i].MOVE_N == false)
 			{
-				this.bulletArray[i].position.z -= this.bulletArray[i].bulletSpeed;
+				this.bulletArray[i].position.z -= this.bulletArray[i].bulletSpeed * speedModifier;
 				this.bulletArray[i].MOVE_S = true;
 			}
 			else if (this.bulletArray[i].position.z > this.bulletArray[i].targetZ && this.bulletArray[i].MOVE_S == false)
 			{
-				this.bulletArray[i].position.z += this.bulletArray[i].bulletSpeed;
+				this.bulletArray[i].position.z += this.bulletArray[i].bulletSpeed * speedModifier;
 				this.bulletArray[i].MOVE_N = true;
 			}
 			else

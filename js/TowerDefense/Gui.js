@@ -42,6 +42,29 @@ Gui.initialize = function() {
 	$("#pauseText").css("text-align", "center");
 	$("#pauseText").css("font-size", "16px");
 	
+	// Speed Change
+	this.createDiv("BL", "speedChange", 35, 22, 60, 90, "gui");
+	$("#speedChange").text("x1");
+	$("#speedChange").css("padding-top", "3px");
+	$("#speedChange").css("text-align", "center");
+	$("#speedChange").css("font-size", "14px");
+	$("#speedChange").css("border-radius", "3px");
+	$("#speedChange").css("border", "2px solid white");
+	$("#speedChange").css("background-color", "#000000");
+	$("#speedChange").click(function(e) {
+		e.preventDefault();
+		if (speedModifier == 1) {
+			speedModifier = 3;
+			$("#speedChange").text("x3");
+		} else if (speedModifier == 3) {
+			speedModifier = 5;
+			$("#speedChange").text("x5");
+		} else if (speedModifier == 5) {
+			speedModifier = 1;
+			$("#speedChange").text("x1");
+		}
+	});
+	
 	// Create Tower Selection Box
 	this.createDiv("TR", "towerBox", 270, 524, 10, 10, "gui");
 	$("#towerBox").css("background-color", "#000000");
@@ -192,6 +215,7 @@ Gui.display = function() {
 	$("#score").css("display", "block");
 	$("#towerBox").css("display", "block");
 	$("#pauseBox").css("display", "block");
+	$("#speedChange").css("display", "block");
 }
 
 Gui.hide = function() {
@@ -200,6 +224,7 @@ Gui.hide = function() {
 	$("#pauseBox").css("display", "none");
 	$("#GameOver").css("display", "none");
 	$("#upgradeBox").css("display", "none");
+	$("#speedChange").css("display", "none");
 }
 
 Gui.gameOver = function() {

@@ -64,6 +64,8 @@ Tower.create = function ( x, z, type ) {
 	this.mesh.charging = false;
 	this.mesh.towerType = this.towerType[type].type;
 	this.mesh.price = this.towerType[type].price;
+	this.mesh.matrixAutoUpdate = false;
+	this.mesh.updateMatrix();
 	if (this.mesh.towerType == "Uranus") {
 		this.mesh.poisonDamage = this.towerType[type].poisonDamage;
 		this.mesh.poisonDuration = this.towerType[type].poisonDuration;
@@ -131,7 +133,7 @@ Tower.update = function() {
 		}
 		else
 		{
-			this.towers[i].charge += this.towers[i].fireSpeed;
+			this.towers[i].charge += this.towers[i].fireSpeed * speedModifier;
 			if (this.towers[i].charge >= 100)
 			{
 				this.towers[i].charging = false;
