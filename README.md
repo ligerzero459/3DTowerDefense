@@ -1,6 +1,6 @@
 #3D Tower Defense
 
-The aim of this project is to create a tower defense game in Javascript that takes place in a full 3D enviroment. Enemies will enter the field from multiple directions, and defensive towers must be place in 3D to guard not just one track on one plane, but multiple tracks on multiple planes.
+The aim of this project is to create a tower defense game in Javascript that takes place in a full 3D enviroment. Enemies will enter the field from multiple directions, and defensive towers must be placed in 3D to guard not just one track on one plane, but multiple tracks on multiple planes.
 
 Game is no longer playable.
 
